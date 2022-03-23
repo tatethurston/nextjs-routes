@@ -1,0 +1,43 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Node Modules
+        run: yarn install
+
+      - name: Lint
+        run: yarn run lint
+
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install Node Modules
+        run: yarn install
+
+      - name: Test
+        run: yarn run test

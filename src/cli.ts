@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdirSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
 import { join } from "path";
 import {
   NEXTJS_PAGES_DIRECTORY_NAME,
@@ -24,8 +24,7 @@ async function main(): Promise<void> {
     console.warn(e);
   }
 
-  mkdirSync("./@types", { recursive: true });
-  writeFileSync("./@types/nextjs-routes.d.ts", generated);
+  writeFileSync("nextjs-routes.d.ts", generated);
 }
 
 void main();

@@ -21,6 +21,12 @@ const Home: NextPage = () => {
       <main>
         <Link href="/">Home</Link>
         <Link href={{ pathname: "/" }}>Home</Link>
+        <Link href={{ pathname: "/foos/[foo]", query: { foo: "tate" } }}>
+          Foo
+        </Link>
+        <Link href={{ pathname: "/bars/[bar]", query: { bar: "tate" } }}>
+          Bar
+        </Link>
       </main>
     </>
   );

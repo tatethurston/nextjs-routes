@@ -1131,7 +1131,7 @@
 
 "nextjs-routes@file:../..":
   "resolved" "file:../.."
-  "version" "0.0.2"
+  "version" "0.0.3"
 
 "object-assign@^4.1.1":
   "integrity" "sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM="

@@ -7,7 +7,8 @@ import Link from "next/link";
 const Home: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
-    router.push({ pathname: "/index" });
+    router.push({ pathname: "/" });
+    router.push("/");
   }, []);
 
   return (
@@ -18,7 +19,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Link href={{ pathname: "/i" }}>Home</Link>
+        <Link href="/">Home</Link>
+        <Link href={{ pathname: "/" }}>Home</Link>
       </main>
     </>
   );

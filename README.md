@@ -41,9 +41,13 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
 ## Highlights
 
 0️⃣ Zero config
+
 💨 Types only -- no runtime dependencies
+
 🛠 No more broken links
+
 🪄 Route autocompletion
+
 🔗 Supports all Next.js route types: static, dynamic, catch all and optional catch all
 
 ## How does this work? 🤔

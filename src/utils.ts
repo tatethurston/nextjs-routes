@@ -5,6 +5,7 @@ const NEXTJS_NON_ROUTABLE_PREFIX = "_";
 export const NEXTJS_PAGES_DIRECTORY_NAME = "pages";
 const DYNAMIC_SEGMENT_RE = /\[(.*?)\]/g;
 
+// istanbul ignore next
 export function findFiles(entry: string): string[] {
   return readdirSync(entry).flatMap((file) => {
     const filepath = join(entry, file);
@@ -75,6 +76,7 @@ function getQueryInterface(query: Route["query"]): string {
         res += "?: string[]";
         break;
       }
+      // istanbul ignore next
       default: {
         const _exhaust: never = value;
         return _exhaust;

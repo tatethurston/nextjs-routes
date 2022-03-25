@@ -3,7 +3,7 @@ const { resolve } = require("path");
 
 // eslint-disable-next-line no-undef
 module.exports = {
-  entry: "./src/index.tsx",
+  entry: "./src/index.ts",
   mode: "production",
   output: {
     // eslint-disable-next-line no-undef

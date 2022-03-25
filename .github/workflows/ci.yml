@@ -4,40 +4,18 @@ on:
     branches:
       - main
   pull_request:
-
 jobs:
-  lint:
+  ci:
+    name: "Lint and Test"
     runs-on: ubuntu-latest
-    name: Lint
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Setup NodeJS
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
         with:
-          node-version: 14
-
-      - name: Install Node Modules
-        run: yarn install
-
-      - name: Lint
-        run: yarn run lint
-
-  test:
-    runs-on: ubuntu-latest
-    name: Test
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
-      - name: Setup NodeJS
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
-      - name: Install Node Modules
-        run: yarn install
-
-      - name: Test
-        run: yarn run test
+          node-version: "16.x"
+          cache: "yarn"
+      - run: yarn
+      - run: yarn lint
+      - run: yarn test:ci && yarn codecov --token=$CODECOV_TOKEN
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

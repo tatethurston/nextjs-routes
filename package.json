@@ -10,13 +10,13 @@
   },
   "main": "dist/index.js",
   "bin": {
-    "twirpscript": "dist/cli.js"
+    "nextjs-routes": "dist/cli.js"
   },
   "files": [
     "dist/*"
   ],
   "scripts": {
-    "build": "yarn clean && yarn tsc && yarn webpack && yarn package:prune",
+    "build": "yarn clean && yarn tsc && yarn webpack && yarn package:prune && chmod +x dist/cli.js",
     "clean": "rm -rf dist",
     "lint": "yarn typecheck && prettier --check . && prettier-package-json --list-different '{,example/,}package.json' && eslint .",
     "lint:fix": "prettier --write . && prettier-package-json --write '{,example/}package.json' && eslint --fix .",
@@ -29,7 +29,9 @@
   "sideEffects": false,
   "types": "dist/index.d.ts",
   "peerDependencies": {
-    "next": "*"
+    "@types/react": "*",
+    "next": "*",
+    "prettier": "^2.1.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.14.1",

@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+
+import { writeFileSync } from "fs";
 import { join } from "path";
 import {
   NEXTJS_PAGES_DIRECTORY_NAME,
@@ -8,7 +11,20 @@ import {
 
 const NEXTJS_PAGES_DIRECTORY = join(".", NEXTJS_PAGES_DIRECTORY_NAME);
 
-const files = findFiles(NEXTJS_PAGES_DIRECTORY);
-const routes = nextRoutes(files);
-const generated = generate(routes);
-console.log(generated);
+async function main(): Promise<void> {
+  const files = findFiles(NEXTJS_PAGES_DIRECTORY);
+  const routes = nextRoutes(files);
+  let generated = generate(routes);
+
+  try {
+    const prettier = await import("prettier");
+    generated = prettier.format(generated, { parser: "typescript" });
+    // eslint-disable-next-line no-empty
+  } catch (e) {
+    console.warn(e);
+  }
+
+  writeFileSync("./routes.ts", generated);
+}
+
+void main();

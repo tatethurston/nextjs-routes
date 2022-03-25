@@ -23,6 +23,7 @@
     "lint:fix": "prettier --write . && prettier-package-json --write '{,example/}package.json' && eslint --fix .",
     "package:prune": "find dist -name test.* | xargs rm",
     "test": "yarn jest",
+    "test:ci": "yarn test --coverage",
     "typecheck": "yarn tsc --noEmit"
   },
   "sideEffects": false,

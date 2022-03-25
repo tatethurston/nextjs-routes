@@ -10,14 +10,14 @@
 <a href="https://github.com/tatethurston/nextjs-routes/blob/master/LICENSE">
   <img src="https://img.shields.io/npm/l/nextjs-routes.svg">
 </a>
-<a href="https://bundlephobia.com/result?p=nextjs-routes">
-  <img src="https://img.shields.io/bundlephobia/minzip/nextjs-routes">
-</a>
 <a href="https://www.npmjs.com/package/nextjs-routes">
   <img src="https://img.shields.io/npm/dy/nextjs-routes.svg">
 </a>
 <a href="https://github.com/tatethurston/nextjs-routes/actions/workflows/ci.yml">
   <img src="https://github.com/tatethurston/nextjs-routes/actions/workflows/ci.yml/badge.svg">
+</a>
+<a href="https://codecov.io/gh/tatethurston/nextjs-routes">
+  <img src="https://img.shields.io/codecov/c/github/tatethurston/nextjs-routes/main.svg?style=flat-square">
 </a>
 
 ## What is this? 🧐

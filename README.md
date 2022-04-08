@@ -41,7 +41,6 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
 
 ```diff
 diff --git a/pages/index.tsx b/pages/index.tsx
-index 060fb62..7e6f350 100644
 --- a/pages/index.tsx
 +++ b/pages/index.tsx
 -import Link from "nextjs-routes/link";

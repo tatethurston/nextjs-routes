@@ -26,8 +26,9 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 
 ## Getting Started 🚀
 
-1. `yarn nextjs-routes`. This will generate `nextjs-routes.d.ts`. Whenever you change your routes, run this command again.
-2. That's it! The types for `next/link` and `next/router` have been augmented to verify valid routes are passed. No more broken links, and you get route autocompletion 🙌.
+1. Run `yarn nextjs-routes`. This will generate `nextjs-routes.d.ts`. Whenever you change your routes, run this command again.
+2. Replace imports of `next/link` with `nextjs-routes/link` and `next/router` with `nextjs-routes/router`.
+3. That's it! `nextjs-routes` reexports from next with types for `next/link` and `next/router` that have been augmented to verify valid route arguments. No more broken links, and you get route autocompletion 🙌.
 
 ## Examples 🛠
 
@@ -40,9 +41,9 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
 
 ## Highlights
 
-0️⃣ Zero config
+🦄 Zero config
 
-💨 Types only -- no runtime dependencies
+💨 Types only -- no additional runtime overhead or dependencies
 
 🛠 No more broken links
 
@@ -52,7 +53,7 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
 
 ## How does this work? 🤔
 
-`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`.
+`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `nextjs-routes` reexports from `next/link` and `next/router` and `nextjs-routes.d.ts` applies the generated types to imports from `nextjs-routes`.
 
 ## Contributing 👫
 

@@ -39,7 +39,7 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
 1. Add this package to your project:
    - `yarn add nextjs-routes`
 
-```diff
+```
 diff --git a/examples/typescript-example/pages/index.tsx b/examples/typescript-example/pages/index.tsx
 index 060fb62..7e6f350 100644
 --- a/examples/typescript-example/pages/index.tsx

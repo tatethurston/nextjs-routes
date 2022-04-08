@@ -40,8 +40,13 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
    - `yarn add nextjs-routes`
 
 ```diff
-- import Link from 'next/link'
-+ import Link from 'nextjs-routes/link'
+diff --git a/pages/index.tsx b/pages/index.tsx
+index 060fb62..7e6f350 100644
+--- a/pages/index.tsx
++++ b/pages/index.tsx
+-import Link from "nextjs-routes/link";
++import Link from "next/link";
+
 ```
 
 ## Highlights

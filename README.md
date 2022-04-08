@@ -39,6 +39,11 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
 1. Add this package to your project:
    - `yarn add nextjs-routes`
 
+```diff
+- import Link from 'next/link'
++ import Link from 'nextjs-routes/link'
+```
+
 ## Highlights
 
 🦄 Zero config

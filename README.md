@@ -37,13 +37,13 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
 ## Installation & Usage 📦
 
 1. Add this package to your project:
-   - `yarn add --dev nextjs-routes`
+   - `yarn add nextjs-routes`
 
 ## Highlights
 
 🦄 Zero config
 
-💨 Types only -- no additional runtime overhead or dependencies
+💨 Types only -- no additional runtime overhead
 
 🛠 No more broken links
 

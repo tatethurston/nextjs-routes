@@ -37,8 +37,8 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
    +import Link from "nextjs-routes/link";
    ```
    ```diff
-   -import Link from "next/router";
-   +import Link from "nextjs-routes/router";
+   -import { useRouter } from 'next/router'
+   +import { useRouter } from 'nextjs-routes/router'
    ```
 4. That's it! `nextjs-routes` reexports `next/link` and `next/router` from Next.js with type defintions that have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 

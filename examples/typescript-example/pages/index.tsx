@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import { useRouter } from "nextjs-routes/router";
+import Link from "nextjs-routes/link";
 
 const Home: NextPage = () => {
   const router = useRouter();

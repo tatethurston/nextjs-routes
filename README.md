@@ -24,36 +24,28 @@
 
 A code generation tool to make `next/link` and `next/router` routes type safe. `nextjs-routes` scans your `pages` directory and generates a `nextjs-routes.d.ts` file with type definitions for all your routes.
 
-## Getting Started 🚀
-
-1. Run `yarn nextjs-routes`. This will generate `nextjs-routes.d.ts`. Whenever you change your routes, run this command again.
-2. Replace imports of `next/link` with `nextjs-routes/link` and `next/router` with `nextjs-routes/router`.
-3. That's it! `nextjs-routes` reexports from next with types for `next/link` and `next/router` that have been augmented to verify valid route arguments. No more broken links, and you get route autocompletion 🙌.
-
-## Examples 🛠
-
-Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/examples/typescript-example) for a full Next.js project!
-
 ## Installation & Usage 📦
 
 1. Add this package to your project:
    - `yarn add nextjs-routes`
+2. Run `yarn nextjs-routes`. This will generate `nextjs-routes.d.ts`. Whenever you change your routes, run this command again.
+3. Replace imports of `next/link` with `nextjs-routes/link` and `next/router` with `nextjs-routes/router`.
 
+```diff
+-import Link from "next/link";
++import Link from "nextjs-routes/link";
 ```
-diff --git a/examples/typescript-example/pages/index.tsx b/examples/typescript-example/pages/index.tsx
-index 060fb62..7e6f350 100644
---- a/examples/typescript-example/pages/index.tsx
-+++ b/examples/typescript-example/pages/index.tsx
-@@ -2,7 +2,7 @@ import type { NextPage } from "next";
- import Head from "next/head";
- import { useEffect } from "react";
- import { useRouter } from "nextjs-routes/router";
--import Link from "nextjs-routes/link";
-+import Link from "next/link";
 
- const Home: NextPage = () => {
-   const router = useRouter();
+```diff
+-import Link from "next/router";
++import Link from "nextjs-routes/router";
 ```
+
+4. That's it! `nextjs-routes` reexports from next with types for `next/link` and `next/router` that have been augmented to verify valid route arguments. No more broken links, and you get route autocompletion 🙌.
+
+## Examples 🛠
+
+Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/examples/typescript-example) for a full Next.js project!
 
 ## Highlights
 

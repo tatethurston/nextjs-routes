@@ -28,8 +28,10 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 
 1. Add this package to your project:
    - `yarn add nextjs-routes`
-2. Run `yarn nextjs-routes`. This will generate `nextjs-routes.d.ts`. Whenever you change your routes, run this command again.
-3. Replace imports of `next/link` with `nextjs-routes/link` and `next/router` with `nextjs-routes/router`.
+2. Run `yarn nextjs-routes`
+  - This will generate `nextjs-routes.d.ts`
+  - Whenever you change your routes, run this command again
+4. Replace imports of `next/link` with `nextjs-routes/link` and `next/router` with `nextjs-routes/router`.
 
 ```diff
 -import Link from "next/link";
@@ -41,7 +43,7 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 +import Link from "nextjs-routes/router";
 ```
 
-4. That's it! `nextjs-routes` reexports from next with types for `next/link` and `next/router` that have been augmented to verify valid route arguments. No more broken links, and you get route autocompletion 🙌.
+4. That's it! `nextjs-routes` reexports `next/link` and `next/router` from Next.js with type defintions that have been augmented to verify you application's routes. No more broken links, and you get route autocompletion 🙌.
 
 ## Examples 🛠
 

@@ -40,12 +40,19 @@ Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/
    - `yarn add nextjs-routes`
 
 ```diff
-diff --git a/pages/index.tsx b/pages/index.tsx
---- a/pages/index.tsx
-+++ b/pages/index.tsx
+diff --git a/examples/typescript-example/pages/index.tsx b/examples/typescript-example/pages/index.tsx
+index 060fb62..7e6f350 100644
+--- a/examples/typescript-example/pages/index.tsx
++++ b/examples/typescript-example/pages/index.tsx
+@@ -2,7 +2,7 @@ import type { NextPage } from "next";
+ import Head from "next/head";
+ import { useEffect } from "react";
+ import { useRouter } from "nextjs-routes/router";
 -import Link from "nextjs-routes/link";
 +import Link from "next/link";
 
+ const Home: NextPage = () => {
+   const router = useRouter();
 ```
 
 ## Highlights

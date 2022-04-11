@@ -57,7 +57,7 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 
 ### Link
 
-`Link` component's `href` prop is now typed based on your application routes and expects a URL object:
+`Link`'s `href` prop is now typed based on your application routes and expects a URL object:
 
 ```tsx
 import Link from "nextjs-routes/link";
@@ -87,17 +87,17 @@ Identical to `Link`, `push` and `replace` now expect a URL object:
 #### push
 
 ```tsx
-import  { useRouter } from 'nextjs-routes/link'
+import { useRouter } from "nextjs-routes/link";
 
-router.push({ pathname: '/foos/[foo], query: { foo: 'test' } });
+router.push({ pathname: "/foos/[foo]", query: { foo: "test" } });
 ```
 
 #### replace
 
 ```tsx
-import  { useRouter } from 'nextjs-routes/link'
+import { useRouter } from "nextjs-routes/link";
 
-router.replace({ pathname: '/ });
+router.replace({ pathname: "/" });
 ```
 
 #### query
@@ -109,7 +109,7 @@ import { useRouter } from "nextjs-routes/link";
 const { query } = useRouter();
 ```
 
-By default, `query` will be typed as the union of all possible query parameters defined by your page routes. If you'd like to narrow the type to fewer or a single path, you can supply a type argument:
+By default, `query` will be typed as the union of all possible query parameters defined by your application routes. If you'd like to narrow the type to fewer routes or a single page, you can supply a type argument:
 
 ```tsx
 import { useRouter } from "nextjs-routes/link";

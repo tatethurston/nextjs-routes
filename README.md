@@ -89,6 +89,7 @@ Identical to `Link`, `push` and `replace` now expect a URL object:
 ```tsx
 import { useRouter } from "nextjs-routes/link";
 
+const router = useRouter();
 router.push({ pathname: "/foos/[foo]", query: { foo: "test" } });
 ```
 
@@ -97,6 +98,7 @@ router.push({ pathname: "/foos/[foo]", query: { foo: "test" } });
 ```tsx
 import { useRouter } from "nextjs-routes/link";
 
+const router = useRouter();
 router.replace({ pathname: "/" });
 ```
 

@@ -1,16 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useEffect } from "react";
-import { useRouter } from "nextjs-routes/router";
 import Link from "nextjs-routes/link";
 
 const Home: NextPage = () => {
-  const router = useRouter();
-  useEffect(() => {
-    router.push({ pathname: "/" });
-    router.push("/");
-  }, []);
-
   return (
     <>
       <Head>
@@ -19,13 +11,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Link href="/">Home</Link>
-        <Link href={{ pathname: "/" }}>Home</Link>
-        <Link href={{ pathname: "/foos/[foo]", query: { foo: "tate" } }}>
+        <Link href={{ pathname: "/foos/[foo]", query: { foo: "Foo" } }}>
           Foo
-        </Link>
-        <Link href={{ pathname: "/bars/[bar]", query: { bar: "tate" } }}>
-          Bar
         </Link>
       </main>
     </>

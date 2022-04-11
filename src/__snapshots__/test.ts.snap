@@ -6,31 +6,31 @@ exports[`route generation typescript 1`] = `
 
 type Route =
   | { pathname: '/404' }
-  | '/404'
   | { pathname: '/[foo]', query: { foo: string; } }
   | { pathname: '/[foo]/[bar]/[baz]', query: { foo: string; bar: string; baz: string; } }
   | { pathname: '/[foo]/bar/[baz]', query: { foo: string; baz: string; } }
   | { pathname: '/[foo]/bar/[baz]/foo/[bar]', query: { foo: string; baz: string; bar: string; } }
   | { pathname: '/[foo]/baz', query: { foo: string; } }
   | { pathname: '/_debug/health-check' }
-  | '/_debug/health-check'
   | { pathname: '/_error/' }
-  | '/_error/'
   | { pathname: '/api/[[...segments]]', query: { segments?: string[]; } }
   | { pathname: '/api/[...segments]', query: { segments: string[]; } }
   | { pathname: '/api/bar' }
-  | '/api/bar'
   | { pathname: '/foo/[slug]', query: { slug: string; } }
   | { pathname: '/' }
-  | '/'
   | { pathname: '/not-found' }
-  | '/not-found'
   | { pathname: '/settings/bars/[bar]', query: { bar: string; } }
   | { pathname: '/settings/bars/[bar]/baz', query: { bar: string; } }
   | { pathname: '/settings/foo' }
-  | '/settings/foo'
   | { pathname: '/settings/' }
-  | '/settings/'
+
+type Pathname = Route[\\"pathname\\"];
+
+type Query = {
+  [K in Route as K[\\"pathname\\"]]: K[\\"query\\"] extends Record<string, string>
+    ? K[\\"query\\"]
+    : never;
+};
 
 declare module \\"nextjs-routes/link\\" {
   import type { LinkProps as NextLinkProps } from \\"next/link\\";
@@ -61,12 +61,11 @@ declare module \\"nextjs-routes/router\\" {
 
   type TransitionOptions = Parameters<Router[\\"push\\"]>[2];
 
-  export interface NextRouter extends Omit<Router, \\"push\\" | \\"replace\\"> {
-    push(
-      url: Route,
-      as?: string,
-      options?: TransitionOptions
-    ): Promise<boolean>;
+  export interface NextRouter<P extends Pathname = Pathname> extends Omit<Router, \\"push\\" | \\"replace\\"> {
+    pathname: P;
+    route: P; 
+    query: Query[P]
+    push(url: Route, as?: string, options?: TransitionOptions): Promise<boolean>;
     replace(
       url: Route,
       as?: string,
@@ -74,7 +73,7 @@ declare module \\"nextjs-routes/router\\" {
     ): Promise<boolean>;
   }
 
-  export function useRouter(): NextRouter;
+  export function useRouter<P extends Pathname>(): NextRouter<P>;
 }
 
 "

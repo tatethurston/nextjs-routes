@@ -20,6 +20,8 @@
   <img src="https://img.shields.io/codecov/c/github/tatethurston/nextjs-routes/main.svg?style=flat-square">
 </a>
 
+<br />
+
 ![nextjs-routes preview gif](./images/nextjs-routes.gif)
 
 ## What is this? 🧐
@@ -29,26 +31,33 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 ## Installation & Usage 📦
 
 1. Add this package to your project:
+
    - `yarn add nextjs-routes`
+
 2. Run `yarn nextjs-routes`
+
    - This will generate `nextjs-routes.d.ts`
    - Whenever you change your routes, run this command again
+
 3. Replace imports of `next/link` with `nextjs-routes/link` and `next/router` with `nextjs-routes/router`.
+
    ```diff
    -import Link from "next/link";
    +import Link from "nextjs-routes/link";
    ```
+
    ```diff
    -import { useRouter } from 'next/router'
    +import { useRouter } from 'nextjs-routes/router'
    ```
+
 4. That's it! `nextjs-routes` reexports `next/link` and `next/router` from Next.js with type defintions that have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 
 ## Examples 🛠
 
 ### Link
 
-`Link` component's `href` prop is now fully typed and expects a URL object:
+`Link` component's `href` prop is now typed based on your application routes and expects a URL object:
 
 ```tsx
 import Link from "nextjs-routes/link";
@@ -71,7 +80,7 @@ export default Home;
 
 ### useRouter
 
-`useRouters` returned router instance types for `push`, `replace` and `query` are now fully types.
+`useRouter`'s returned router instance types for `push`, `replace` and `query` are now typed based on your application routes.
 
 Identical to `Link`, `push` and `replace` now expect a URL object:
 
@@ -132,7 +141,3 @@ PR's and issues welcomed! For more guidance check out [CONTRIBUTING.md](https://
 ## Licensing 📃
 
 See the project's [MIT License](https://github.com/tatethurston/nextjs-routes/blob/master/LICENSE).
-
-```
-
-```

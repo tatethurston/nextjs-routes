@@ -103,12 +103,18 @@ type Route =
       if (query) {
         return `{ pathname: '${route.pathname}', query: ${query} }`;
       } else {
-        return (
-          `{ pathname: '${route.pathname}' }` + `\n  | '${route.pathname}'`
-        );
+        return `{ pathname: '${route.pathname}' }`;
       }
     })
     .join("\n  | ")}
+
+type Pathname = Route["pathname"];
+
+type Query = {
+  [K in Route as K["pathname"]]: K["query"] extends Record<string, string>
+    ? K["query"]
+    : never;
+};
 
 declare module "nextjs-routes/link" {
   import type { LinkProps as NextLinkProps } from "next/link";
@@ -139,12 +145,11 @@ declare module "nextjs-routes/router" {
 
   type TransitionOptions = Parameters<Router["push"]>[2];
 
-  export interface NextRouter extends Omit<Router, "push" | "replace"> {
-    push(
-      url: Route,
-      as?: string,
-      options?: TransitionOptions
-    ): Promise<boolean>;
+  export interface NextRouter<P extends Pathname = Pathname> extends Omit<Router, "push" | "replace"> {
+    pathname: P;
+    route: P; 
+    query: Query[P]
+    push(url: Route, as?: string, options?: TransitionOptions): Promise<boolean>;
     replace(
       url: Route,
       as?: string,
@@ -152,7 +157,7 @@ declare module "nextjs-routes/router" {
     ): Promise<boolean>;
   }
 
-  export function useRouter(): NextRouter;
+  export function useRouter<P extends Pathname>(): NextRouter<P>;
 }
 
 `;

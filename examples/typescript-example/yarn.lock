@@ -1124,9 +1124,9 @@
     "@next/swc-win32-ia32-msvc" "12.1.0"
     "@next/swc-win32-x64-msvc" "12.1.0"
 
-"nextjs-routes@file:../..":
-  "resolved" "file:../.."
-  "version" "0.0.6"
+"nextjs-routes@file:../../dist":
+  "resolved" "file:../../dist"
+  "version" "0.0.7"
 
 "object-assign@^4.1.1":
   "integrity" "sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM="

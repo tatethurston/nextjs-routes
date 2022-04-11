@@ -20,6 +20,8 @@
   <img src="https://img.shields.io/codecov/c/github/tatethurston/nextjs-routes/main.svg?style=flat-square">
 </a>
 
+![nextjs-routes preview gif](./images/nextjs-routes.gif)
+
 ## What is this? 🧐
 
 A code generation tool to make `next/link` and `next/router` routes type safe. `nextjs-routes` scans your `pages` directory and generates a `nextjs-routes.d.ts` file with type definitions for all your routes.
@@ -44,7 +46,68 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 
 ## Examples 🛠
 
-Check out the [example](https://github.com/tatethurston/nextjs-routes/tree/main/examples/typescript-example) for a full Next.js project!
+### Link
+
+`Link` component's `href` prop is now fully typed and expects a URL object:
+
+```tsx
+import Link from "nextjs-routes/link";
+
+function Home() {
+  return (
+    <Link
+      href={{
+        pathname: "/foos/[foo]",
+        query: { foo: "test" },
+      }}
+    >
+      <a>About us</a>
+    </Link>
+  );
+}
+
+export default Home;
+```
+
+### useRouter
+
+`useRouters` returned router instance types for `push`, `replace` and `query` are now fully types.
+
+Identical to `Link`, `push` and `replace` now expect a URL object:
+
+#### push
+
+```tsx
+import  { useRouter } from 'nextjs-routes/link'
+
+router.push({ pathname: '/foos/[foo], query: { foo: 'test' } });
+```
+
+#### replace
+
+```tsx
+import  { useRouter } from 'nextjs-routes/link'
+
+router.replace({ pathname: '/ });
+```
+
+#### query
+
+```tsx
+import { useRouter } from "nextjs-routes/link";
+
+// query is typed as a union of all query parameters defined by your application's routes
+const { query } = useRouter();
+```
+
+By default, `query` will be typed as the union of all possible query parameters defined by your page routes. If you'd like to narrow the type to fewer or a single path, you can supply a type argument:
+
+```tsx
+import { useRouter } from "nextjs-routes/link";
+
+// query is now typed as `{ foo: string }`
+const { query } = useRouter<"/foos/[foo]">();
+```
 
 ## Highlights
 
@@ -69,3 +132,7 @@ PR's and issues welcomed! For more guidance check out [CONTRIBUTING.md](https://
 ## Licensing 📃
 
 See the project's [MIT License](https://github.com/tatethurston/nextjs-routes/blob/master/LICENSE).
+
+```
+
+```

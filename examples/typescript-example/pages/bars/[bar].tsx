@@ -1,10 +1,10 @@
 import { NextPage } from "next";
 import { useRouter } from "nextjs-routes/router";
 
-const Foo: NextPage = () => {
-  const router = useRouter();
+const Bar: NextPage = () => {
+  const router = useRouter<"/bars/[bar]">();
   const { bar } = router.query;
-  return <div>Foo: {bar}</div>;
+  return <div>Bar: {bar}</div>;
 };
 
-export default Foo;
+export default Bar;

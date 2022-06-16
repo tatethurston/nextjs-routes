@@ -1,9 +1,15 @@
-import { readdirSync, statSync } from "fs";
+import { existsSync, readdirSync, statSync } from "fs";
 import { join, parse } from "path";
 
 const NEXTJS_NON_ROUTABLE_PREFIX = "_";
-export const NEXTJS_PAGES_DIRECTORY_NAME = "pages";
 const DYNAMIC_SEGMENT_RE = /\[(.*?)\]/g;
+
+export function getPagesDirectory(): string {
+  if (existsSync("pages")) {
+    return "pages";
+  }
+  return "src/pages";
+}
 
 // istanbul ignore next
 export function findFiles(entry: string): string[] {
@@ -27,9 +33,10 @@ interface Route {
 }
 
 export function nextRoutes(files: string[]): Route[] {
+  const pagesDirectory = getPagesDirectory();
   const filenames = files
     .map((file) =>
-      file.replace(NEXTJS_PAGES_DIRECTORY_NAME, "").replace(parse(file).ext, "")
+      file.replace(pagesDirectory, "").replace(parse(file).ext, "")
     )
     .filter((file) => !parse(file).name.startsWith(NEXTJS_NON_ROUTABLE_PREFIX));
 

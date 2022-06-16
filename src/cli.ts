@@ -2,14 +2,9 @@
 
 import { writeFileSync } from "fs";
 import { join } from "path";
-import {
-  NEXTJS_PAGES_DIRECTORY_NAME,
-  findFiles,
-  generate,
-  nextRoutes,
-} from "./utils";
+import { getPagesDirectory, findFiles, generate, nextRoutes } from "./utils";
 
-const NEXTJS_PAGES_DIRECTORY = join(".", NEXTJS_PAGES_DIRECTORY_NAME);
+const NEXTJS_PAGES_DIRECTORY = join(".", getPagesDirectory());
 
 async function main(): Promise<void> {
   const files = findFiles(NEXTJS_PAGES_DIRECTORY);

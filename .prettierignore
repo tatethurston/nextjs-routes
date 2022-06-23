@@ -1,3 +1,4 @@
 dist
 coverage
 public.package.json
+.next

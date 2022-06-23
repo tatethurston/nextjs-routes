@@ -1,4 +1,4 @@
-import { nextRoutes, generate } from "./utils";
+import { nextRoutes, generate } from "./utils.js";
 
 describe("route generation", () => {
   it("typescript", () => {

@@ -8,15 +8,15 @@
     "url": "https://github.com/tatethurston/nextjs-routes"
   },
   "scripts": {
-    "build:commonjs": "yarn tsc",
-    "build:module": "yarn tsc --module esnext --outDir dist/module",
+    "build": "yarn tsc",
     "build:watch": "yarn tsc --watch",
     "clean": "rm -rf dist",
     "lint": "yarn typecheck && prettier --check . && prettier-package-json --list-different '{,public.,example/}package.json' && eslint .",
-    "lint:fix": "prettier --write . && prettier-package-json --write '{,public.,example/}package.json' && eslint --fix .",
-    "package:build": "yarn install && yarn build:commonjs && yarn build:module && yarn package:prune && yarn package:copy:files && chmod +x dist/cli.js",
+    "lint:fix": "prettier --write '**/*.{ts,tsx,md,json}' && prettier-package-json --write '{,public.,example/}package.json' && eslint --fix .",
+    "package:build": "yarn install && yarn build && yarn package:prune && yarn package:copy:files && chmod +x dist/cli.js",
     "package:copy:files": "cp ./LICENSE ./README.md dist/ && cp ./public.package.json dist/package.json",
     "package:prune": "find dist -name test.* | xargs rm -f",
+    "prepare": "husky install",
     "test": "yarn jest",
     "test:ci": "yarn test --coverage",
     "typecheck": "yarn tsc --noEmit"
@@ -25,26 +25,21 @@
   "devDependencies": {
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-typescript": "^7.17.12",
-    "@types/jest": "^28.1.1",
+    "@types/jest": "^28.1.3",
     "@types/node": "^18.0.0",
     "@types/react": "^18.0.14",
-    "@typescript-eslint/eslint-plugin": "^5.28.0",
-    "@typescript-eslint/parser": "^5.28.0",
+    "@typescript-eslint/eslint-plugin": "^5.29.0",
+    "@typescript-eslint/parser": "^5.29.0",
     "babel-loader": "^8.2.5",
     "codecov": "^3.8.3",
-    "eslint": "^8.17.0",
+    "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.1.0",
-    "husky": "^4.3.8",
+    "husky": "^8.0.1",
     "jest": "^28.1.1",
     "next": "^12.1.6",
     "prettier": "^2.7.1",
-    "prettier-package-json": "^2.1.3",
+    "prettier-package-json": "^2.6.4",
     "react": "^18.2.0",
-    "typescript": "^4.7.3"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint:fix"
-    }
+    "typescript": "^4.7.4"
   }
 }

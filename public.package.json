@@ -8,13 +8,13 @@
     "type": "git",
     "url": "https://github.com/tatethurston/nextjs-routes"
   },
+  "type": "module",
   "bin": {
     "nextjs-routes": "cli.js"
   },
   "sideEffects": false,
   "types": "index.d.ts",
   "peerDependencies": {
-    "@types/react": "*",
     "next": "*",
     "prettier": "^2.1.1"
   },
@@ -28,15 +28,7 @@
   ],
   "exports": {
     "./package.json": "./package.json",
-    "./router": {
-      "import": "./module/router.js",
-      "module": "./module/router.js",
-      "default": "./router.js"
-    },
-    "./link": {
-      "import": "./module/link.js",
-      "module": "./module/link.js",
-      "default": "./link.js"
-    }
+    "./router": "./router.js",
+    "./link": "./link.js"
   }
 }

@@ -2,7 +2,7 @@
 
 import { writeFileSync } from "fs";
 import { join } from "path";
-import { getPagesDirectory, findFiles, generate, nextRoutes } from "./utils";
+import { getPagesDirectory, findFiles, generate, nextRoutes } from "./utils.js";
 
 const NEXTJS_PAGES_DIRECTORY = join(".", getPagesDirectory());
 

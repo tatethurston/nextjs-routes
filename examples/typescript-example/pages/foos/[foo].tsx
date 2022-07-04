@@ -1,5 +1,5 @@
 import { NextPage } from "next";
-import { useRouter } from "nextjs-routes/router";
+import { useRouter } from "next/router";
 
 const Foo: NextPage = () => {
   const router = useRouter<"/foos/[foo]">();

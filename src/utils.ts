@@ -132,8 +132,8 @@ type Query = {
     : never;
 };
 
-declare module "nextjs-routes/link" {
-  import type { LinkProps as NextLinkProps } from "next/link";
+declare module "next/link" {
+  import type { LinkProps as NextLinkProps } from "next/dist/client/link";
   import type { PropsWithChildren, MouseEventHandler } from "react";
 
   export interface LinkProps extends Omit<NextLinkProps, "href"> {
@@ -155,9 +155,9 @@ declare module "nextjs-routes/link" {
   export default Link;
 }
 
-declare module "nextjs-routes/router" {
-  import type { NextRouter as Router } from "next/router";
-  export { RouterEvent } from "next/router";
+declare module "next/router" {
+  import type { NextRouter as Router } from "next/dist/client/router";
+  export { RouterEvent } from "next/dist/client/router";
 
   type TransitionOptions = Parameters<Router["push"]>[2];
 

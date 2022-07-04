@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Link from "nextjs-routes/link";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   return (

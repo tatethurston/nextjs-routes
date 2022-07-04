@@ -32,9 +32,14 @@ interface Route {
   query: Record<string, QueryType>;
 }
 
+function convertWindowsPathToUnix(file: string): string {
+  return file.replace(/\\/g, "/");
+}
+
 export function nextRoutes(files: string[]): Route[] {
   const pagesDirectory = getPagesDirectory();
   const filenames = files
+    .map(convertWindowsPathToUnix)
     .map((file) =>
       file.replace(pagesDirectory, "").replace(parse(file).ext, "")
     )
@@ -58,9 +63,13 @@ export function nextRoutes(files: string[]): Route[] {
     }, {});
 
     const pathWithoutIndexSuffix = filename.replace(/index$/, "");
+    const pathWithoutTrailingSlash =
+      pathWithoutIndexSuffix.endsWith("/") && pathWithoutIndexSuffix.length > 2
+        ? pathWithoutIndexSuffix.slice(0, -1)
+        : pathWithoutIndexSuffix;
 
     return {
-      pathname: pathWithoutIndexSuffix,
+      pathname: pathWithoutTrailingSlash,
       query,
     };
   });

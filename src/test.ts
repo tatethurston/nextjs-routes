@@ -1,5 +1,13 @@
 import { nextRoutes, generate } from "./utils.js";
 
+describe("nextRoutes", () => {
+  it("transforms windows paths", () => {
+    const pages = ["\\[foo]\\bar\\index.ts"];
+    const { pathname } = nextRoutes(pages)[0];
+    expect(pathname).toEqual("/[foo]/bar");
+  });
+});
+
 describe("route generation", () => {
   it("typescript", () => {
     const pages = [

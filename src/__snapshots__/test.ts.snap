@@ -12,7 +12,7 @@ type Route =
   | { pathname: '/[foo]/bar/[baz]/foo/[bar]', query: { foo: string; baz: string; bar: string; } }
   | { pathname: '/[foo]/baz', query: { foo: string; } }
   | { pathname: '/_debug/health-check' }
-  | { pathname: '/_error/' }
+  | { pathname: '/_error' }
   | { pathname: '/api/[[...segments]]', query: { segments?: string[]; } }
   | { pathname: '/api/[...segments]', query: { segments: string[]; } }
   | { pathname: '/api/bar' }
@@ -22,7 +22,7 @@ type Route =
   | { pathname: '/settings/bars/[bar]', query: { bar: string; } }
   | { pathname: '/settings/bars/[bar]/baz', query: { bar: string; } }
   | { pathname: '/settings/foo' }
-  | { pathname: '/settings/' }
+  | { pathname: '/settings' }
 
 type Pathname = Route[\\"pathname\\"];
 

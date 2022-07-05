@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.13
+
+- Support search parameters. See [#17](https://github.com/tatethurston/nextjs-routes/issues/17) for more context.
+
 ## 0.0.12
 
 - Removed reexports of `next/link` and `next/router`.

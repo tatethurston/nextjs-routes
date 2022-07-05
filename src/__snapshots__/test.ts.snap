@@ -5,31 +5,33 @@ exports[`route generation typescript 1`] = `
 // Run \`yarn nextjs-routes\` to regenerate this file.
 
 type Route =
-  | { pathname: '/404' }
-  | { pathname: '/[foo]', query: { foo: string; } }
-  | { pathname: '/[foo]/[bar]/[baz]', query: { foo: string; bar: string; baz: string; } }
-  | { pathname: '/[foo]/bar/[baz]', query: { foo: string; baz: string; } }
-  | { pathname: '/[foo]/bar/[baz]/foo/[bar]', query: { foo: string; baz: string; bar: string; } }
-  | { pathname: '/[foo]/baz', query: { foo: string; } }
-  | { pathname: '/_debug/health-check' }
-  | { pathname: '/_error' }
-  | { pathname: '/api/[[...segments]]', query: { segments?: string[]; } }
-  | { pathname: '/api/[...segments]', query: { segments: string[]; } }
-  | { pathname: '/api/bar' }
-  | { pathname: '/foo/[slug]', query: { slug: string; } }
-  | { pathname: '/' }
-  | { pathname: '/not-found' }
-  | { pathname: '/settings/bars/[bar]', query: { bar: string; } }
-  | { pathname: '/settings/bars/[bar]/baz', query: { bar: string; } }
-  | { pathname: '/settings/foo' }
-  | { pathname: '/settings' }
+  | { pathname: '/404'; query?: Query | undefined }
+  | { pathname: '/[foo]'; query: Query<{ foo: string;  }> }
+  | { pathname: '/[foo]/[bar]/[baz]'; query: Query<{ foo: string; bar: string; baz: string;  }> }
+  | { pathname: '/[foo]/bar/[baz]'; query: Query<{ foo: string; baz: string;  }> }
+  | { pathname: '/[foo]/bar/[baz]/foo/[bar]'; query: Query<{ foo: string; baz: string; bar: string;  }> }
+  | { pathname: '/[foo]/baz'; query: Query<{ foo: string;  }> }
+  | { pathname: '/_debug/health-check'; query?: Query | undefined }
+  | { pathname: '/_error'; query?: Query | undefined }
+  | { pathname: '/api/[[...segments]]'; query?: Query | undefined }
+  | { pathname: '/api/[...segments]'; query: Query<{ segments: string[];  }> }
+  | { pathname: '/api/bar'; query?: Query | undefined }
+  | { pathname: '/foo/[slug]'; query: Query<{ slug: string;  }> }
+  | { pathname: '/'; query?: Query | undefined }
+  | { pathname: '/not-found'; query?: Query | undefined }
+  | { pathname: '/settings/bars/[bar]'; query: Query<{ bar: string;  }> }
+  | { pathname: '/settings/bars/[bar]/baz'; query: Query<{ bar: string;  }> }
+  | { pathname: '/settings/foo'; query?: Query | undefined }
+  | { pathname: '/settings'; query?: Query | undefined }
 
 type Pathname = Route[\\"pathname\\"];
 
-type Query = {
-  [K in Route as K[\\"pathname\\"]]: K[\\"query\\"] extends Record<string, string>
-    ? K[\\"query\\"]
-    : never;
+type Query<Params = {}> = Params & {
+  [key: string]: string;
+}
+
+type QueryForPathname = {
+  [K in Route as K[\\"pathname\\"]]: K[\\"query\\"]
 };
 
 declare module \\"next/link\\" {
@@ -64,7 +66,7 @@ declare module \\"next/router\\" {
   export interface NextRouter<P extends Pathname = Pathname> extends Omit<Router, \\"push\\" | \\"replace\\"> {
     pathname: P;
     route: P; 
-    query: Query[P]
+    query: QueryForPathname[P]
     push(url: Route, as?: string, options?: TransitionOptions): Promise<boolean>;
     replace(
       url: Route,

@@ -75,21 +75,26 @@ export function nextRoutes(files: string[]): Route[] {
   });
 }
 
-function getQueryInterface(query: Route["query"]): string {
-  let res = "";
+function getQueryInterface(
+  query: Route["query"]
+): [query: string, requiredKeys: number] {
+  let res = "{ ";
+  let requiredKeys = 0;
   Object.entries(query).forEach(([key, value]) => {
     res += key;
     switch (value) {
       case "dynamic": {
+        requiredKeys += 1;
         res += ": string";
         break;
       }
       case "catch-all": {
+        requiredKeys += 1;
         res += ": string[]";
         break;
       }
       case "optional-catch-all": {
-        res += "?: string[]";
+        res += "?: string[] | undefined";
         break;
       }
       // istanbul ignore next
@@ -100,11 +105,8 @@ function getQueryInterface(query: Route["query"]): string {
     }
     res += "; ";
   });
-
-  if (res) {
-    return `{ ${res}}`;
-  }
-  return res;
+  res += " }";
+  return [res, requiredKeys];
 }
 
 export function generate(routes: Route[]): string {
@@ -115,21 +117,23 @@ export function generate(routes: Route[]): string {
 type Route =
   | ${routes
     .map((route) => {
-      const query = getQueryInterface(route.query);
-      if (query) {
-        return `{ pathname: '${route.pathname}', query: ${query} }`;
+      const [query, requiredKeys] = getQueryInterface(route.query);
+      if (requiredKeys > 0) {
+        return `{ pathname: '${route.pathname}'; query: Query<${query}> }`;
       } else {
-        return `{ pathname: '${route.pathname}' }`;
+        return `{ pathname: '${route.pathname}'; query?: Query | undefined }`;
       }
     })
     .join("\n  | ")}
 
 type Pathname = Route["pathname"];
 
-type Query = {
-  [K in Route as K["pathname"]]: K["query"] extends Record<string, string>
-    ? K["query"]
-    : never;
+type Query<Params = {}> = Params & {
+  [key: string]: string;
+}
+
+type QueryForPathname = {
+  [K in Route as K["pathname"]]: K["query"]
 };
 
 declare module "next/link" {
@@ -164,7 +168,7 @@ declare module "next/router" {
   export interface NextRouter<P extends Pathname = Pathname> extends Omit<Router, "push" | "replace"> {
     pathname: P;
     route: P; 
-    query: Query[P]
+    query: QueryForPathname[P]
     push(url: Route, as?: string, options?: TransitionOptions): Promise<boolean>;
     replace(
       url: Route,

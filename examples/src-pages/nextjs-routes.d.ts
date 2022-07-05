@@ -2,17 +2,19 @@
 // Run `yarn nextjs-routes` to regenerate this file.
 
 type Route =
-  | { pathname: "/api/hello" }
-  | { pathname: "/bars/[bar]"; query: { bar: string } }
-  | { pathname: "/foos/[foo]"; query: { foo: string } }
-  | { pathname: "/" };
+  | { pathname: "/api/hello"; query?: Query | undefined }
+  | { pathname: "/bars/[bar]"; query: Query<{ bar: string }> }
+  | { pathname: "/foos/[foo]"; query: Query<{ foo: string }> }
+  | { pathname: "/"; query?: Query | undefined };
 
 type Pathname = Route["pathname"];
 
-type Query = {
-  [K in Route as K["pathname"]]: K["query"] extends Record<string, string>
-    ? K["query"]
-    : never;
+type Query<Params = {}> = Params & {
+  [key: string]: string;
+};
+
+type QueryForPathname = {
+  [K in Route as K["pathname"]]: K["query"];
 };
 
 declare module "next/link" {
@@ -48,7 +50,7 @@ declare module "next/router" {
     extends Omit<Router, "push" | "replace"> {
     pathname: P;
     route: P;
-    query: Query[P];
+    query: QueryForPathname[P];
     push(
       url: Route,
       as?: string,

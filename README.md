@@ -39,7 +39,7 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
    - This will generate `nextjs-routes.d.ts`
    - Whenever you change your routes, run this command again
 
-3. That's it! `next/link` and `next/router` type definitions that have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
+3. That's it! `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 
 ## Examples 🛠
 

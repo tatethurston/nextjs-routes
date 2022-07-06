@@ -39,7 +39,7 @@ declare module \\"next/link\\" {
   import type { PropsWithChildren, MouseEventHandler } from \\"react\\";
 
   export interface LinkProps extends Omit<NextLinkProps, \\"href\\"> {
-    href: Route;
+    href: Route | { query: Query };
   }
 
   declare function Link(

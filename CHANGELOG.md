@@ -2,7 +2,7 @@
 
 ## 0.0.14
 
-- Allow passing in `query` without `pathname` in `<Link>`.
+- Allow passing in `query` without `pathname` for `<Link>` and `router.push`.
 
 ## 0.0.13
 

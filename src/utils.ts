@@ -169,7 +169,7 @@ declare module "next/router" {
     pathname: P;
     route: P; 
     query: QueryForPathname[P]
-    push(url: Route, as?: string, options?: TransitionOptions): Promise<boolean>;
+    push(url: Route | { query: Query }, as?: string, options?: TransitionOptions): Promise<boolean>;
     replace(
       url: Route,
       as?: string,

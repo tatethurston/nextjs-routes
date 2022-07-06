@@ -2,7 +2,7 @@
 
 ## 0.0.14
 
-- Allow passing in `query` without `pathname` for `<Link>` and `router.push`.
+- Allow passing in `query` without `pathname` to change current url parameters.
 
 ## 0.0.13
 

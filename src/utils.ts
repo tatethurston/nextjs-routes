@@ -136,12 +136,14 @@ type QueryForPathname = {
   [K in Route as K["pathname"]]: K["query"]
 };
 
+type RouteOrQuery = Route | { query: Query }
+
 declare module "next/link" {
   import type { LinkProps as NextLinkProps } from "next/dist/client/link";
   import type { PropsWithChildren, MouseEventHandler } from "react";
 
   export interface LinkProps extends Omit<NextLinkProps, "href"> {
-    href: Route | { query: Query };
+    href: RouteOrQuery;
   }
 
   declare function Link(
@@ -169,9 +171,9 @@ declare module "next/router" {
     pathname: P;
     route: P; 
     query: QueryForPathname[P]
-    push(url: Route | { query: Query }, as?: string, options?: TransitionOptions): Promise<boolean>;
+    push(url: RouteOrQuery, as?: string, options?: TransitionOptions): Promise<boolean>;
     replace(
-      url: Route,
+      url: RouteOrQuery,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;

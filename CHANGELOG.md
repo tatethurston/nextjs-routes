@@ -3,6 +3,7 @@
 ## 0.0.14
 
 - Allow passing in `query` without `pathname` to change current url parameters.
+- `router.query` can no longer be `undefined`.
 
 ## 0.0.13
 

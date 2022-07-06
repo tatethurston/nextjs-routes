@@ -68,7 +68,7 @@ declare module \\"next/router\\" {
   export interface NextRouter<P extends Pathname = Pathname> extends Omit<Router, \\"push\\" | \\"replace\\"> {
     pathname: P;
     route: P; 
-    query: QueryForPathname[P]
+    query: Exclude<QueryForPathname[P], undefined>
     push(url: RouteOrQuery, as?: string, options?: TransitionOptions): Promise<boolean>;
     replace(
       url: RouteOrQuery,

@@ -4,6 +4,7 @@
 
 - Allow passing in `query` without `pathname` to change current url parameters.
 - `router.query` can no longer be `undefined`.
+- Remove `prettier` as a peer dependency.
 
 ## 0.0.13
 
@@ -25,4 +26,4 @@ This means replacing imports of `next/link` with `nextjs-routes/link` and `next/
 +import { useRouter } from 'next/router'
 ```
 
-- Added windows support
+- Added windows support.

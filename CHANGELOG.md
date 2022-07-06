@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.14
+
+- Allow passing in `query` without `pathname` to change current url parameters.
+- `router.query` can no longer be `undefined`.
+
 ## 0.0.13
 
 - Support search parameters. See [#17](https://github.com/tatethurston/nextjs-routes/issues/17) for more context.

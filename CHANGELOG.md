@@ -9,7 +9,7 @@
 import type { Route } from "nextjs-routes";
 ```
 
-- query from `useRouter` is now correctly typed as `string | undefined` instead of `string`. If you know the current route, you can supply a type argument to narrow required parameters to string, eg:
+- query from `useRouter` is now correctly typed as `string | undefined` instead of `string`. If you know the current route, you can supply a type argument to narrow required parameters to `string`, eg:
 
 ```
   // if you have a page /foos/[foo].ts

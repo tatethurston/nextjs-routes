@@ -9,6 +9,16 @@
 import type { Route } from "nextjs-routes";
 ```
 
+- query from `useRouter` is now correctly typed as `string | undefined` instead of `string`. If you know the current route, you can supply a type argument to narrow required parameters to string, eg:
+
+```
+  // if you have a page /foos/[foo].ts
+
+  const router = useRouter<"/foos/[foo]">();
+  // foo will be typed as a string, because the foo query parameter is required and thus will always be present.
+  const { foo } = router.query;
+```
+
 ## 0.0.14
 
 - Allow passing in `query` without `pathname` to change current url parameters.

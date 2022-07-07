@@ -26,6 +26,23 @@ function expectType<T>(_value: T) {}
 <Link href={{ query: { bar: "baz" } }} />;
 <Link href={{ query: { foo: "foo" } }} />;
 
+// Unaugmented props
+<Link
+  href={{ query: {} }}
+  replace
+  scroll
+  shallow
+  passHref
+  prefetch
+  locale="en"
+  legacyBehavior={false}
+  onClick={console.log}
+  onMouseEnter={console.log}
+  children="Link"
+/>;
+// @ts-expect-error replace typo
+<Link href={{ query: {} }} replacey />;
+
 // next/router
 const router = useRouter();
 
@@ -62,6 +79,11 @@ router.push({ pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } });
 router.push({ query: { bar: "baz" } });
 router.push({ query: { foo: "foo" } });
 
+// Unaugmented options
+router.push({}, undefined, { shallow: true, locale: "en", scroll: true });
+// @ts-expect-error shallow typo
+router.push({}, undefined, { shallowy: true });
+
 // replace
 
 // Path without dynamic segments
@@ -83,3 +105,8 @@ router.replace({ pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } });
 // Only change query for current page
 router.replace({ query: { bar: "baz" } });
 router.replace({ query: { foo: "foo" } });
+
+// Unaugmented options
+router.replace({}, undefined, { shallow: true, locale: "en", scroll: true });
+// @ts-expect-error shallow typo
+router.replace({}, undefined, { shallowy: true });

@@ -108,6 +108,14 @@ import { useRouter } from "next/link";
 const { query } = useRouter<"/foos/[foo]">();
 ```
 
+### Route
+
+If you want to use the generated `Route` type in your code, you can import it from `nextjs-routes`:
+
+```ts
+import type { Route } from "nextjs-routes";
+```
+
 ## Highlights
 
 🦄 Zero config

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.15
+
+- nextjs-routes no longer adds types to the global type namespace. Previously,
+  `Route` was available globally. Now, it must be imported:
+
+```ts
+import type { Route } from "nextjs-routes";
+```
+
 ## 0.0.14
 
 - Allow passing in `query` without `pathname` to change current url parameters.

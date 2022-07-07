@@ -120,31 +120,29 @@ type Route =
     .map((route) => {
       const [query, requiredKeys] = getQueryInterface(route.query);
       if (requiredKeys > 0) {
-        return `{ pathname: '${route.pathname}'; query: Query<${query}> }`;
+        return `{ pathname?: '${route.pathname}'; query: Query<${query}> }`;
       } else {
-        return `{ pathname: '${route.pathname}'; query?: Query | undefined }`;
+        return `{ pathname?: '${route.pathname}'; query?: Query | undefined }`;
       }
     })
     .join("\n  | ")}
-
-type Pathname = Route["pathname"];
 
 type Query<Params = {}> = Params & {
   [key: string]: string;
 }
 
-type QueryForPathname = {
-  [K in Route as K["pathname"]]: K["query"]
-};
+type Pathname = Exclude<Route["pathname"], undefined>;
 
-type RouteOrQuery = Route | { query: Query }
+type QueryForPathname = {
+  [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
+};
 
 declare module "next/link" {
   import type { LinkProps as NextLinkProps } from "next/dist/client/link";
   import type { PropsWithChildren, MouseEventHandler } from "react";
 
   export interface LinkProps extends Omit<NextLinkProps, "href"> {
-    href: RouteOrQuery;
+    href: Route;
   }
 
   declare function Link(
@@ -171,10 +169,10 @@ declare module "next/router" {
   export interface NextRouter<P extends Pathname = Pathname> extends Omit<Router, "push" | "replace"> {
     pathname: P;
     route: P; 
-    query: Exclude<QueryForPathname[P], undefined>
-    push(url: RouteOrQuery, as?: string, options?: TransitionOptions): Promise<boolean>;
+    query: QueryForPathname[P];
+    push(url: Route, as?: string, options?: TransitionOptions): Promise<boolean>;
     replace(
-      url: RouteOrQuery,
+      url: Route,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;

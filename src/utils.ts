@@ -115,34 +115,31 @@ export function generate(routes: Route[]): string {
 // Run \`yarn nextjs-routes\` to regenerate this file.
 /* eslint-disable */
 
-type Route =
-  | ${routes
-    .map((route) => {
-      const [query, requiredKeys] = getQueryInterface(route.query);
-      if (requiredKeys > 0) {
-        return `{ pathname?: '${route.pathname}'; query: Query<${query}> }`;
-      } else {
-        return `{ pathname?: '${route.pathname}'; query?: Query | undefined }`;
-      }
-    })
-    .join("\n  | ")}
+declare module "nextjs-routes" {
+  export type Route =
+    | ${routes
+      .map((route) => {
+        const [query, requiredKeys] = getQueryInterface(route.query);
+        if (requiredKeys > 0) {
+          return `{ pathname: '${route.pathname}'; query: Query<${query}> }`;
+        } else {
+          return `{ pathname: '${route.pathname}'; query?: Query | undefined }`;
+        }
+      })
+      .join("\n    | ")}
 
-type Query<Params = {}> = Params & {
-  [key: string]: string;
+  type Query<Params = {}> = Params & { [key: string]: string | undefined };
 }
 
-type Pathname = Exclude<Route["pathname"], undefined>;
-
-type QueryForPathname = {
-  [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
-};
-
 declare module "next/link" {
+  import type { Route } from "nextjs-routes";
   import type { LinkProps as NextLinkProps } from "next/dist/client/link";
   import type { PropsWithChildren, MouseEventHandler } from "react";
 
+  type RouteOrQuery = Route | { query?: { [key: string]: string | undefined } };
+
   export interface LinkProps extends Omit<NextLinkProps, "href"> {
-    href: Route;
+    href: RouteOrQuery;
   }
 
   declare function Link(
@@ -161,18 +158,32 @@ declare module "next/link" {
 }
 
 declare module "next/router" {
+  import type { Route } from "nextjs-routes";
   import type { NextRouter as Router } from "next/dist/client/router";
   export { RouterEvent } from "next/dist/client/router";
 
   type TransitionOptions = Parameters<Router["push"]>[2];
 
-  export interface NextRouter<P extends Pathname = Pathname> extends Omit<Router, "push" | "replace"> {
+  type Pathname = Route["pathname"];
+
+  type QueryForPathname = {
+    [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
+  };
+
+  type RouteOrQuery = Route | { query: { [key: string]: string | undefined } };
+
+  export interface NextRouter<P extends Pathname = Pathname>
+    extends Omit<Router, "push" | "replace"> {
     pathname: P;
-    route: P; 
+    route: P;
     query: QueryForPathname[P];
-    push(url: Route, as?: string, options?: TransitionOptions): Promise<boolean>;
+    push(
+      url: RouteOrQuery,
+      as?: string,
+      options?: TransitionOptions
+    ): Promise<boolean>;
     replace(
-      url: Route,
+      url: RouteOrQuery,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
@@ -180,6 +191,5 @@ declare module "next/router" {
 
   export function useRouter<P extends Pathname>(): NextRouter<P>;
 }
-
 `;
 }

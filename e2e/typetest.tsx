@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter, RouterEvent } from "next/router";
+import type { Route } from "nextjs-routes";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
 function expectType<T>(_value: T) {}
@@ -11,6 +12,7 @@ function expectType<T>(_value: T) {}
 <Link href={{ pathname: "/", query: undefined }} />;
 <Link href={{ pathname: "/", query: {} }} />;
 <Link href={{ pathname: "/", query: { bar: "baz" } }} />;
+<Link href={{ pathname: "/", query: { bar: undefined } }} />;
 
 // Path with dynamic segments
 <Link href={{ pathname: "/foos/[foo]", query: { foo: "baz" } }} />;
@@ -47,15 +49,19 @@ function expectType<T>(_value: T) {}
 const router = useRouter();
 
 // pathname
+
 expectType<"/" | "/foos/[foo]">(router.pathname);
 
 // route
+
 expectType<"/" | "/foos/[foo]">(router.route);
 
 // query
-expectType<{ foo: string; [key: string]: string } | { [key: string]: string }>(
-  router.query
-);
+
+expectType<string | undefined>(router.query.foo);
+expectType<string | undefined>(router.query.bar);
+// type narrowing
+expectType<string>(useRouter<"/foos/[foo]">().query.foo);
 
 // push
 
@@ -80,9 +86,13 @@ router.push({ query: { bar: "baz" } });
 router.push({ query: { foo: "foo" } });
 
 // Unaugmented options
-router.push({}, undefined, { shallow: true, locale: "en", scroll: true });
+router.push({ query: {} }, undefined, {
+  shallow: true,
+  locale: "en",
+  scroll: true,
+});
 // @ts-expect-error shallow typo
-router.push({}, undefined, { shallowy: true });
+router.push({ query: {} }, undefined, { shallowy: true });
 
 // replace
 
@@ -107,6 +117,40 @@ router.replace({ query: { bar: "baz" } });
 router.replace({ query: { foo: "foo" } });
 
 // Unaugmented options
-router.replace({}, undefined, { shallow: true, locale: "en", scroll: true });
+router.replace({ query: {} }, undefined, {
+  shallow: true,
+  locale: "en",
+  scroll: true,
+});
 // @ts-expect-error shallow typo
-router.replace({}, undefined, { shallowy: true });
+router.replace({ query: {} }, undefined, { shallowy: true });
+
+// RouterEvent
+
+let routerEvent: RouterEvent;
+
+routerEvent = "routeChangeStart";
+// @ts-expect-error event typo
+routerEvent = "routeChangeStarty";
+
+// nextjs-routes
+
+// Route
+
+let route: Route;
+
+// Path without dynamic segments
+route = { pathname: "/" };
+route = { pathname: "/", query: undefined };
+route = { pathname: "/", query: {} };
+route = { pathname: "/", query: { bar: "baz" } };
+
+// Path with dynamic segments
+route = { pathname: "/foos/[foo]", query: { foo: "baz" } };
+// @ts-expect-error missing 'foo' in query
+route = { pathname: "/foos/[foo]", query: { bar: "baz" } };
+// @ts-expect-error missing 'foo' in query
+route = { pathname: "/foos/[foo]", query: undefined };
+// @ts-expect-error missing 'foo' in query
+route = { pathname: "/foos/[foo]", query: {} };
+route = { pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } };

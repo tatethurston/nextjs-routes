@@ -1,6 +1,6 @@
 {
   "name": "nextjs-routes",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Type safe routing for Next.js",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
@@ -15,8 +15,7 @@
   "sideEffects": false,
   "types": "index.d.ts",
   "peerDependencies": {
-    "next": "*",
-    "prettier": "^2.1.1"
+    "next": "*"
   },
   "keywords": [
     "link",
@@ -27,8 +26,6 @@
     "typescript"
   ],
   "exports": {
-    "./package.json": "./package.json",
-    "./router": "./router.js",
-    "./link": "./link.js"
+    "./package.json": "./package.json"
   }
 }

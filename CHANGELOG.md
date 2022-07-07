@@ -25,4 +25,4 @@ This means replacing imports of `next/link` with `nextjs-routes/link` and `next/
 +import { useRouter } from 'next/router'
 ```
 
-- Added windows support
+- Added windows support.

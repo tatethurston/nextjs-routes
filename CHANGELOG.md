@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.17
+
+- re-export types from `next/link` and `next/router`
+
 ## 0.0.16
 
 - fixed prettier as an optional peer dependency

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { useRouter, RouterEvent } from "next/router";
+import { LinkProps } from "next/link";
+import { useRouter, RouterEvent, NextRouter } from "next/router";
 import type { Route } from "nextjs-routes";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
@@ -44,6 +45,15 @@ function expectType<T>(_value: T) {}
 />;
 // @ts-expect-error replace typo
 <Link href={{ query: {} }} replacey />;
+
+// LinkProps
+
+// ensure LinkProps is our LinkProps, not the untyped one
+
+expectType<LinkProps["href"]>({ pathname: "/" });
+
+// @ts-expect-error invalid pathname
+expectType<LinkProps["href"]>({ pathname: "/invalid" });
 
 // next/router
 const router = useRouter();
@@ -132,6 +142,17 @@ let routerEvent: RouterEvent;
 routerEvent = "routeChangeStart";
 // @ts-expect-error event typo
 routerEvent = "routeChangeStarty";
+
+// NextRouter
+
+// ensure NextRouter is our NextRouter, not the untyped one
+
+let nextRouter: NextRouter = undefined as unknown as NextRouter;
+
+nextRouter.push({ pathname: "/" });
+
+// @ts-expect-error invalid pathname
+nextRouter.push({ pathname: "/invalid" });
 
 // nextjs-routes
 

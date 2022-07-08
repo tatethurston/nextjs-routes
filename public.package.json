@@ -1,6 +1,6 @@
 {
   "name": "nextjs-routes",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Type safe routing for Next.js",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",

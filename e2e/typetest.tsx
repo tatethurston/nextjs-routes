@@ -50,10 +50,10 @@ function expectType<T>(_value: T) {}
 
 // ensure LinkProps is our LinkProps, not the untyped one
 
-expectType<LinkProps['href']>({ pathname: '/' })
+expectType<LinkProps["href"]>({ pathname: "/" });
 
 // @ts-expect-error invalid pathname
-expectType<LinkProps['href']>({ pathname: '/invalid' })
+expectType<LinkProps["href"]>({ pathname: "/invalid" });
 
 // next/router
 const router = useRouter();

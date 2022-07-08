@@ -122,9 +122,9 @@ declare module "nextjs-routes" {
       .map((route) => {
         const [query, requiredKeys] = getQueryInterface(route.query);
         if (requiredKeys > 0) {
-          return `{ pathname: '${route.pathname}'; query: Query<${query}> }`;
+          return `{ pathname: "${route.pathname}"; query: Query<${query}> }`;
         } else {
-          return `{ pathname: '${route.pathname}'; query?: Query | undefined }`;
+          return `{ pathname: "${route.pathname}"; query?: Query | undefined }`;
         }
       })
       .join("\n    | ")}

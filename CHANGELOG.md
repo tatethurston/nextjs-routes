@@ -4,6 +4,7 @@
 
 - re-export types from `next/link` and `next/router`
 - remove prettier as a peer dependency
+- enable src/pages for windows users
 
 ## 0.0.16
 

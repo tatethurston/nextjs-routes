@@ -15,13 +15,7 @@
   "sideEffects": false,
   "types": "index.d.ts",
   "peerDependencies": {
-    "next": "*",
-    "prettier": "^2.2.1"
-  },
-  "peerDependenciesMeta": {
-    "prettier": {
-      "optional": true
-    }
+    "next": "*"
   },
   "keywords": [
     "link",

@@ -114,16 +114,20 @@ export function generate(routes: Route[]): string {
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | ${routes
-      .map((route) => {
-        const [query, requiredKeys] = getQueryInterface(route.query);
-        if (requiredKeys > 0) {
-          return `{ pathname: "${route.pathname}"; query: Query<${query}> }`;
-        } else {
-          return `{ pathname: "${route.pathname}"; query?: Query | undefined }`;
-        }
-      })
-      .join("\n    | ")};
+    ${
+      !routes.length
+        ? "never"
+        : `| ${routes
+            .map((route) => {
+              const [query, requiredKeys] = getQueryInterface(route.query);
+              if (requiredKeys > 0) {
+                return `{ pathname: "${route.pathname}"; query: Query<${query}> }`;
+              } else {
+                return `{ pathname: "${route.pathname}"; query?: Query | undefined }`;
+              }
+            })
+            .join("\n    | ")}`
+    };
 
   type Query<Params = {}> = Params & { [key: string]: string | undefined };
 }

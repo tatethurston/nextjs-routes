@@ -18,6 +18,7 @@ describe("route generation", () => {
       "pages/[foo]/bar/[baz]/foo/[bar].ts",
       "pages/[foo]/baz.ts",
       "pages/_app.ts",
+      "pages/middleware.ts",
       "pages/_debug.ts",
       "pages/_debug/health-check.ts",
       "pages/_document.ts",

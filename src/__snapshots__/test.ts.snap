@@ -14,6 +14,7 @@ declare module \\"nextjs-routes\\" {
     | { pathname: \\"/[foo]/bar/[baz]\\"; query: Query<{ foo: string; baz: string }> }
     | { pathname: \\"/[foo]/bar/[baz]/foo/[bar]\\"; query: Query<{ foo: string; baz: string; bar: string }> }
     | { pathname: \\"/[foo]/baz\\"; query: Query<{ foo: string }> }
+    | { pathname: \\"/_debug\\"; query?: Query | undefined }
     | { pathname: \\"/_debug/health-check\\"; query?: Query | undefined }
     | { pathname: \\"/_error\\"; query?: Query | undefined }
     | { pathname: \\"/api/[[...segments]]\\"; query?: Query | undefined }

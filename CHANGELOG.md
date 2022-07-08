@@ -5,6 +5,7 @@
 - re-export types from `next/link` and `next/router`
 - remove prettier as a peer dependency
 - enable src/pages for windows users
+- routes are now generated for routes that start with `_`. `_app`, `_document`, `_error` and `middleware` are excluded.
 
 ## 0.0.16
 

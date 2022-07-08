@@ -9,6 +9,10 @@ describe("nextRoutes", () => {
 });
 
 describe("route generation", () => {
+  it("no routes", () => {
+    expect(generate(nextRoutes([], "pages"))).toMatchSnapshot();
+  });
+
   it("typescript", () => {
     const pages = [
       "pages/404.ts",

@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, statSync } from "fs";
 import { join, parse } from "path";
 
-const NEXTJS_NON_ROUTABLE_PREFIX = "_";
+const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
 const DYNAMIC_SEGMENT_RE = /\[(.*?)\]/g;
 
 export function getPagesDirectory(): string | undefined {
@@ -43,7 +43,7 @@ export function nextRoutes(files: string[], pagesDirectory: string): Route[] {
     .map((file) => file.replace(pagesDirectory, ""))
     .map((file) => file.replace(parse(file).ext, ""))
     .map(convertWindowsPathToUnix)
-    .filter((file) => !parse(file).name.startsWith(NEXTJS_NON_ROUTABLE_PREFIX));
+    .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file));
 
   return filenames.map((filename) => {
     const segments = filename.match(DYNAMIC_SEGMENT_RE) ?? [];

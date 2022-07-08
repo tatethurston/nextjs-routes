@@ -1,6 +1,6 @@
 {
   "name": "nextjs-routes",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "Type safe routing for Next.js",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
@@ -15,7 +15,13 @@
   "sideEffects": false,
   "types": "index.d.ts",
   "peerDependencies": {
-    "next": "*"
+    "next": "*",
+    "prettier": "^2.2.1"
+  },
+  "peerDependenciesMeta": {
+    "prettier": {
+      "optional": true
+    }
   },
   "keywords": [
     "link",

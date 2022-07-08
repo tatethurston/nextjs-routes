@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.16
+
+- fixed prettier as an optional peer dependency
+
 ## 0.0.15
 
 - nextjs-routes no longer adds types to the global type namespace. Previously,

@@ -1,6 +1,6 @@
 {
-  "name": "nextjs-routes",
-  "description": "Type safe routing for Next.js",
+  "private": true,
+  "name": "nextjs-routes-development",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
   "repository": {

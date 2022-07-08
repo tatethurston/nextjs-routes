@@ -3018,7 +3018,7 @@
 
 "nextjs-routes@file:../../dist":
   "resolved" "file:../../dist"
-  "version" "0.0.12"
+  "version" "0.0.17"
 
 "node-int64@^0.4.0":
   "integrity" "sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw=="

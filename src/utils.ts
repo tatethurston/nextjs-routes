@@ -78,35 +78,31 @@ export function nextRoutes(files: string[]): Route[] {
 function getQueryInterface(
   query: Route["query"]
 ): [query: string, requiredKeys: number] {
-  let res = "{ ";
   let requiredKeys = 0;
-  Object.entries(query).forEach(([key, value]) => {
-    res += key;
-    switch (value) {
-      case "dynamic": {
-        requiredKeys += 1;
-        res += ": string";
-        break;
+  const keys = Object.entries(query)
+    .map(([key, value]) => {
+      switch (value) {
+        case "dynamic": {
+          requiredKeys += 1;
+          return `${key}: string`;
+        }
+        case "catch-all": {
+          requiredKeys += 1;
+          return `${key}: string[]`;
+        }
+        case "optional-catch-all": {
+          return `${key}?: string[] | undefined`;
+        }
+        // istanbul ignore next
+        default: {
+          const _exhaust: never = value;
+          return _exhaust;
+        }
       }
-      case "catch-all": {
-        requiredKeys += 1;
-        res += ": string[]";
-        break;
-      }
-      case "optional-catch-all": {
-        res += "?: string[] | undefined";
-        break;
-      }
-      // istanbul ignore next
-      default: {
-        const _exhaust: never = value;
-        return _exhaust;
-      }
-    }
-    res += ";";
-  });
-  res += " }";
-  return [res, requiredKeys];
+    })
+    .join("; ");
+
+  return [`{ ${keys} }`, requiredKeys];
 }
 
 export function generate(routes: Route[]): string {
@@ -127,7 +123,7 @@ declare module "nextjs-routes" {
           return `{ pathname: "${route.pathname}"; query?: Query | undefined }`;
         }
       })
-      .join("\n    | ")}
+      .join("\n    | ")};
 
   type Query<Params = {}> = Params & { [key: string]: string | undefined };
 }

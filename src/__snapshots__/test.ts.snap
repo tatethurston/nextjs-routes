@@ -9,23 +9,23 @@ exports[`route generation typescript 1`] = `
 declare module \\"nextjs-routes\\" {
   export type Route =
     | { pathname: \\"/404\\"; query?: Query | undefined }
-    | { pathname: \\"/[foo]\\"; query: Query<{ foo: string; }> }
-    | { pathname: \\"/[foo]/[bar]/[baz]\\"; query: Query<{ foo: string;bar: string;baz: string; }> }
-    | { pathname: \\"/[foo]/bar/[baz]\\"; query: Query<{ foo: string;baz: string; }> }
-    | { pathname: \\"/[foo]/bar/[baz]/foo/[bar]\\"; query: Query<{ foo: string;baz: string;bar: string; }> }
-    | { pathname: \\"/[foo]/baz\\"; query: Query<{ foo: string; }> }
+    | { pathname: \\"/[foo]\\"; query: Query<{ foo: string }> }
+    | { pathname: \\"/[foo]/[bar]/[baz]\\"; query: Query<{ foo: string; bar: string; baz: string }> }
+    | { pathname: \\"/[foo]/bar/[baz]\\"; query: Query<{ foo: string; baz: string }> }
+    | { pathname: \\"/[foo]/bar/[baz]/foo/[bar]\\"; query: Query<{ foo: string; baz: string; bar: string }> }
+    | { pathname: \\"/[foo]/baz\\"; query: Query<{ foo: string }> }
     | { pathname: \\"/_debug/health-check\\"; query?: Query | undefined }
     | { pathname: \\"/_error\\"; query?: Query | undefined }
     | { pathname: \\"/api/[[...segments]]\\"; query?: Query | undefined }
-    | { pathname: \\"/api/[...segments]\\"; query: Query<{ segments: string[]; }> }
+    | { pathname: \\"/api/[...segments]\\"; query: Query<{ segments: string[] }> }
     | { pathname: \\"/api/bar\\"; query?: Query | undefined }
-    | { pathname: \\"/foo/[slug]\\"; query: Query<{ slug: string; }> }
+    | { pathname: \\"/foo/[slug]\\"; query: Query<{ slug: string }> }
     | { pathname: \\"/\\"; query?: Query | undefined }
     | { pathname: \\"/not-found\\"; query?: Query | undefined }
-    | { pathname: \\"/settings/bars/[bar]\\"; query: Query<{ bar: string; }> }
-    | { pathname: \\"/settings/bars/[bar]/baz\\"; query: Query<{ bar: string; }> }
+    | { pathname: \\"/settings/bars/[bar]\\"; query: Query<{ bar: string }> }
+    | { pathname: \\"/settings/bars/[bar]/baz\\"; query: Query<{ bar: string }> }
     | { pathname: \\"/settings/foo\\"; query?: Query | undefined }
-    | { pathname: \\"/settings\\"; query?: Query | undefined }
+    | { pathname: \\"/settings\\"; query?: Query | undefined };
 
   type Query<Params = {}> = Params & { [key: string]: string | undefined };
 }

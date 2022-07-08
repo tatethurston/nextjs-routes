@@ -14,6 +14,7 @@ declare module "next/link" {
   import type { Route } from "nextjs-routes";
   import type { LinkProps as NextLinkProps } from "next/dist/client/link";
   import type { PropsWithChildren, MouseEventHandler } from "react";
+  export * from "next/dist/client/link";
 
   type RouteOrQuery = Route | { query?: { [key: string]: string | undefined } };
 

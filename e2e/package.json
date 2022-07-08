@@ -9,6 +9,7 @@
     "react-dom": "*"
   },
   "devDependencies": {
+    "nextjs-routes": "link:../dist",
     "typescript": "*"
   }
 }

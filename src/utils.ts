@@ -4,11 +4,13 @@ import { join, parse } from "path";
 const NEXTJS_NON_ROUTABLE_PREFIX = "_";
 const DYNAMIC_SEGMENT_RE = /\[(.*?)\]/g;
 
-export function getPagesDirectory(): string {
-  if (existsSync("pages")) {
-    return "pages";
+export function getPagesDirectory(): string | undefined {
+  const dirs = ["pages", join("src", "pages")];
+  for (const dir of dirs) {
+    if (existsSync(dir)) {
+      return dir;
+    }
   }
-  return "src/pages";
 }
 
 // istanbul ignore next
@@ -36,13 +38,11 @@ function convertWindowsPathToUnix(file: string): string {
   return file.replace(/\\/g, "/");
 }
 
-export function nextRoutes(files: string[]): Route[] {
-  const pagesDirectory = getPagesDirectory();
+export function nextRoutes(files: string[], pagesDirectory: string): Route[] {
   const filenames = files
+    .map((file) => file.replace(pagesDirectory, ""))
+    .map((file) => file.replace(parse(file).ext, ""))
     .map(convertWindowsPathToUnix)
-    .map((file) =>
-      file.replace(pagesDirectory, "").replace(parse(file).ext, "")
-    )
     .filter((file) => !parse(file).name.startsWith(NEXTJS_NON_ROUTABLE_PREFIX));
 
   return filenames.map((filename) => {

@@ -2,8 +2,8 @@ import { nextRoutes, generate } from "./utils.js";
 
 describe("nextRoutes", () => {
   it("transforms windows paths", () => {
-    const pages = ["\\[foo]\\bar\\index.ts"];
-    const { pathname } = nextRoutes(pages)[0];
+    const pages = ["src\\pages\\[foo]\\bar\\index.ts"];
+    const { pathname } = nextRoutes(pages, "src\\pages")[0];
     expect(pathname).toEqual("/[foo]/bar");
   });
 });
@@ -11,29 +11,29 @@ describe("nextRoutes", () => {
 describe("route generation", () => {
   it("typescript", () => {
     const pages = [
-      "/404.ts",
-      "/[foo].ts",
-      "/[foo]/[bar]/[baz].ts",
-      "/[foo]/bar/[baz].ts",
-      "/[foo]/bar/[baz]/foo/[bar].ts",
-      "/[foo]/baz.ts",
-      "/_app.ts",
-      "/_debug.ts",
-      "/_debug/health-check.ts",
-      "/_document.ts",
-      "/_error.ts",
-      "/_error/index.ts",
-      "/api/[[...segments]].ts",
-      "/api/[...segments].ts",
-      "/api/bar.ts",
-      "/foo/[slug].ts",
-      "/index.ts",
-      "/not-found.ts",
-      "/settings/bars/[bar].ts",
-      "/settings/bars/[bar]/baz.ts",
-      "/settings/foo.ts",
-      "/settings/index.ts",
+      "pages/404.ts",
+      "pages/[foo].ts",
+      "pages/[foo]/[bar]/[baz].ts",
+      "pages/[foo]/bar/[baz].ts",
+      "pages/[foo]/bar/[baz]/foo/[bar].ts",
+      "pages/[foo]/baz.ts",
+      "pages/_app.ts",
+      "pages/_debug.ts",
+      "pages/_debug/health-check.ts",
+      "pages/_document.ts",
+      "pages/_error.ts",
+      "pages/_error/index.ts",
+      "pages/api/[[...segments]].ts",
+      "pages/api/[...segments].ts",
+      "pages/api/bar.ts",
+      "pages/foo/[slug].ts",
+      "pages/index.ts",
+      "pages/not-found.ts",
+      "pages/settings/bars/[bar].ts",
+      "pages/settings/bars/[bar]/baz.ts",
+      "pages/settings/foo.ts",
+      "pages/settings/index.ts",
     ];
-    expect(generate(nextRoutes(pages))).toMatchSnapshot();
+    expect(generate(nextRoutes(pages, "pages"))).toMatchSnapshot();
   });
 });

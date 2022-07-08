@@ -9,6 +9,7 @@ const logger: Pick<Console, "error"> = {
 };
 
 const pagesDirectory = getPagesDirectory();
+// istanbul ignore else: covered by e2e.test
 if (!pagesDirectory) {
   logger.error(`Could not find a Next.js pages directory. Expected to find either pages(1) or src/pages(2).
 

@@ -4,6 +4,7 @@ import { join, parse } from "path";
 const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
 const DYNAMIC_SEGMENT_RE = /\[(.*?)\]/g;
 
+// istanbul ignore next: io mocking not worthwhile
 export function getPagesDirectory(): string | undefined {
   const dirs = ["pages", join("src", "pages")];
   for (const dir of dirs) {
@@ -13,7 +14,7 @@ export function getPagesDirectory(): string | undefined {
   }
 }
 
-// istanbul ignore next
+// istanbul ignore next: io mocking not worthwhile
 export function findFiles(entry: string): string[] {
   return readdirSync(entry).flatMap((file) => {
     const filepath = join(entry, file);

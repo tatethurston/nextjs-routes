@@ -160,7 +160,8 @@ declare module "next/link" {
 declare module "next/router" {
   import type { Route } from "nextjs-routes";
   import type { NextRouter as Router } from "next/dist/client/router";
-  export { RouterEvent } from "next/dist/client/router";
+  export * from "next/dist/client/router";
+  export { default } from 'next/dist/client/router'
 
   type TransitionOptions = Parameters<Router["push"]>[2];
 

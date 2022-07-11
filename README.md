@@ -120,7 +120,7 @@ import type { Route } from "nextjs-routes";
 
 🦄 Zero config
 
-💨 Types only -- no additional runtime overhead
+💨 Types only -- zero runtime
 
 🛠 No more broken links
 

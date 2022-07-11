@@ -8,19 +8,19 @@
     "url": "https://github.com/tatethurston/nextjs-routes"
   },
   "scripts": {
-    "build": "yarn tsc",
-    "build:watch": "yarn tsc --watch",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
     "clean": "rm -rf dist",
-    "e2e:setup": "yarn package:build && (cd e2e && yarn install)",
-    "lint": "yarn typecheck && prettier --check . && prettier-package-json --list-different '{,public.,example/}package.json' && eslint .",
+    "e2e:setup": "npm run package:build && (cd e2e && npm install)",
+    "lint": "npm run typecheck && prettier --check . && prettier-package-json --list-different '{,public.,example/}package.json' && eslint .",
     "lint:fix": "prettier --write '**/*.{ts,tsx,md,json}' && prettier-package-json --write '{,public.,example/}package.json' && eslint --fix .",
-    "package:build": "yarn install && yarn build && yarn package:prune && yarn package:copy:files && chmod +x dist/cli.js",
+    "package:build": "npm install && npm run build && npm run package:prune && npm run package:copy:files && chmod +x dist/cli.js",
     "package:copy:files": "cp ./LICENSE ./README.md dist/ && cp ./public.package.json dist/package.json",
     "package:prune": "find dist -name test.* | xargs rm -f",
     "prepare": "husky install",
-    "test": "yarn e2e:setup && yarn jest",
-    "test:ci": "yarn test --coverage",
-    "typecheck": "yarn tsc --noEmit"
+    "test": "npm run e2e:setup && jest",
+    "test:ci": "test --coverage",
+    "typecheck": "tsc --noEmit"
   },
   "sideEffects": false,
   "devDependencies": {

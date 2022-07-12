@@ -3,15 +3,12 @@
 /* eslint-disable */
 
 // prettier-ignore
-type UnknownQueryParams = { [key: string]: string | string[] | undefined }
-
-// prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
     | { pathname: "/foos/[foo]"; query: Query<{ foo: string }> }
     | { pathname: "/"; query?: Query | undefined };
 
-  type Query<Params = {}> = Params & UnknownQueryParams;
+  type Query<Params = {}> = Params & { [key: string]: string | string[] | undefined };
 }
 
 // prettier-ignore
@@ -21,7 +18,7 @@ declare module "next/link" {
   import type { PropsWithChildren, MouseEventHandler } from "react";
   export * from "next/dist/client/link";
 
-  type RouteOrQuery = Route | { query?: UnknownQueryParams };
+  type RouteOrQuery = Route | { query?: { [key: string]: string | string[] | undefined } };
 
   export interface LinkProps extends Omit<NextLinkProps, "href"> {
     href: RouteOrQuery;
@@ -57,7 +54,7 @@ declare module "next/router" {
     [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
   };
 
-  type RouteOrQuery = Route | { query?: UnknownQueryParams };
+  type RouteOrQuery = Route | { query: { [key: string]: string | string[] | undefined } };
 
   export interface NextRouter<P extends Pathname = Pathname>
     extends Omit<Router, "push" | "replace"> {

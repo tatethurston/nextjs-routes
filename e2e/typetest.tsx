@@ -14,7 +14,7 @@ function expectType<T>(_value: T) {}
 <Link href={{ pathname: "/", query: {} }} />;
 <Link href={{ pathname: "/", query: { bar: "baz" } }} />;
 <Link href={{ pathname: "/", query: { bar: undefined } }} />;
-<Link href={{ pathname: '/', query: { bar: ["baz", "foo"] } }} />;
+<Link href={{ pathname: "/", query: { bar: ["baz", "foo"] } }} />;
 
 // Path with dynamic segments
 <Link href={{ pathname: "/foos/[foo]", query: { foo: "baz" } }} />;
@@ -85,7 +85,7 @@ router.push({ pathname: "/" });
 router.push({ pathname: "/", query: undefined });
 router.push({ pathname: "/", query: {} });
 router.push({ pathname: "/", query: { bar: "baz" } });
-router.push({pathname: "/", query: { bar: ["foo", "baz"] } });
+router.push({ pathname: "/", query: { bar: ["foo", "baz"] } });
 
 // Path with dynamic segments
 router.push({ pathname: "/foos/[foo]", query: { foo: "baz" } });

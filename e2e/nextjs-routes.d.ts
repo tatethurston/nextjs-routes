@@ -17,7 +17,9 @@ declare module "next/link" {
   import type { PropsWithChildren, MouseEventHandler } from "react";
   export * from "next/dist/client/link";
 
-  type RouteOrQuery = Route | { query?: { [key: string]: string | string[] | undefined } };
+  type RouteOrQuery =
+    | Route
+    | { query?: { [key: string]: string | string[] | undefined } };
 
   export interface LinkProps extends Omit<NextLinkProps, "href"> {
     href: RouteOrQuery;
@@ -52,7 +54,9 @@ declare module "next/router" {
     [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
   };
 
-  type RouteOrQuery = Route | { query: { [key: string]: string | string[] | undefined } };
+  type RouteOrQuery =
+    | Route
+    | { query: { [key: string]: string | string[] | undefined } };
 
   export interface NextRouter<P extends Pathname = Pathname>
     extends Omit<Router, "push" | "replace"> {

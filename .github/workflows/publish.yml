@@ -10,9 +10,9 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: "16.x"
-          cache: "yarn"
+          cache: "npm"
           registry-url: "https://registry.npmjs.org"
-      - run: yarn package:build
+      - run: npm run package:build
       - run: cd dist && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

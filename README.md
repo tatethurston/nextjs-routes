@@ -32,9 +32,9 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 
 1. Add this package to your project:
 
-   - `yarn add nextjs-routes`
+   - `npm install nextjs-routes` or `yarn add nextjs-routes`
 
-2. Run `yarn nextjs-routes`
+2. Run `npx nextjs-routes`
 
    - This will generate `nextjs-routes.d.ts`
    - Whenever you change your routes, run this command again
@@ -120,7 +120,7 @@ import type { Route } from "nextjs-routes";
 
 🦄 Zero config
 
-💨 Types only -- no additional runtime overhead
+💨 Types only -- zero runtime
 
 🛠 No more broken links
 

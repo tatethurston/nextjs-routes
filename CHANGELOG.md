@@ -1,7 +1,8 @@
 # Changelog
 
 ## 0.0.18
-- `query` is now typed as `string | string[] | undefined` instead of `string | undefined`
+
+- `query` is now typed as `string | string[] | undefined` instead of `string | undefined`.
 
 ## 0.0.17
 

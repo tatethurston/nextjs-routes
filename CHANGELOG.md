@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.18
+
+- `query` is now typed as `string | string[] | undefined` instead of `string | undefined`.
+
 ## 0.0.17
 
 - re-export types from `next/link` and `next/router`.

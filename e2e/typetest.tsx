@@ -14,9 +14,11 @@ function expectType<T>(_value: T) {}
 <Link href={{ pathname: "/", query: {} }} />;
 <Link href={{ pathname: "/", query: { bar: "baz" } }} />;
 <Link href={{ pathname: "/", query: { bar: undefined } }} />;
+<Link href={{ pathname: "/", query: { bar: ["baz", "foo"] } }} />;
 
 // Path with dynamic segments
 <Link href={{ pathname: "/foos/[foo]", query: { foo: "baz" } }} />;
+
 // @ts-expect-error missing 'foo' in query
 <Link href={{ pathname: "/foos/[foo]", query: { bar: "baz" } }} />;
 // @ts-expect-error missing 'foo' in query
@@ -24,10 +26,13 @@ function expectType<T>(_value: T) {}
 // @ts-expect-error missing 'foo' in query
 <Link href={{ pathname: "/foos/[foo]", query: {} }} />;
 <Link href={{ pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } }} />;
+// @ts-expect-error 'foo' must be a string, not string[]
+<Link href={{ pathname: "/foos/[foo]", query: { foo: ["baz", "foo"] } }} />;
 
 // Only change query for current page
 <Link href={{ query: { bar: "baz" } }} />;
 <Link href={{ query: { foo: "foo" } }} />;
+<Link href={{ query: { foo: ["foo", "bar"] } }} />;
 
 // Unaugmented props
 <Link
@@ -68,8 +73,8 @@ expectType<"/" | "/foos/[foo]">(router.route);
 
 // query
 
-expectType<string | undefined>(router.query.foo);
-expectType<string | undefined>(router.query.bar);
+expectType<string | string[] | undefined>(router.query.foo);
+expectType<string | string[] | undefined>(router.query.bar);
 // type narrowing
 expectType<string>(useRouter<"/foos/[foo]">().query.foo);
 
@@ -80,6 +85,7 @@ router.push({ pathname: "/" });
 router.push({ pathname: "/", query: undefined });
 router.push({ pathname: "/", query: {} });
 router.push({ pathname: "/", query: { bar: "baz" } });
+router.push({ pathname: "/", query: { bar: ["foo", "baz"] } });
 
 // Path with dynamic segments
 router.push({ pathname: "/foos/[foo]", query: { foo: "baz" } });
@@ -90,10 +96,13 @@ router.push({ pathname: "/foos/[foo]", query: undefined });
 // @ts-expect-error missing 'foo' in query
 router.push({ pathname: "/foos/[foo]", query: {} });
 router.push({ pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } });
+// @ts-expect-error 'foo' must be a string, not string[]
+router.push({ pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } });
 
 // Only change query for current page
 router.push({ query: { bar: "baz" } });
 router.push({ query: { foo: "foo" } });
+router.push({ query: { foo: ["foo", "bar"] } });
 
 // Unaugmented options
 router.push({ query: {} }, undefined, {
@@ -111,6 +120,7 @@ router.replace({ pathname: "/" });
 router.replace({ pathname: "/", query: undefined });
 router.replace({ pathname: "/", query: {} });
 router.replace({ pathname: "/", query: { bar: "baz" } });
+router.replace({ pathname: "/", query: { bar: ["foo", "baz"] } });
 
 // Path with dynamic segments
 router.replace({ pathname: "/foos/[foo]", query: { foo: "baz" } });
@@ -121,10 +131,13 @@ router.replace({ pathname: "/foos/[foo]", query: undefined });
 // @ts-expect-error missing 'foo' in query
 router.replace({ pathname: "/foos/[foo]", query: {} });
 router.replace({ pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } });
+// @ts-expect-error 'foo' must be a string, not string[]
+router.replace({ pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } });
 
 // Only change query for current page
 router.replace({ query: { bar: "baz" } });
 router.replace({ query: { foo: "foo" } });
+router.replace({ query: { foo: ["bar", "baz"] } });
 
 // Unaugmented options
 router.replace({ query: {} }, undefined, {
@@ -165,6 +178,7 @@ route = { pathname: "/" };
 route = { pathname: "/", query: undefined };
 route = { pathname: "/", query: {} };
 route = { pathname: "/", query: { bar: "baz" } };
+route = { pathname: "/", query: { bar: ["foo", "baz"] } };
 
 // Path with dynamic segments
 route = { pathname: "/foos/[foo]", query: { foo: "baz" } };
@@ -175,3 +189,5 @@ route = { pathname: "/foos/[foo]", query: undefined };
 // @ts-expect-error missing 'foo' in query
 route = { pathname: "/foos/[foo]", query: {} };
 route = { pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } };
+// @ts-expect-error 'foo' must be a string, not string[]
+route = { pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } };

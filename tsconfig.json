@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "module": "esnext",
@@ -14,7 +13,7 @@
     "sourceMap": false,
     "strict": true,
     "declaration": true,
-    "target": "ESNext"
+    "target": "ES2020"
   },
   "include": ["src/**/*"]
 }

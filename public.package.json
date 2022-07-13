@@ -17,6 +17,9 @@
   "peerDependencies": {
     "next": "*"
   },
+  "devDependencies": {
+    "chokidar": "^3.5.3"
+  },
   "keywords": [
     "link",
     "next",
@@ -26,6 +29,7 @@
     "typescript"
   ],
   "exports": {
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./next-config.cjs": "./next-config.cjs"
   }
 }

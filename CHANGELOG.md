@@ -3,6 +3,22 @@
 ## 0.0.18
 
 - `query` is now typed as `string | string[] | undefined` instead of `string | undefined`.
+- `nextjs-routes` can now be configured via your `next.config.js` to automatically regenerate types whenever your routes change:
+
+  ```js
+  // next.config.js
+
+  /** @type {import('next').NextConfig} */
+  const { withRoutes } = require("nextjs-routes/next-config.cjs");
+
+  const nextConfig = {
+    reactStrictMode: true,
+  };
+
+  module.exports = withRoutes(nextConfig);
+  ```
+
+  This wiring will only run in Next.js' development server `npx next dev` and `withRoutes` will no-op in production.
 
 ## 0.0.17
 

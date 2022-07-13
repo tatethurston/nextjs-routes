@@ -7,7 +7,7 @@
 <a href="https://www.npmjs.com/package/nextjs-routes">
   <img src="https://img.shields.io/npm/v/nextjs-routes.svg">
 </a>
-<a href="https://github.com/tatethurston/nextjs-routes/blob/master/LICENSE">
+<a href="https://github.com/tatethurston/nextjs-routes/blob/main/LICENSE">
   <img src="https://img.shields.io/npm/l/nextjs-routes.svg">
 </a>
 <a href="https://www.npmjs.com/package/nextjs-routes">
@@ -37,7 +37,7 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 2. Run `npx nextjs-routes`
 
    - This will generate `nextjs-routes.d.ts`
-   - Whenever you change your routes, run this command again
+   - Whenever you change your routes, run this command again. Or, [automatically regenerate](#automatic-regeneration) whenever your routes change.
 
 3. That's it! `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 
@@ -116,6 +116,25 @@ If you want to use the generated `Route` type in your code, you can import it fr
 import type { Route } from "nextjs-routes";
 ```
 
+## Automatic regeneration
+
+`nextjs-routes` can be configured via your `next.config.js` to automatically regenerate types whenever your routes change:
+
+```js
+// next.config.js
+
+/** @type {import('next').NextConfig} */
+const { withRoutes } = require("nextjs-routes/next-config.cjs");
+
+const nextConfig = {
+  reactStrictMode: true,
+};
+
+module.exports = withRoutes(nextConfig);
+```
+
+This wiring will only run in Next.js' development server `npx next dev` and `withRoutes` will no-op in production.
+
 ## Highlights
 
 🦄 Zero config
@@ -134,8 +153,8 @@ import type { Route } from "nextjs-routes";
 
 ## Contributing 👫
 
-PR's and issues welcomed! For more guidance check out [CONTRIBUTING.md](https://github.com/tatethurston/nextjs-routes/blob/master/CONTRIBUTING.md)
+PR's and issues welcomed! For more guidance check out [CONTRIBUTING.md](https://github.com/tatethurston/nextjs-routes/blob/main/CONTRIBUTING.md)
 
 ## Licensing 📃
 
-See the project's [MIT License](https://github.com/tatethurston/nextjs-routes/blob/master/LICENSE).
+See the project's [MIT License](https://github.com/tatethurston/nextjs-routes/blob/main/LICENSE).

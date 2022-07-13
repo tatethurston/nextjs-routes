@@ -18,7 +18,7 @@
   module.exports = withRoutes(nextConfig);
   ```
 
-  This wiring will only run in Next.js' development server `npx next dev` and `withRoutes` will no-op in production.
+  This wiring will only run in Next.js' development server (eg `npx next dev`) and `withRoutes` will no-op in production.
 
 ## 0.0.17
 

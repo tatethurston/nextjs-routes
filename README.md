@@ -120,17 +120,18 @@ import type { Route } from "nextjs-routes";
 
 `nextjs-routes` can be configured via your `next.config.js` to automatically regenerate types whenever your routes change:
 
-```js
+```diff
 // next.config.js
 
 /** @type {import('next').NextConfig} */
-const { withRoutes } = require("nextjs-routes/next-config.cjs");
++ const { withRoutes } = require("nextjs-routes/next-config.cjs");
 
 const nextConfig = {
   reactStrictMode: true,
 };
 
-module.exports = withRoutes(nextConfig);
+- module.exports = nextConfig;
++ module.exports = withRoutes(nextConfig);
 ```
 
 This wiring will only run in Next.js' development server (eg `npx next dev`) and `withRoutes` will no-op in production.

@@ -121,9 +121,9 @@ import type { Route } from "nextjs-routes";
 `nextjs-routes` can be configured via your `next.config.js` to automatically regenerate types whenever your routes change:
 
 ```diff
-/** @type {import('next').NextConfig} */
 + const { withRoutes } = require("nextjs-routes/next-config.cjs");
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
 };

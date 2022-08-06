@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0
+
+No API changes. This library will now follow [semantic versioning](https://docs.npmjs.com/about-semantic-versioning).
+
 ## 0.0.18
 
 - `query` is now typed as `string | string[] | undefined` instead of `string | undefined`.

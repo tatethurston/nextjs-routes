@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { NextConfig } from "next";
 import { join } from "path";
-import type { Configuration, WebpackPluginInstance } from "webpack";
+import type { Configuration } from "webpack";
 import { getPagesDirectory } from "./utils";
 import { watch } from "chokidar";
 import { writeNextjsRoutes } from "./core";
@@ -21,7 +21,13 @@ function debounce<Fn extends (...args: unknown[]) => unknown>(
   };
 }
 
-const nextRoutesPlugin: WebpackPluginInstance = {
+class NextRoutesPlugin {
+  pageExtensions: string[] | undefined;
+
+  constructor(options: { pageExtensions?: string[] }) {
+    this.pageExtensions = options.pageExtensions;
+  }
+
   apply() {
     const pagesDirectory = getPagesDirectory();
     if (pagesDirectory) {
@@ -30,11 +36,14 @@ const nextRoutesPlugin: WebpackPluginInstance = {
         persistent: true,
       });
       // batch changes
-      const generate = debounce(() => writeNextjsRoutes(pagesDirectory), 50);
+      const generate = debounce(
+        () => writeNextjsRoutes(pagesDirectory, this.pageExtensions),
+        50
+      );
       watcher.on("add", generate).on("unlink", generate);
     }
-  },
-};
+  }
+}
 
 export function withRoutes(nextConfig: NextConfig): NextConfig {
   return {
@@ -45,7 +54,9 @@ export function withRoutes(nextConfig: NextConfig): NextConfig {
         if (!config.plugins) {
           config.plugins = [];
         }
-        config.plugins.push(nextRoutesPlugin);
+        config.plugins.push(
+          new NextRoutesPlugin({ pageExtensions: nextConfig.pageExtensions })
+        );
       }
       // invoke any existing webpack extensions
       if (nextConfig.webpack) {

@@ -1,4 +1,5 @@
 import { writeFileSync } from "fs";
+import { DEFAULT_PAGE_EXTENSIONS } from "./constants.js";
 import { cli, nextRoutes } from "./core.js";
 import { findFiles, getPagesDirectory } from "./utils.js";
 
@@ -21,8 +22,24 @@ const findFilesMock = findFiles as jest.Mock;
 describe("nextRoutes", () => {
   it("transforms windows paths", () => {
     const pages = ["src\\pages\\[foo]\\bar\\index.ts"];
-    const { pathname } = nextRoutes(pages, "src\\pages")[0];
+    const { pathname } = nextRoutes(
+      pages,
+      "src\\pages",
+      DEFAULT_PAGE_EXTENSIONS
+    )[0];
     expect(pathname).toEqual("/[foo]/bar");
+  });
+
+  it("removes custom page extensions", () => {
+    const pages = ["pages/[foo]/bar/index.page.tsx", "pages/index.page.tsx"];
+    const results = nextRoutes(pages, "pages", ["page.tsx", "page.ts"]);
+    const paths = results.map(({ pathname }) => pathname);
+    expect(paths).toMatchInlineSnapshot(`
+      Array [
+        "/[foo]/bar",
+        "/",
+      ]
+    `);
   });
 });
 

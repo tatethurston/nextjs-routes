@@ -1,5 +1,6 @@
 import { writeFileSync } from "fs";
-import { join, parse } from "path";
+import { join } from "path";
+import { DEFAULT_PAGE_EXTENSIONS } from "./constants.js";
 import { findFiles, getPagesDirectory } from "./utils.js";
 
 const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
@@ -12,15 +13,38 @@ interface Route {
   query: Record<string, QueryType>;
 }
 
-function convertWindowsPathToUnix(file: string): string {
-  return file.replace(/\\/g, "/");
+/**
+ * For a given page path, this function ensures that there is no backslash
+ * escaping slashes in the path. Example:
+ *  - `foo\/bar\/baz` -> `foo/bar/baz`
+ * Taken from: https://github.com/vercel/next.js/blob/963585a4fcbc7af68dae759a96936f9973d861c2/packages/next/shared/lib/page-path/normalize-path-sep.ts
+ */
+export function normalizePathSep(path: string): string {
+  return path.replace(/\\/g, "/");
 }
 
-export function nextRoutes(files: string[], pagesDirectory: string): Route[] {
+/**
+ * For a given page path removes the provided extensions.
+ * Taken from: https://github.com/vercel/next.js/blob/0796b6faa991cd58a517b0f160320e9978208066/packages/next/build/entries.ts#L47
+ */
+function getPageFromPath(pagePath: string, pageExtensions: string[]) {
+  let page = normalizePathSep(
+    pagePath.replace(new RegExp(`\\.+(${pageExtensions.join("|")})$`), "")
+  );
+
+  page = page.replace(/\/index$/, "");
+
+  return page === "" ? "/" : page;
+}
+
+export function nextRoutes(
+  files: string[],
+  pagesDirectory: string,
+  pageExtensions: string[]
+): Route[] {
   const filenames = files
     .map((file) => file.replace(pagesDirectory, ""))
-    .map((file) => file.replace(parse(file).ext, ""))
-    .map(convertWindowsPathToUnix)
+    .map((file) => getPageFromPath(file, pageExtensions))
     .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file));
 
   return filenames.map((filename) => {
@@ -40,11 +64,10 @@ export function nextRoutes(files: string[], pagesDirectory: string): Route[] {
       return acc;
     }, {});
 
-    const pathWithoutIndexSuffix = filename.replace(/index$/, "");
     const pathWithoutTrailingSlash =
-      pathWithoutIndexSuffix.endsWith("/") && pathWithoutIndexSuffix.length > 2
-        ? pathWithoutIndexSuffix.slice(0, -1)
-        : pathWithoutIndexSuffix;
+      filename.endsWith("/") && filename.length > 2
+        ? filename.slice(0, -1)
+        : filename;
 
     return {
       pathname: pathWithoutTrailingSlash,
@@ -183,9 +206,12 @@ const logger: Pick<Console, "error"> = {
   error: (str: string) => console.error("[nextjs-routes] " + str),
 };
 
-export function writeNextjsRoutes(pagesDirectory: string): void {
-  const files = findFiles(join(".", pagesDirectory));
-  const routes = nextRoutes(files, pagesDirectory);
+export function writeNextjsRoutes(
+  pagesDirectory: string,
+  pageExtensions: string[] = DEFAULT_PAGE_EXTENSIONS
+): void {
+  const files = findFiles(join(".", pagesDirectory), pageExtensions);
+  const routes = nextRoutes(files, pagesDirectory, pageExtensions);
   const generated = generate(routes);
 
   writeFileSync("nextjs-routes.d.ts", generated);

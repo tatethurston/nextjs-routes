@@ -24,7 +24,7 @@ export function findFiles(entry: string, pageExtensions: string[]): string[] {
       }
 
       const hasPageExtension = pageExtensions.some((ext) =>
-        filepath.endsWith(ext)
+        filepath.endsWith(`.${ext}`)
       );
       if (hasPageExtension) {
         return filepath;

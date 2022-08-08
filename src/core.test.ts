@@ -24,6 +24,18 @@ describe("nextRoutes", () => {
     const { pathname } = nextRoutes(pages, "src\\pages")[0];
     expect(pathname).toEqual("/[foo]/bar");
   });
+
+  it("colocated test files", () => {
+    const pages = ["pages/index.tsx", "pages/index.test.tsx"];
+    expect(nextRoutes(pages, "pages")).toMatchInlineSnapshot(`
+      Array [
+        Object {
+          "pathname": "/",
+          "query": Object {},
+        },
+      ]
+    `);
+  });
 });
 
 describe("route generation", () => {

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.19
+
+- Bug Fix: quote query segments in generated types. See [#49](https://github.com/tatethurston/nextjs-routes/issues/49) for more context.
+- Bug Fix: don't generate routes for non navigable routes (`_error`, `_app`, `_document`).
+
 ## 0.0.18
 
 - `query` is now typed as `string | string[] | undefined` instead of `string | undefined`.

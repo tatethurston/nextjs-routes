@@ -6,8 +6,8 @@
 declare module "nextjs-routes" {
   export type Route =
     | { pathname: "/api/hello"; query?: Query | undefined }
-    | { pathname: "/bars/[bar]"; query: Query<{ bar: string }> }
-    | { pathname: "/foos/[foo]"; query: Query<{ foo: string }> }
+    | { pathname: "/bars/[bar]"; query: Query<{ "bar": string }> }
+    | { pathname: "/foos/[foo]"; query: Query<{ "foo": string }> }
     | { pathname: "/"; query?: Query | undefined };
 
   type Query<Params = {}> = Params & { [key: string]: string | string[] | undefined };

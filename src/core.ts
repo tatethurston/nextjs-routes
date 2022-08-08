@@ -66,14 +66,14 @@ function getQueryInterface(
       switch (value) {
         case "dynamic": {
           requiredKeys += 1;
-          return `${key}: string`;
+          return `"${key}": string`;
         }
         case "catch-all": {
           requiredKeys += 1;
-          return `${key}: string[]`;
+          return `"${key}": string[]`;
         }
         case "optional-catch-all": {
-          return `${key}?: string[] | undefined`;
+          return `"${key}"?: string[] | undefined`;
         }
         // istanbul ignore next
         default: {

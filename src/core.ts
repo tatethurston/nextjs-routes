@@ -1,5 +1,5 @@
 import { writeFileSync } from "fs";
-import { join, parse } from "path";
+import { join } from "path";
 import { findFiles, getPagesDirectory } from "./utils.js";
 
 const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
@@ -20,11 +20,13 @@ export function nextRoutes(files: string[], pagesDirectory: string): Route[] {
   const pathnames = files
     // remove page directory path
     .map((file) => file.replace(pagesDirectory, ""))
-    // remove file extension
-    .map((file) => file.replace(parse(file).ext, ""))
+    // remove file extensions (.tsx, .test.tsx)
+    .map((file) => file.replace(/(\.\w+)+$/, ""))
+    // remove duplicates from file extension removal (eg foo.ts and foo.test.ts)
+    .filter((file, idx, array) => array.indexOf(file) === idx)
     // normalize paths from windows users
     .map(convertWindowsPathToUnix)
-    // remove trailign slash
+    // remove index if present (/foos/index.ts is the same as /foos.ts)
     .map((file) => file.replace(/index$/, ""))
     // remove trailing slash if present
     .map((file) =>

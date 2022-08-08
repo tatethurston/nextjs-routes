@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.20
+
+- Move `chokidar` from `devDependencies` to `dependencies` so it's installed automatically.
+
 ## 0.0.19
 
 - Bug Fix: quote query segments in generated types. See [#49](https://github.com/tatethurston/nextjs-routes/issues/49) for more context.

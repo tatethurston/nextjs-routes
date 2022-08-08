@@ -104,7 +104,6 @@ declare module \\"nextjs-routes\\" {
     | { pathname: \\"/[foo]/baz\\"; query: Query<{ foo: string }> }
     | { pathname: \\"/_debug\\"; query?: Query | undefined }
     | { pathname: \\"/_debug/health-check\\"; query?: Query | undefined }
-    | { pathname: \\"/_error\\"; query?: Query | undefined }
     | { pathname: \\"/api/[[...segments]]\\"; query?: Query | undefined }
     | { pathname: \\"/api/[...segments]\\"; query: Query<{ segments: string[] }> }
     | { pathname: \\"/api/bar\\"; query?: Query | undefined }

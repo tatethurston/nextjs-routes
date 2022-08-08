@@ -17,14 +17,24 @@ function convertWindowsPathToUnix(file: string): string {
 }
 
 export function nextRoutes(files: string[], pagesDirectory: string): Route[] {
-  const filenames = files
+  const pathnames = files
+    // remove page directory path
     .map((file) => file.replace(pagesDirectory, ""))
+    // remove file extension
     .map((file) => file.replace(parse(file).ext, ""))
+    // normalize paths from windows users
     .map(convertWindowsPathToUnix)
+    // remove trailign slash
+    .map((file) => file.replace(/index$/, ""))
+    // remove trailing slash if present
+    .map((file) =>
+      file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file
+    )
+    // exclude nextjs special routes
     .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file));
 
-  return filenames.map((filename) => {
-    const segments = filename.match(DYNAMIC_SEGMENT_RE) ?? [];
+  return pathnames.map((pathname) => {
+    const segments = pathname.match(DYNAMIC_SEGMENT_RE) ?? [];
     const query = segments.reduce<Route["query"]>((acc, cur) => {
       const param = cur
         .replace(/\[/g, "")
@@ -40,14 +50,8 @@ export function nextRoutes(files: string[], pagesDirectory: string): Route[] {
       return acc;
     }, {});
 
-    const pathWithoutIndexSuffix = filename.replace(/index$/, "");
-    const pathWithoutTrailingSlash =
-      pathWithoutIndexSuffix.endsWith("/") && pathWithoutIndexSuffix.length > 2
-        ? pathWithoutIndexSuffix.slice(0, -1)
-        : pathWithoutIndexSuffix;
-
     return {
-      pathname: pathWithoutTrailingSlash,
+      pathname,
       query,
     };
   });

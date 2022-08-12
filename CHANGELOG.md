@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.20
+
+- Move `chokidar` from `devDependencies` to `dependencies` so it's installed automatically.
+
+## 0.0.19
+
+- Bug Fix: quote query segments in generated types. See [#49](https://github.com/tatethurston/nextjs-routes/issues/49) for more context.
+- Bug Fix: don't generate routes for non navigable routes (`_error`, `_app`, `_document`).
+- Bug Fix: don't generate routes for test files that are co-located in pages directory. See [#50](https://github.com/tatethurston/nextjs-routes/pull/50) for more context.
+
 ## 0.0.18
 
 - `query` is now typed as `string | string[] | undefined` instead of `string | undefined`.

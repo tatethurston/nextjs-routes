@@ -150,6 +150,35 @@ This wiring will only run in Next.js' development server (eg `npx next dev`) and
 
 `nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
 
+## What if I need a runtime?
+
+There are some cases where you may want to generate a type safe pathname from a `Route` object, such as `fetch`ing from an API route or serving type safe redirects from `getServerSideProps`. These accept `strings` instead of the `Route` object that `Link` and `useRouter` accept. This requires a small amount of runtime code instead of a type only solution.
+
+For these cases, you can use `route` from `nextjs-routes`:
+
+### fetch
+
+```ts
+import { route } from "nextjs-routes";
+
+fetch(route({ pathname: "/api/foos/[foo]", query: { foo: "foobar" } }));
+```
+
+### getServerSideProps
+
+```ts
+import { route } from "nextjs-routes";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    redirect: {
+      destination: route({ pathname: "/foos/[foo]", query: { foo: "foobar" } }),
+      permanent: false,
+    },
+  };
+};
+```
+
 ## Contributing 👫
 
 PR's and issues welcomed! For more guidance check out [CONTRIBUTING.md](https://github.com/tatethurston/nextjs-routes/blob/main/CONTRIBUTING.md)

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LinkProps } from "next/link";
 import { useRouter, RouterEvent, NextRouter } from "next/router";
-import type { Route } from "nextjs-routes";
+import { route, type Route } from "nextjs-routes";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
 function expectType<T>(_value: T) {}
@@ -171,23 +171,33 @@ nextRouter.push({ pathname: "/invalid" });
 
 // Route
 
-let route: Route;
+let r: Route;
 
 // Path without dynamic segments
-route = { pathname: "/" };
-route = { pathname: "/", query: undefined };
-route = { pathname: "/", query: {} };
-route = { pathname: "/", query: { bar: "baz" } };
-route = { pathname: "/", query: { bar: ["foo", "baz"] } };
+r = { pathname: "/" };
+r = { pathname: "/", query: undefined };
+r = { pathname: "/", query: {} };
+r = { pathname: "/", query: { bar: "baz" } };
+r = { pathname: "/", query: { bar: ["foo", "baz"] } };
 
 // Path with dynamic segments
-route = { pathname: "/foos/[foo]", query: { foo: "baz" } };
+r = { pathname: "/foos/[foo]", query: { foo: "baz" } };
 // @ts-expect-error missing 'foo' in query
-route = { pathname: "/foos/[foo]", query: { bar: "baz" } };
+r = { pathname: "/foos/[foo]", query: { bar: "baz" } };
 // @ts-expect-error missing 'foo' in query
-route = { pathname: "/foos/[foo]", query: undefined };
+r = { pathname: "/foos/[foo]", query: undefined };
 // @ts-expect-error missing 'foo' in query
-route = { pathname: "/foos/[foo]", query: {} };
-route = { pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } };
+r = { pathname: "/foos/[foo]", query: {} };
+r = { pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } };
 // @ts-expect-error 'foo' must be a string, not string[]
-route = { pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } };
+r = { pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } };
+
+// route
+// Path without dynamic segments
+route({ pathname: "/" });
+// Path with dynamic segments
+route({ pathname: "/foos/[foo]", query: { foo: "baz" } });
+// @ts-expect-error missing 'foo' in query
+route({ pathname: "/foos/[foo]", query: { bar: "baz" } });
+// @ts-expect-error 'foo' must be a string, not string[]
+route({ pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } });

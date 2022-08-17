@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.0.21
+
+- Add `route` runtime for generating type safe pathnames from a `Route` object
+
+This can be used to fetch from API routes:
+
+```ts
+import { route } from "nextjs-routes";
+
+fetch(route({ pathname: "/api/foos/[foo]", query: { foo: "foobar" } }));
+```
+
+Or for type safe redirects from `getServerSideProps`:
+
+```ts
+import { route } from "nextjs-routes";
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    redirect: {
+      destination: route({ pathname: "/foos/[foo]", query: { foo: "foobar" } }),
+      permanent: false,
+    },
+  };
+};
+```
+
 ## 0.0.20
 
 - Move `chokidar` from `devDependencies` to `dependencies` so it's installed automatically.

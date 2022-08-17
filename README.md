@@ -152,7 +152,7 @@ This wiring will only run in Next.js' development server (eg `npx next dev`) and
 
 ## What if I need a runtime?
 
-There are some cases where you may want to generate a type safe pathname from a `Route` object, such as `fetch`ing from an API route or serving type safe redirects from `getServerSideProps`. These accept `strings` instead of the `Route` object that `Link` and `useRouter` accept. This requires a small amount of runtime code instead of a type only solution.
+There are some cases where you may want to generate a type safe path from a `Route` object, such as when `fetch`ing from an API route or serving redirects from `getServerSideProps`. These accept `strings` instead of the `Route` object that `Link` and `useRouter` accept. Because these do not perform the same string interpolation for dynamic routes, runtime code is required instead of a type only solution.
 
 For these cases, you can use `route` from `nextjs-routes`:
 
@@ -173,8 +173,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     redirect: {
       destination: route({ pathname: "/foos/[foo]", query: { foo: "foobar" } }),
-      permanent: false,
-    },
+      permanent: false
+    }
   };
 };
 ```

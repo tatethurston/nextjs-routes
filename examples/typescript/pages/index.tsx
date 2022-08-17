@@ -1,8 +1,16 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { route } from "nextjs-routes";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
+  useEffect(() => {
+    fetch(route({ pathname: "/api/hello" }))
+      .then((r) => r.json())
+      .then(console.log);
+  }, []);
+
   return (
     <>
       <Head>

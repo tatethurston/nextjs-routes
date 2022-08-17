@@ -116,6 +116,13 @@ declare module "nextjs-routes" {
     };
 
   type Query<Params = {}> = Params & ${unknownQueryParamsType};
+
+  /**
+   * A typesafe utility function for generating paths in your application.
+   *
+   * route({ pathname: '/foos/[foo]', query: { foo: 'bar' }}) will produce '/foos/bar'.
+   */
+  export declare function route(r: Route): string;
 }
 
 // prettier-ignore

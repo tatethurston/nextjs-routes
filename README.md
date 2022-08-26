@@ -32,7 +32,7 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 
 1. Add this package to your project:
 
-   - `npm install nextjs-routes` or `yarn add nextjs-routes`
+   `npm install nextjs-routes` or `yarn add nextjs-routes`
 
 2. Update your `next.config.js`:
 
@@ -48,11 +48,11 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
    + module.exports = withRoutes(nextConfig);
    ```
 
-This wiring will only run in Next.js' development server (eg `npx next dev`) and `withRoutes` will no-op in production.
+   This wiring will only run in Next.js' development server (eg `npx next dev`) and `withRoutes` will no-op in production.
 
-3. Start your next server
+3. Start your next server:
 
-- `npx next dev` or `yarn next dev`
+   `npx next dev` or `yarn next dev`
 
 That's it! A `nextjs-routes.d.ts` file will be generated the first time you start your server. Check this file into version control. `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 

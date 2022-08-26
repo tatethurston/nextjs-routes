@@ -34,12 +34,41 @@ A code generation tool to make `next/link` and `next/router` routes type safe. `
 
    - `npm install nextjs-routes` or `yarn add nextjs-routes`
 
-2. Run `npx nextjs-routes`
+2. Update your `next.config.js`:
 
-   - This will generate `nextjs-routes.d.ts`
-   - Whenever you change your routes, run this command again. Or, [automatically regenerate](#automatic-regeneration) whenever your routes change.
+   ```diff
+   + const { withRoutes } = require("nextjs-routes/next-config.cjs");
 
-3. That's it! `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
+   /** @type {import('next').NextConfig} */
+   const nextConfig = {
+     reactStrictMode: true,
+   };
+
+   - module.exports = nextConfig;
+   + module.exports = withRoutes(nextConfig);
+   ```
+
+This wiring will only run in Next.js' development server (eg `npx next dev`) and `withRoutes` will no-op in production.
+
+3. Start your next server
+
+- `npx next dev` or `yarn next dev`
+
+That's it! A `nextjs-routes.d.ts` file will be generated the first time you start your server. Check this file into version control. `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
+
+Whenever your routes change, your `nextjs-routes.d.ts` file will automatically update.
+
+## Highlights
+
+🦄 Zero config
+
+💨 Types only -- zero runtime
+
+🛠 No more broken links
+
+🪄 Route autocompletion
+
+🔗 Supports all Next.js route types: static, dynamic, catch all and optional catch all
 
 ## Examples 🛠
 
@@ -115,36 +144,6 @@ If you want to use the generated `Route` type in your code, you can import it fr
 ```ts
 import type { Route } from "nextjs-routes";
 ```
-
-## Automatic regeneration
-
-`nextjs-routes` can be configured via your `next.config.js` to automatically regenerate types whenever your routes change:
-
-```diff
-+ const { withRoutes } = require("nextjs-routes/next-config.cjs");
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-};
-
-- module.exports = nextConfig;
-+ module.exports = withRoutes(nextConfig);
-```
-
-This wiring will only run in Next.js' development server (eg `npx next dev`) and `withRoutes` will no-op in production.
-
-## Highlights
-
-🦄 Zero config
-
-💨 Types only -- zero runtime
-
-🛠 No more broken links
-
-🪄 Route autocompletion
-
-🔗 Supports all Next.js route types: static, dynamic, catch all and optional catch all
 
 ## How does this work? 🤔
 

@@ -173,8 +173,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     redirect: {
       destination: route({ pathname: "/foos/[foo]", query: { foo: "foobar" } }),
-      permanent: false
-    }
+      permanent: false,
+    },
   };
 };
 ```

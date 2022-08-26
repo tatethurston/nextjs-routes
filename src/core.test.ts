@@ -28,10 +28,10 @@ describe("nextRoutes", () => {
   it("colocated test files", () => {
     const pages = ["pages/index.tsx", "pages/index.test.tsx"];
     expect(nextRoutes(pages, "pages")).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "pathname": "/",
-          "query": Object {},
+          "query": {},
         },
       ]
     `);
@@ -89,8 +89,8 @@ describe("route generation", () => {
     getPagesDirectoryMock.mockReturnValueOnce(undefined);
     cli();
     expect(consoleError.mock.calls).toMatchInlineSnapshot(`
-      Array [
-        Array [
+      [
+        [
           "[nextjs-routes] Could not find a Next.js pages directory. Expected to find either pages(1) or src/pages(2).
 
         1. https://nextjs.org/docs/basic-features/pages

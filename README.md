@@ -26,7 +26,7 @@
 
 ## What is this? 🧐
 
-A code generation tool to make `next/link` and `next/router` routes type safe. `nextjs-routes` scans your `pages` directory and generates a `nextjs-routes.d.ts` file with type definitions for all your routes.
+A code generation tool to make `next/link` and `next/router` routes type safe with zero runtime overhead. `nextjs-routes` scans your `pages` directory and generates a `nextjs-routes.d.ts` file with type definitions for all your routes.
 
 ## Installation & Usage 📦
 

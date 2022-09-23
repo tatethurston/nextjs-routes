@@ -48,7 +48,7 @@ A code generation tool to make `next/link` and `next/router` routes type safe wi
    + module.exports = withRoutes(nextConfig);
    ```
 
-   This wiring will only run in Next.js' development server (eg `npx next dev`) and `withRoutes` will no-op in production.
+   File watching will only run in Next.js' development server (eg `npx next dev`).
 
 3. Start your next server:
 

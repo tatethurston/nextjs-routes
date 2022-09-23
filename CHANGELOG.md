@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.22
+
+- Deprecate direct invocation of nextjs-routes in favor of automatic regeneration via [withRoutes](https://github.com/tatethurston/nextjs-routes#installation--usage-). See [#63](https://github.com/tatethurston/nextjs-routes/issues/63) for the motivation behind this change or to voice any concerns.
+
 ## 0.0.21
 
 - Add `route` runtime for generating type safe pathnames from a `Route` object

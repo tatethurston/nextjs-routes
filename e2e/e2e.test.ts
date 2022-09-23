@@ -7,7 +7,7 @@ function run(cmd: string) {
 describe("e2e", () => {
   process.chdir(__dirname);
 
-  it.each(["npx nextjs-routes", "yarn tsc --noEmit"])("%s", (cmd) => {
+  it.each(["npx next build", "yarn tsc --noEmit"])("%s", (cmd) => {
     const result = run(cmd);
     if (result.status !== 0) {
       console.log(result.output);

@@ -14,7 +14,7 @@
     "clean": "rm -rf dist",
     "e2e:setup": "npm run package:build && (cd e2e && npm install)",
     "examples:each": "for e in ./examples/*; do (cd \"$e\" && $npm_config_command); done",
-    "examples:regen": "npm run examples:each --command='npx nextjs-routes'",
+    "examples:regen": "npm run examples:each --command='npx next build'",
     "examples:setup": "npm run examples:each --command='npm install'",
     "lint": "npm run typecheck && prettier --check . && prettier-package-json --list-different '{,public.,example/}package.json' && eslint .",
     "lint:fix": "prettier --write '**/*.{ts,tsx,md,json}' && prettier-package-json --write '{,public.,example/}package.json' && eslint --fix .",

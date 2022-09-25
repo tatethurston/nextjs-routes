@@ -196,12 +196,12 @@ const logger: Pick<Console, "error"> = {
   error: (str: string) => console.error("[nextjs-routes] " + str),
 };
 
-export function writeNextjsRoutes(pagesDirectory: string): void {
+export function writeNextjsRoutes(pagesDirectory: string, generatedFileLocation: string): void {
   const files = findFiles(join(".", pagesDirectory));
   const routes = nextRoutes(files, pagesDirectory);
   const generated = generate(routes);
 
-  writeFileSync("nextjs-routes.d.ts", generated);
+  writeFileSync(generatedFileLocation, generated);
 }
 
 export function cli(): void {
@@ -214,6 +214,6 @@ export function cli(): void {
   `);
     process.exit(1);
   } else {
-    writeNextjsRoutes(pagesDirectory);
+    writeNextjsRoutes(pagesDirectory, 'nextjs-routes.d.ts');
   }
 }

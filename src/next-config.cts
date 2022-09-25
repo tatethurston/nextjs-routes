@@ -26,10 +26,10 @@ interface NextJSRoutesPluginConfig {
 }
 
 class NextJSRoutesPlugin implements WebpackPluginInstance {
-  private config: NextJSRoutesPluginConfig;
-  constructor(config: NextJSRoutesPluginConfig) {
-    this.config = config;
-  }
+  constructor(
+    private config: NextJSRoutesPluginConfig,
+    private generatedFileLocation: string
+  ) {}
 
   apply() {
     const pagesDirectory = getPagesDirectory();
@@ -40,16 +40,16 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
           persistent: true,
         });
         // batch changes
-        const generate = debounce(() => writeNextjsRoutes(pagesDirectory), 50);
+        const generate = debounce(() => writeNextjsRoutes(pagesDirectory, this.generatedFileLocation), 50);
         watcher.on("add", generate).on("unlink", generate);
       } else {
-        writeNextjsRoutes(pagesDirectory);
+        writeNextjsRoutes(pagesDirectory, this.generatedFileLocation);
       }
     }
   }
 }
 
-export function withRoutes(nextConfig: NextConfig): NextConfig {
+export function withRoutes(nextConfig: NextConfig, generatedFileLocation = 'nextjs-routes.d.ts'): NextConfig {
   return {
     ...nextConfig,
     webpack: (config: Configuration, context) => {
@@ -61,7 +61,7 @@ export function withRoutes(nextConfig: NextConfig): NextConfig {
       config.plugins.push(
         new NextJSRoutesPlugin({
           watch: context.dev && !context.isServer,
-        })
+        }, generatedFileLocation)
       );
 
       // invoke any existing webpack extensions

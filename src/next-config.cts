@@ -27,8 +27,8 @@ interface NextJSRoutesPluginConfig {
 
 class NextJSRoutesPlugin implements WebpackPluginInstance {
   constructor(
-    private config: NextJSRoutesPluginConfig,
-    private generatedFileLocation: string
+    private readonly config: NextJSRoutesPluginConfig,
+    private readonly generatedFileLocation: string
   ) {}
 
   apply() {
@@ -49,7 +49,7 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
   }
 }
 
-export function withRoutes(nextConfig: NextConfig, generatedFileLocation = 'nextjs-routes.d.ts'): NextConfig {
+export function withRoutes(nextConfig: NextConfig, generatedFileLocation = "nextjs-routes.d.ts"): NextConfig {
   return {
     ...nextConfig,
     webpack: (config: Configuration, context) => {

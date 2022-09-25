@@ -164,7 +164,7 @@ declare module "next/router" {
 
   type Pathname = Route["pathname"];
 
-  type QueryForPathname = {
+  export type QueryForPathname = {
     [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
   };
 

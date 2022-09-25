@@ -10,27 +10,9 @@
   },
   "type": "module",
   "exports": {
-    ".": {
-      "import": {
-        "types": "./index.d.ts",
-        "default": "./index.js"
-      },
-      "require": {
-        "types": "./index.d.ts",
-        "default": "./index.js"
-      }
-    },
+    ".": "./index.js",
     "./package.json": "./package.json",
-    "./next-config.cjs": {
-      "import": {
-        "types": "./next-config.d.cts",
-        "default": "./next-config.cjs"
-      },
-      "require": {
-        "types": "./next-config.d.cts",
-        "default": "./next-config.cjs"
-      }
-    }
+    "./next-config.cjs": "./next-config.cjs"
   },
   "bin": {
     "nextjs-routes": "cli.js"

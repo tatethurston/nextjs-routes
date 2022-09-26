@@ -12,7 +12,7 @@
     "build:commonjs": "esbuild src/next-config.cts --bundle --platform=node --outfile=dist/next-config.cjs --external:chokidar",
     "build:module": "tsc",
     "clean": "rm -rf dist",
-    "e2e:setup": "npm run package:build && (cd e2e && npm install)",
+    "e2e:setup": "npm run package:build && (cd e2e && npm install && npx next build)",
     "examples:each": "for e in ./examples/*; do (cd \"$e\" && $npm_config_command); done",
     "examples:regen": "npm run examples:each --command='npx next build'",
     "examples:setup": "npm run examples:each --command='npm install'",

@@ -25,14 +25,23 @@ interface NextJSRoutesPluginConfig {
   watch?: boolean;
 }
 
+export interface NextJSRoutesOptions {
+  /**
+   * The file path indicating the output directory where the generated route types
+   * should be written to (e.g.: "types").
+   */
+  outDir?: string;
+}
+
 class NextJSRoutesPlugin implements WebpackPluginInstance {
   constructor(
     private readonly config: NextJSRoutesPluginConfig,
-    private readonly generatedFileLocation: string
+    private readonly options?: NextJSRoutesOptions
   ) {}
 
   apply() {
     const pagesDirectory = getPagesDirectory();
+    const outputFilepath = join(this.options?.outDir ?? "", "nextjs-routes.d.ts");
     if (pagesDirectory) {
       if (this.config.watch) {
         const dir = join(process.cwd(), pagesDirectory);
@@ -40,16 +49,16 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
           persistent: true,
         });
         // batch changes
-        const generate = debounce(() => writeNextjsRoutes(pagesDirectory, this.generatedFileLocation), 50);
+        const generate = debounce(() => writeNextjsRoutes(pagesDirectory, outputFilepath), 50);
         watcher.on("add", generate).on("unlink", generate);
       } else {
-        writeNextjsRoutes(pagesDirectory, this.generatedFileLocation);
+        writeNextjsRoutes(pagesDirectory, outputFilepath);
       }
     }
   }
 }
 
-export function withRoutes(nextConfig: NextConfig, generatedFileLocation = "nextjs-routes.d.ts"): NextConfig {
+export function withRoutes(nextConfig: NextConfig, options?: NextJSRoutesOptions): NextConfig {
   return {
     ...nextConfig,
     webpack: (config: Configuration, context) => {
@@ -61,7 +70,7 @@ export function withRoutes(nextConfig: NextConfig, generatedFileLocation = "next
       config.plugins.push(
         new NextJSRoutesPlugin({
           watch: context.dev && !context.isServer,
-        }, generatedFileLocation)
+        }, options)
       );
 
       // invoke any existing webpack extensions

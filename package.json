@@ -9,7 +9,7 @@
   },
   "type": "module",
   "scripts": {
-    "build:commonjs": "esbuild src/next-config.ts --bundle --platform=node --outfile=dist/next-config.cjs --external:chokidar",
+    "build:commonjs": "esbuild src/next-config.cts --bundle --platform=node --outfile=dist/next-config.cjs --external:chokidar",
     "build:module": "tsc",
     "clean": "rm -rf dist",
     "e2e:setup": "npm run package:build && (cd e2e && npm install)",

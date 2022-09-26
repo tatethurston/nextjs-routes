@@ -205,9 +205,9 @@ route({ pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } });
 // RoutedQuery
 let rq: RoutedQuery;
 
-rq = { 
+rq = {
   "/": {},
-  "/foos/[foo]": { foo: "baz" }
+  "/foos/[foo]": { foo: "baz" },
 };
 
 // Path without dynamic segments

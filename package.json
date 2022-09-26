@@ -17,7 +17,7 @@
     "examples:regen": "npm run examples:each --command='npx next build'",
     "examples:setup": "npm run examples:each --command='npm install'",
     "lint": "npm run typecheck && prettier --check . && prettier-package-json --list-different '{,public.,example/}package.json' && eslint .",
-    "lint:fix": "prettier --write '**/*.{ts,tsx,md,json}' && prettier-package-json --write '{,public.,example/}package.json' && eslint --fix .",
+    "lint:fix": "prettier --write '**/*.{ts,cts,mts,tsx,md,json}' && prettier-package-json --write '{,public.,example/}package.json' && eslint --fix .",
     "package:build": "npm install && npm run build:module && npm run build:commonjs && npm run package:prune && npm run package:copy:files && chmod +x dist/cli.js",
     "package:copy:files": "cp ./LICENSE ./README.md dist/ && cp ./public.package.json dist/package.json",
     "package:prune": "find dist -name *.test.* | xargs rm -f",

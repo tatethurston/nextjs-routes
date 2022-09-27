@@ -203,23 +203,18 @@ route({ pathname: "/foos/[foo]", query: { bar: "baz" } });
 route({ pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } });
 
 // RoutedQuery
-let rq: RoutedQuery;
-
-rq = {
-  "/": {},
-  "/foos/[foo]": { foo: "baz" },
-};
-
 // Path without dynamic segments
-rq["/"] = {};
-rq["/"] = { foo: "baz" };
-rq["/"] = { foo: ["bar", "baz"] };
-rq["/"] = { foo: undefined };
+let rq1: RoutedQuery<"/">;
+rq1 = {};
+rq1 = { foo: "baz" };
+rq1 = { foo: ["bar", "baz"] };
+rq1 = { foo: undefined };
 // Path with dynamic segments
+let rq2: RoutedQuery<"/foos/[foo]">;
 // @ts-expect-error missing 'foo' in query
-rq["/foos/[foo]"] = {};
-rq["/foos/[foo]"] = { foo: "bar" };
+rq2 = {};
+rq2 = { foo: "bar" };
 // @ts-expect-error missing 'foo' in query
-rq["/foos/[foo]"] = { bar: "baz" };
+rq2 = { bar: "baz" };
 // @ts-expect-error 'foo' must be a string, not string[]
-rq["/foos/[foo]"] = { foo: ["bar", "baz"] };
+rq2 = { foo: ["bar", "baz"] };

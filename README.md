@@ -149,6 +149,29 @@ import type { Route } from "nextjs-routes";
 
 `nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
 
+## Typed queries in static generation and server-side rendering
+
+`nextjs-routes` exports the utility generic type `RoutedQuery` so that you can type the context parameter inside `getStaticProps` and `getServerSideProps`:
+
+```ts
+import type { GetStaticProps } from "next";
+import type { RoutedQuery } from "nextjs-routes";
+
+type FooPageProps = { bar: string };
+
+export const getStaticProps: GetStaticProps<
+  FooPageProps,
+  RoutedQuery<"/foos/[foo]">
+> = (context) => {
+  // foo will be correctly typed to a string
+  const { foo } = context.params!;
+
+  return {
+    props: { foo },
+  };
+};
+```
+
 ## What if I need a runtime?
 
 There are some cases where you may want to generate a type safe path from a `Route` object, such as when `fetch`ing from an API route or serving redirects from `getServerSideProps`. These accept `strings` instead of the `Route` object that `Link` and `useRouter` accept. Because these do not perform the same string interpolation for dynamic routes, runtime code is required instead of a type only solution.

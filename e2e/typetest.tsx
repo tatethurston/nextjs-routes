@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { LinkProps } from "next/link";
 import { useRouter, RouterEvent, NextRouter } from "next/router";
-import { route, type Route } from "nextjs-routes";
+import { route, type Route, type RoutedQuery } from "nextjs-routes";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
 function expectType<T>(_value: T) {}
@@ -201,3 +201,20 @@ route({ pathname: "/foos/[foo]", query: { foo: "baz" } });
 route({ pathname: "/foos/[foo]", query: { bar: "baz" } });
 // @ts-expect-error 'foo' must be a string, not string[]
 route({ pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } });
+
+// RoutedQuery
+// Path without dynamic segments
+let rq1: RoutedQuery<"/">;
+rq1 = {};
+rq1 = { foo: "baz" };
+rq1 = { foo: ["bar", "baz"] };
+rq1 = { foo: undefined };
+// Path with dynamic segments
+let rq2: RoutedQuery<"/foos/[foo]">;
+// @ts-expect-error missing 'foo' in query
+rq2 = {};
+rq2 = { foo: "bar" };
+// @ts-expect-error missing 'foo' in query
+rq2 = { bar: "baz" };
+// @ts-expect-error 'foo' must be a string, not string[]
+rq2 = { foo: ["bar", "baz"] };

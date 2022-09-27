@@ -115,7 +115,15 @@ declare module "nextjs-routes" {
             .join("\n    | ")}`
     };
 
+  export type Pathname = Route["pathname"];
+
   type Query<Params = {}> = Params & ${unknownQueryParamsType};
+
+  type QueryForPathname = {
+    [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
+  };
+
+  export type RoutedQuery<P extends Pathname> = QueryForPathname[P];
 
   /**
    * A typesafe utility function for generating paths in your application.
@@ -155,18 +163,12 @@ declare module "next/link" {
 
 // prettier-ignore
 declare module "next/router" {
-  import type { Route } from "nextjs-routes";
+  import type { Route, Pathname, RoutedQuery } from "nextjs-routes";
   import type { NextRouter as Router } from "next/dist/client/router";
   export * from "next/dist/client/router";
   export { default } from "next/dist/client/router";
 
   type TransitionOptions = Parameters<Router["push"]>[2];
-
-  type Pathname = Route["pathname"];
-
-  type QueryForPathname = {
-    [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
-  };
 
   type RouteOrQuery = Route | { query: ${unknownQueryParamsType} };
 
@@ -174,7 +176,7 @@ declare module "next/router" {
     extends Omit<Router, "push" | "replace"> {
     pathname: P;
     route: P;
-    query: QueryForPathname[P];
+    query: RoutedQuery<P>;
     push(
       url: RouteOrQuery,
       as?: string,

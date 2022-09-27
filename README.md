@@ -152,18 +152,22 @@ import type { Route } from "nextjs-routes";
 ## Typed queries in static generation and server-side rendering
 
 `nextjs-routes` exports the utility generic type `RoutedQuery` so that you can type the context parameter inside `getStaticProps` and `getServerSideProps`:
+
 ```ts
 import type { GetStaticProps } from "next";
 import type { RoutedQuery } from "nextjs-routes";
 
 type FooPageProps = { bar: string };
 
-export const getStaticProps: GetStaticProps<FooPageProps, RoutedQuery<"/foos/[foo]">> = (context) => {
+export const getStaticProps: GetStaticProps<
+  FooPageProps,
+  RoutedQuery<"/foos/[foo]">
+> = (context) => {
   // foo will be correctly typed to a string
   const { foo } = context.params!;
 
   return {
-    props: { foo }
+    props: { foo },
   };
 };
 ```

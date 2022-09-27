@@ -9,7 +9,7 @@
   },
   "type": "module",
   "scripts": {
-    "build:commonjs": "esbuild src/next-config.cts --bundle --platform=node --outfile=dist/next-config.cjs --external:chokidar",
+    "build:commonjs": "webpack",
     "build:module": "tsc",
     "clean": "rm -rf dist",
     "e2e:setup": "npm run package:build && (cd e2e && npm install && npx next build)",
@@ -18,7 +18,7 @@
     "examples:setup": "npm run examples:each --command='npm install'",
     "lint": "npm run typecheck && prettier --check . && prettier-package-json --list-different '{,public.,example/}package.json' && eslint .",
     "lint:fix": "prettier --write '**/*.{ts,cts,mts,tsx,md,json}' && prettier-package-json --write '{,public.,example/}package.json' && eslint --fix .",
-    "package:build": "npm install && npm run build:module && npm run build:commonjs && npm run package:prune && npm run package:copy:files && chmod +x dist/cli.js",
+    "package:build": "npm install && npm run clean && npm run build:module && npm run build:commonjs && npm run package:prune && npm run package:copy:files && chmod +x dist/cli.js",
     "package:copy:files": "cp ./LICENSE ./README.md dist/ && cp ./public.package.json dist/package.json",
     "package:prune": "find dist -name *.test.* | xargs rm -f",
     "prepare": "husky install",
@@ -30,6 +30,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@swc/core": "^1.3.3",
     "@types/jest": "^29.0.3",
     "@types/node": "^18.0.3",
     "@types/react": "^18.0.15",
@@ -39,7 +40,6 @@
     "babel-loader": "^8.2.5",
     "chokidar": "^3.5.3",
     "codecov": "^3.8.3",
-    "esbuild": "^0.15.5",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.1.0",
     "husky": "^8.0.1",
@@ -48,6 +48,9 @@
     "prettier": "^2.7.1",
     "prettier-package-json": "^2.6.4",
     "react": "^18.2.0",
-    "typescript": "^4.7.4"
+    "swc-loader": "^0.2.3",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   }
 }

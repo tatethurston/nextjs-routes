@@ -8,15 +8,13 @@ declare module "nextjs-routes" {
     | { pathname: "/foos/[foo]"; query: Query<{ "foo": string }> }
     | { pathname: "/"; query?: Query | undefined };
 
-  export type Pathname = Route["pathname"];
-
   type Query<Params = {}> = Params & { [key: string]: string | string[] | undefined };
 
   type QueryForPathname = {
     [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
   };
 
-  export type RoutedQuery<P extends Pathname> = QueryForPathname[P];
+  export type RoutedQuery<P extends Route["pathname"]> = QueryForPathname[P];
 
   /**
    * A typesafe utility function for generating paths in your application.
@@ -56,7 +54,7 @@ declare module "next/link" {
 
 // prettier-ignore
 declare module "next/router" {
-  import type { Route, Pathname, RoutedQuery } from "nextjs-routes";
+  import type { Route, RoutedQuery } from "nextjs-routes";
   import type { NextRouter as Router } from "next/dist/client/router";
   export * from "next/dist/client/router";
   export { default } from "next/dist/client/router";
@@ -65,7 +63,7 @@ declare module "next/router" {
 
   type RouteOrQuery = Route | { query: { [key: string]: string | string[] | undefined } };
 
-  export interface NextRouter<P extends Pathname = Pathname>
+  export interface NextRouter<P extends Route["pathname"] = Route["pathname"]>
     extends Omit<Router, "push" | "replace"> {
     pathname: P;
     route: P;
@@ -82,5 +80,5 @@ declare module "next/router" {
     ): Promise<boolean>;
   }
 
-  export function useRouter<P extends Pathname>(): NextRouter<P>;
+  export function useRouter<P extends Route["pathname"]>(): NextRouter<P>;
 }

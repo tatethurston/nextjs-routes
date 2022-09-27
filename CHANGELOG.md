@@ -1,5 +1,33 @@
 # Changelog
 
+## 0.1.0
+
+This release contains a breaking change, indicated by the minor version bump to 0.1.0. `nextjs-routes` has not yet reached v1, but will follow semantic versioning once it does. Until then, minor version changes will be used to help flag breaking changes.
+
+- Breaking change: the `withRoutes` import path and invocation has changed to better align with the general pattern in the Nextjs plugin ecosystem and to support configuration options, notably the new `outDir` option. It also now includes an ESM export to support usage in `next.config.mjs`.
+
+```diff
+- const { withRoutes } = require("nextjs-routes/next-config.cjs");
++ const withRoutes = require("nextjs-routes/config")();
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+ reactStrictMode: true,
+};
+
+module.exports = withRoutes(nextConfig);
+```
+
+Note the import path has changed and the import itself has changed to function that is invoked with any configuration options. This provides better ergonomics for configuration options:
+
+```js
+const withRoutes = require("nextjs-routes/config")({ outDir: "types" });
+```
+
+- The type `RoutedQuery` has been added to retrieve the `Query` for a given `Route`. This is useful as the context type parameter inside `getStaticProps` and `getServerSideProps`. Thanks [@MariaSolOs](https://github.com/MariaSolOs) for the contribution!
+
+- `withRoutes` now accepts `outDir` as a configuration option to dictate where `nextjs-routes.d.ts` is generated. Thanks [@MariaSolOs](https://github.com/MariaSolOs) for the contribution!
+
 ## 0.0.22
 
 - Deprecate direct invocation of nextjs-routes in favor of automatic regeneration via [withRoutes](https://github.com/tatethurston/nextjs-routes#installation--usage-). See [#63](https://github.com/tatethurston/nextjs-routes/issues/63) for the motivation behind this change or to voice any concerns.

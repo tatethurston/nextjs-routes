@@ -6,9 +6,10 @@
 import type { NextConfig } from "next";
 import { join } from "path";
 import type { Configuration, WebpackPluginInstance } from "webpack";
-import { getPagesDirectory } from "./utils";
+import { getPagesDirectory } from "./utils.js";
 import { watch } from "chokidar";
-import { writeNextjsRoutes } from "./core";
+import { writeNextjsRoutes } from "./core.js";
+import { existsSync, mkdirSync } from "fs";
 
 function debounce<Fn extends (...args: unknown[]) => unknown>(
   fn: Fn,
@@ -41,10 +42,11 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
 
   apply() {
     const pagesDirectory = getPagesDirectory();
-    const outputFilepath = join(
-      this.options?.outDir ?? "",
-      "nextjs-routes.d.ts"
-    );
+    const outDir = this.options?.outDir ?? "";
+    if (outDir && !existsSync(outDir)) {
+      mkdirSync(outDir, { recursive: true });
+    }
+    const outputFilepath = join(outDir, "nextjs-routes.d.ts");
     if (pagesDirectory) {
       if (this.config.watch) {
         const dir = join(process.cwd(), pagesDirectory);
@@ -64,32 +66,33 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
   }
 }
 
-export function withRoutes(
-  nextConfig: NextConfig,
+export default function withRoutes(
   options?: NextJSRoutesOptions
-): NextConfig {
-  return {
-    ...nextConfig,
-    webpack: (config: Configuration, context) => {
-      if (!config.plugins) {
-        config.plugins = [];
-      }
+): (nextConfig: NextConfig) => NextConfig {
+  return function (nextConfig) {
+    return {
+      ...nextConfig,
+      webpack: (config: Configuration, context) => {
+        if (!config.plugins) {
+          config.plugins = [];
+        }
 
-      // only watch in development
-      config.plugins.push(
-        new NextJSRoutesPlugin(
-          {
-            watch: context.dev && !context.isServer,
-          },
-          options
-        )
-      );
+        // only watch in development
+        config.plugins.push(
+          new NextJSRoutesPlugin(
+            {
+              watch: context.dev && !context.isServer,
+            },
+            options
+          )
+        );
 
-      // invoke any existing webpack extensions
-      if (nextConfig.webpack) {
-        return nextConfig.webpack(config, context);
-      }
-      return config;
-    },
+        // invoke any existing webpack extensions
+        if (nextConfig.webpack) {
+          return nextConfig.webpack(config, context);
+        }
+        return config;
+      },
+    };
   };
 }

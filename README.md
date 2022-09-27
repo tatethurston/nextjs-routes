@@ -28,6 +28,18 @@
 
 A code generation tool to make `next/link` and `next/router` routes type safe with zero runtime overhead. `nextjs-routes` scans your `pages` directory and generates a `nextjs-routes.d.ts` file with type definitions for all your routes.
 
+## Highlights
+
+🦄 Zero config
+
+💨 Types only -- zero runtime
+
+🛠 No more broken links
+
+🪄 Route autocompletion
+
+🔗 Supports all Next.js route types: static, dynamic, catch all and optional catch all
+
 ## Installation & Usage 📦
 
 1. Add this package to your project:
@@ -37,7 +49,7 @@ A code generation tool to make `next/link` and `next/router` routes type safe wi
 2. Update your `next.config.js`:
 
    ```diff
-   + const { withRoutes } = require("nextjs-routes/next-config.cjs");
+   + const withRoutes = require("nextjs-routes/config")();
 
    /** @type {import('next').NextConfig} */
    const nextConfig = {
@@ -57,28 +69,6 @@ A code generation tool to make `next/link` and `next/router` routes type safe wi
 That's it! A `nextjs-routes.d.ts` file will be generated the first time you start your server. Check this file into version control. `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 
 Whenever your routes change, your `nextjs-routes.d.ts` file will automatically update.
-
-## Highlights
-
-🦄 Zero config
-
-💨 Types only -- zero runtime
-
-🛠 No more broken links
-
-🪄 Route autocompletion
-
-🔗 Supports all Next.js route types: static, dynamic, catch all and optional catch all
-
-## Configuration
-
-### withRoutes
-
-You can pass the following options to `withRoutes`:
-
-- `outDir`: The file path indicating the output directory where the generated route types
-  should be written to (e.g.: "types"). The default is to create the file in the same folder as your
-  `next-config.js` file.
 
 ## Examples 🛠
 
@@ -155,32 +145,31 @@ If you want to use the generated `Route` type in your code, you can import it fr
 import type { Route } from "nextjs-routes";
 ```
 
-## How does this work? 🤔
+### RoutedQuery
 
-`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
+If you want to use the generated `Query` for a given `Route`, you can import it from `nextjs-routes`:
 
-## Typed queries in static generation and server-side rendering
+```ts
+import type { RoutedQuery } from "nextjs-routes";
+```
 
-`nextjs-routes` exports the utility generic type `RoutedQuery` so that you can type the context parameter inside `getStaticProps` and `getServerSideProps`:
+This is useful as the context type parameter inside `getStaticProps` and `getServerSideProps`:
 
 ```ts
 import type { GetStaticProps } from "next";
 import type { RoutedQuery } from "nextjs-routes";
 
-type FooPageProps = { bar: string };
-
-export const getStaticProps: GetStaticProps<
-  FooPageProps,
-  RoutedQuery<"/foos/[foo]">
-> = (context) => {
-  // foo will be correctly typed to a string
-  const { foo } = context.params!;
-
-  return {
-    props: { foo },
-  };
+export const getStaticProps: GetStaticProps<{}, RoutedQuery<"/foos/[foo]">> = (
+  context
+) => {
+  // context.params will include `foo` as a string
+  const { foo } = context.params;
 };
 ```
+
+## How does this work? 🤔
+
+`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
 
 ## What if I need a runtime?
 
@@ -210,6 +199,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   };
 };
 ```
+
+## Configuration
+
+You can pass the following options to `withRoutes` in your `next.config.js`:
+
+- `outDir`: The file path indicating the output directory where the generated route types should be written to (e.g.: "types"). The default is to create the file in the same folder as your `next.config.js` file.
 
 ## Contributing 👫
 

@@ -203,12 +203,14 @@ route({ pathname: "/foos/[foo]", query: { bar: "baz" } });
 route({ pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } });
 
 // RoutedQuery
+
 // Path without dynamic segments
 let rq1: RoutedQuery<"/">;
 rq1 = {};
 rq1 = { foo: "baz" };
 rq1 = { foo: ["bar", "baz"] };
 rq1 = { foo: undefined };
+
 // Path with dynamic segments
 let rq2: RoutedQuery<"/foos/[foo]">;
 // @ts-expect-error missing 'foo' in query

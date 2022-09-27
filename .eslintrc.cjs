@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-undef
 module.exports = {
   root: true,
-  ignorePatterns: ["dist", "examples", "e2e"],
+  ignorePatterns: ["dist", "examples", "e2e", "coverage"],
   plugins: ["@typescript-eslint"],
   extends: [
     "eslint:recommended",

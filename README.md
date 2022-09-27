@@ -70,6 +70,16 @@ Whenever your routes change, your `nextjs-routes.d.ts` file will automatically u
 
 🔗 Supports all Next.js route types: static, dynamic, catch all and optional catch all
 
+## Configuration
+
+### withRoutes
+
+You can pass the following options to `withRoutes`:
+
+- `outDir`: The file path indicating the output directory where the generated route types
+  should be written to (e.g.: "types"). The default is to create the file in the same folder as your
+  `next-config.js` file.
+
 ## Examples 🛠
 
 ### Link

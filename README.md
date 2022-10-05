@@ -206,7 +206,7 @@ You can pass the following options to `withRoutes` in your `next.config.js`:
 
 ```js
 const withRoutes = require("nextjs-routes/config")({
-   outDir: "types"
+  outDir: "types"
 });
 ```
 

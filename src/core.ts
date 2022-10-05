@@ -232,7 +232,7 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
     const ext = file.slice(file.lastIndexOf(".") + 1);
     return pageExtensions.has(ext);
   });
-  const routes = nextRoutes(files, outputFilepath);
+  const routes = nextRoutes(files, opts.pagesDirectory);
   const generated = generate(routes);
 
   writeFileSync(outputFilepath, generated);

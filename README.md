@@ -204,6 +204,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
 You can pass the following options to `withRoutes` in your `next.config.js`:
 
+```js
+const withRoutes = require("nextjs-routes/config")({
+   outDir: "types"
+});
+```
+
 - `outDir`: The file path indicating the output directory where the generated route types should be written to (e.g.: "types"). The default is to create the file in the same folder as your `next.config.js` file.
 
 ## Contributing 👫

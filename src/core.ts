@@ -222,7 +222,6 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
     ...defaultOptions,
     ...options,
   };
-
   if (opts.outDir && !existsSync(opts.outDir)) {
     mkdirSync(opts.outDir, { recursive: true });
   }
@@ -234,7 +233,6 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
   });
   const routes = nextRoutes(files, opts.pagesDirectory);
   const generated = generate(routes);
-
   writeFileSync(outputFilepath, generated);
 }
 

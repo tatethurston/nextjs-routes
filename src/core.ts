@@ -1,4 +1,4 @@
-import { writeFileSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 import { findFiles, getPagesDirectory } from "./utils.js";
 
@@ -192,22 +192,56 @@ declare module "next/router" {
 `;
 }
 
-const logger: Pick<Console, "error"> = {
+export const logger: Pick<Console, "error"> = {
   error: (str: string) => console.error("[nextjs-routes] " + str),
 };
 
-export function writeNextjsRoutes(
-  pagesDirectory: string,
-  outputFilepath: string
-): void {
-  const files = findFiles(join(".", pagesDirectory));
-  const routes = nextRoutes(files, pagesDirectory);
+interface NextJSRoutesOptions {
+  /**
+   * The directory where pages are located;
+   */
+  pagesDirectory: string;
+  /**
+   * The file path indicating the output directory where the generated route types
+   * should be written to (e.g.: "types").
+   */
+  outDir?: string;
+  /**
+   * NextJS pageExtensions.
+   * https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
+   */
+  pageExtensions?: string[];
+}
+
+export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
+  const defaultOptions = {
+    outDir: "",
+    pageExtensions: ["tsx", "ts", "jsx", "js"],
+  };
+  const opts = {
+    ...defaultOptions,
+    ...options,
+  };
+
+  if (opts.outDir && !existsSync(opts.outDir)) {
+    mkdirSync(opts.outDir, { recursive: true });
+  }
+  const outputFilepath = join(opts.outDir, "nextjs-routes.d.ts");
+  const pageExtensions = new Set(opts.pageExtensions);
+  const files = findFiles(join(".", opts.pagesDirectory)).filter((file) => {
+    const ext = file.slice(file.lastIndexOf(".") + 1);
+    return pageExtensions.has(ext);
+  });
+  const routes = nextRoutes(files, outputFilepath);
   const generated = generate(routes);
 
   writeFileSync(outputFilepath, generated);
 }
 
 export function cli(): void {
+  console.warn(
+    `[nextjs-routes]: Direct invocation of nextjs-routes has been deprecated in favor of automatic regeneration via 'withRoutes': https://github.com/tatethurston/nextjs-routes#installation--usage-. See https://github.com/tatethurston/nextjs-routes/issues/63 for the motivation behind this change or to voice any concerns.`
+  );
   const pagesDirectory = getPagesDirectory();
   if (!pagesDirectory) {
     logger.error(`Could not find a Next.js pages directory. Expected to find either pages(1) or src/pages(2).
@@ -217,6 +251,8 @@ export function cli(): void {
   `);
     process.exit(1);
   } else {
-    writeNextjsRoutes(pagesDirectory, "nextjs-routes.d.ts");
+    writeNextjsRoutes({
+      pagesDirectory,
+    });
   }
 }

@@ -31,6 +31,7 @@ module.exports = {
           loader: "swc-loader",
           options: {
             jsc: {
+              target: "es2020",
               parser: {
                 syntax: "typescript",
               },

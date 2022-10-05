@@ -1,11 +1,13 @@
 import { writeFileSync } from "fs";
-import { cli, nextRoutes } from "./core.js";
-import { findFiles, getPagesDirectory } from "./utils.js";
+import { nextRoutes, writeNextjsRoutes } from "./core.js";
+import { findFiles } from "./utils.js";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock("fs", () => ({
   ...jest.requireActual("fs"),
   writeFileSync: jest.fn(),
+  existsSync: jest.fn(() => true),
+  mkdirSync: jest.fn(),
 }));
 const writeFileSyncMock = writeFileSync as jest.Mock;
 
@@ -13,9 +15,7 @@ const writeFileSyncMock = writeFileSync as jest.Mock;
 jest.mock("./utils.js", () => ({
   ...jest.requireActual("./utils.js"),
   findFiles: jest.fn(),
-  getPagesDirectory: jest.fn(),
 }));
-const getPagesDirectoryMock = getPagesDirectory as jest.Mock;
 const findFilesMock = findFiles as jest.Mock;
 
 describe("nextRoutes", () => {
@@ -40,14 +40,12 @@ describe("nextRoutes", () => {
 
 describe("route generation", () => {
   it("no routes", () => {
-    getPagesDirectoryMock.mockReturnValueOnce("pages");
     findFilesMock.mockReturnValueOnce([]);
-    cli();
+    writeNextjsRoutes({ pagesDirectory: "pages" });
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
   it("typescript", () => {
-    getPagesDirectoryMock.mockReturnValueOnce("pages");
     findFilesMock.mockReturnValueOnce([
       "pages/404.ts",
       "pages/[foo].ts",
@@ -73,32 +71,30 @@ describe("route generation", () => {
       "pages/settings/foo.ts",
       "pages/settings/index.ts",
     ]);
-    cli();
+    writeNextjsRoutes({ pagesDirectory: "pages" });
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
-  const consoleError = jest
-    .spyOn(console, "error")
-    .mockReturnValueOnce(undefined);
+  describe("pageExtensions", () => {
+    it("default", () => {
+      findFilesMock.mockReturnValueOnce(["pages/404.ts", "pages/404.md"]);
+      writeNextjsRoutes({ pagesDirectory: "pages" });
+      expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+    });
 
-  const processExit = jest
-    .spyOn(process, "exit")
-    .mockReturnValueOnce(undefined as never);
+    it("configured", () => {
+      findFilesMock.mockReturnValueOnce(["pages/404.ts", "pages/index.md"]);
+      writeNextjsRoutes({
+        pagesDirectory: "pages",
+        pageExtensions: ["ts", "md"],
+      });
+      expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+    });
+  });
 
-  it("missing pages directory", () => {
-    getPagesDirectoryMock.mockReturnValueOnce(undefined);
-    cli();
-    expect(consoleError.mock.calls).toMatchInlineSnapshot(`
-      [
-        [
-          "[nextjs-routes] Could not find a Next.js pages directory. Expected to find either pages(1) or src/pages(2).
-
-        1. https://nextjs.org/docs/basic-features/pages
-        2. https://nextjs.org/docs/advanced-features/src-directory
-        ",
-        ],
-      ]
-    `);
-    expect(processExit).toHaveBeenCalledWith(1);
+  it("outDir", () => {
+    findFilesMock.mockReturnValueOnce(["pages/404.ts"]);
+    writeNextjsRoutes({ pagesDirectory: "pages", outDir: "src" });
+    expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 });

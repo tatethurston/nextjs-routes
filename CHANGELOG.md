@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.2
+
+- `nextjs-routes` now respects [pageExtensions](https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions) from `next.config.js`.
+
+## 0.1.1
+
+[ skipped ]
+
 ## 0.1.0
 
 This release contains a breaking change, indicated by the minor version bump to 0.1.0. `nextjs-routes` has not yet reached v1, but will follow semantic versioning once it does. Until then, minor version changes will be used to help flag breaking changes.

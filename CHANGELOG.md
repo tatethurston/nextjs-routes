@@ -2,7 +2,7 @@
 
 ## 0.1.3
 
-- Fix: [pageExtensions](https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions) didn't support extensions containing one or more dots
+- `nextjs-routes` [pageExtensions](https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions) has been updated to respect multiple extensions such as `.page.tsx`. In `0.1.2`, only single extensions `.tsx` were respected. This is now identical behavior to Next.js.
 
 ## 0.1.2
 

@@ -226,10 +226,8 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
     mkdirSync(opts.outDir, { recursive: true });
   }
   const outputFilepath = join(opts.outDir, "nextjs-routes.d.ts");
-  const pageExtensions = new Set(opts.pageExtensions);
   const files = findFiles(join(".", opts.pagesDirectory)).filter((file) => {
-    const ext = file.slice(file.lastIndexOf(".") + 1);
-    return pageExtensions.has(ext);
+    return opts.pageExtensions.some((ext) => file.endsWith(ext));
   });
   const routes = nextRoutes(files, opts.pagesDirectory);
   const generated = generate(routes);

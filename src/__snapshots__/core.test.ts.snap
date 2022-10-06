@@ -196,7 +196,8 @@ exports[`route generation pageExtensions configured 1`] = `
 declare module "nextjs-routes" {
   export type Route =
     | { pathname: "/404"; query?: Query | undefined }
-    | { pathname: "/"; query?: Query | undefined };
+    | { pathname: "/"; query?: Query | undefined }
+    | { pathname: "/foo"; query?: Query | undefined };
 
   type Query<Params = {}> = Params & { [key: string]: string | string[] | undefined };
 

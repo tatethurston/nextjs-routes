@@ -83,10 +83,10 @@ describe("route generation", () => {
     });
 
     it("configured", () => {
-      findFilesMock.mockReturnValueOnce(["pages/404.ts", "pages/index.md"]);
+      findFilesMock.mockReturnValueOnce(["pages/404.ts", "pages/index.md", "pages/foo/index.page.tsx", "pages/foo/index.test.tsx"]);
       writeNextjsRoutes({
         pagesDirectory: "pages",
-        pageExtensions: ["ts", "md"],
+        pageExtensions: ["ts", "md", "page.tsx"],
       });
       expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
     });

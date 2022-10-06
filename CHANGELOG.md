@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Fix: [pageExtensions](https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions) didn't support extensions containing one or more dots
+
 ## 0.1.2
 
 - `nextjs-routes` now respects [pageExtensions](https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions) from `next.config.js`.

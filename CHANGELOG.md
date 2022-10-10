@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.4
+
+- `nextjs-routes` now generates route types for [Nextjs i18n configuration](https://nextjs.org/docs/advanced-features/i18n-routing). Eg the following next config:
+
+```js
+module.exports = withRoutes({
+  i18n: {
+    defaultLocale: "de-DE",
+    locales: ["de-DE", "en-FR", "en-US"],
+  },
+});
+```
+
+Will make `locale` typed as `'de-DE' | 'en-FR' | 'en-US'` for `Link` and `useRouter`.
+
 ## 0.1.3
 
 - `nextjs-routes` [pageExtensions](https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions) has been updated to respect multiple extensions such as `.page.tsx`. In `0.1.2`, only single extensions `.tsx` were respected. This is now identical behavior to Next.js.

@@ -1,4 +1,5 @@
 import { existsSync, mkdirSync, writeFileSync } from "fs";
+import { I18NConfig } from "next/dist/server/config-shared.js";
 import { join } from "path";
 import { findFiles, getPagesDirectory } from "./utils.js";
 
@@ -89,7 +90,13 @@ function getQueryInterface(
   return [`{ ${keys} }`, requiredKeys];
 }
 
-function generate(routes: Route[]): string {
+function generate(routes: Route[], config: NextJSRoutesOptions): string {
+  const i18n = config.i18n ?? {
+    defaultLocale: "",
+    domains: [],
+    localeDetection: false,
+    locales: [],
+  };
   const unknownQueryParamsType =
     "{ [key: string]: string | string[] | undefined }";
   return `\
@@ -140,8 +147,15 @@ declare module "next/link" {
 
   type RouteOrQuery = Route | { query?: ${unknownQueryParamsType} };
 
-  export interface LinkProps extends Omit<NextLinkProps, "href"> {
+  export interface LinkProps extends Omit<NextLinkProps, "href" | "locale"> {
     href: RouteOrQuery;
+    locale?: ${
+      !i18n.locales.length
+        ? "false"
+        : `\n      | ${[...i18n.locales.map((x) => `"${x}"`), false].join(
+            "\n      | "
+          )}`
+    };
   }
 
   declare function Link(
@@ -166,30 +180,65 @@ declare module "next/router" {
   export * from "next/dist/client/router";
   export { default } from "next/dist/client/router";
 
-  type TransitionOptions = Parameters<Router["push"]>[2];
+  type NextTransitionOptions = NonNullable<Parameters<Router["push"]>[2]>;
 
-  type RouteOrQuery = Route | { query: ${unknownQueryParamsType} };
+  interface TransitionOptions extends Omit<NextTransitionOptions, 'locale'> {
+    locale?: ${
+      !i18n.locales.length
+        ? "false"
+        : `\n      | ${[...i18n.locales.map((x) => `"${x}"`), false].join(
+            "\n      | "
+          )}`
+    };
+  };
+
+  type RouteOrQuery = 
+    | Route
+    | { query: ${unknownQueryParamsType} };
 
   export interface NextRouter<P extends Route["pathname"] = Route["pathname"]>
-    extends Omit<Router, "push" | "replace"> {
+    extends Omit<
+      Router,
+      "push" | "replace" | "locale" | "locales" | "defaultLocale" | "domainLocales"
+    > {
+    defaultLocale${
+      i18n.defaultLocale ? `: "${i18n.defaultLocale}"` : "?: undefined"
+    };
+    domainLocales${
+      i18n.domains?.length ? `: ${print(i18n.domains, 4)}` : "?: undefined"
+    };
+    locale${
+      !i18n.locales.length
+        ? "?: undefined"
+        : `: \n      | ${i18n.locales.map((x) => `"${x}"`).join("\n      | ")}`
+    };
+    locales${
+      i18n.locales.length ? `: ${print(i18n.locales, 4)}` : "?: undefined"
+    };
     pathname: P;
-    route: P;
-    query: RoutedQuery<P>;
     push(
       url: RouteOrQuery,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
+    query: RoutedQuery<P>;
     replace(
       url: RouteOrQuery,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
+    route: P;
   }
 
   export function useRouter<P extends Route["pathname"]>(): NextRouter<P>;
 }
 `;
+}
+
+function print(x: unknown, indent: number): string {
+  return JSON.stringify(x, undefined, 2)
+    .split("\n")
+    .join("\n" + " ".repeat(indent));
 }
 
 export const logger: Pick<Console, "error"> = {
@@ -211,6 +260,12 @@ interface NextJSRoutesOptions {
    * https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
    */
   pageExtensions?: string[];
+  /**
+   * Internationalization configuration
+   *
+   * @see [Internationalization docs](https://nextjs.org/docs/advanced-features/i18n-routing)
+   */
+  i18n?: I18NConfig | null;
 }
 
 export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
@@ -230,7 +285,7 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
     return opts.pageExtensions.some((ext) => file.endsWith(ext));
   });
   const routes = nextRoutes(files, opts.pagesDirectory);
-  const generated = generate(routes);
+  const generated = generate(routes, opts);
   writeFileSync(outputFilepath, generated);
 }
 

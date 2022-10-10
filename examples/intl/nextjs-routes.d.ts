@@ -5,10 +5,8 @@
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/api/hello"; query?: Query | undefined }
-    | { pathname: "/bars/[bar]"; query: Query<{ "bar": string }> }
-    | { pathname: "/foos/[foo]"; query: Query<{ "foo": string }> }
-    | { pathname: "/"; query?: Query | undefined };
+    | { pathname: "/"; query?: Query | undefined }
+    | { pathname: "/store"; query?: Query | undefined };
 
   type Query<Params = {}> = Params & { [key: string]: string | string[] | undefined };
 
@@ -35,8 +33,13 @@ declare module "next/link" {
 
   type RouteOrQuery = Route | { query?: { [key: string]: string | string[] | undefined } };
 
-  export interface LinkProps extends Omit<NextLinkProps, "href"> {
+  export interface LinkProps extends Omit<NextLinkProps, "href" | "locale"> {
     href: RouteOrQuery;
+    locale?: 
+      | "en-US"
+      | "fr"
+      | "nl-NL"
+      | false;
   }
 
   declare function Link(
@@ -61,25 +64,49 @@ declare module "next/router" {
   export * from "next/dist/client/router";
   export { default } from "next/dist/client/router";
 
-  type TransitionOptions = Parameters<Router["push"]>[2];
+  type NextTransitionOptions = NonNullable<Parameters<Router["push"]>[2]>;
 
-  type RouteOrQuery = Route | { query: { [key: string]: string | string[] | undefined } };
+  interface TransitionOptions extends Omit<NextTransitionOptions, 'locale'> {
+    locale?: 
+      | "en-US"
+      | "fr"
+      | "nl-NL"
+      | false;
+  };
+
+  type RouteOrQuery = 
+    | Route
+    | { query: { [key: string]: string | string[] | undefined } };
 
   export interface NextRouter<P extends Route["pathname"] = Route["pathname"]>
-    extends Omit<Router, "push" | "replace"> {
+    extends Omit<
+      Router,
+      "push" | "replace" | "locale" | "locales" | "defaultLocale" | "domainLocales"
+    > {
+    defaultLocale: "en-US";
+    domainLocales?: undefined;
+    locale: 
+      | "en-US"
+      | "fr"
+      | "nl-NL";
+    locales: [
+      "en-US",
+      "fr",
+      "nl-NL"
+    ];
     pathname: P;
-    route: P;
-    query: RoutedQuery<P>;
     push(
       url: RouteOrQuery,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
+    query: RoutedQuery<P>;
     replace(
       url: RouteOrQuery,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
+    route: P;
   }
 
   export function useRouter<P extends Route["pathname"]>(): NextRouter<P>;

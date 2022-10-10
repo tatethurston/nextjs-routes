@@ -75,31 +75,57 @@ describe("route generation", () => {
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
-  describe("pageExtensions", () => {
-    it("default", () => {
-      findFilesMock.mockReturnValueOnce(["pages/404.ts", "pages/404.md"]);
-      writeNextjsRoutes({ pagesDirectory: "pages" });
+  describe("configuration", () => {
+    describe("pageExtensions", () => {
+      it("default", () => {
+        findFilesMock.mockReturnValueOnce(["pages/404.ts", "pages/404.md"]);
+        writeNextjsRoutes({ pagesDirectory: "pages" });
+        expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+      });
+
+      it("configured", () => {
+        findFilesMock.mockReturnValueOnce([
+          "pages/404.ts",
+          "pages/index.md",
+          "pages/foo/index.page.tsx",
+          "pages/foo/index.test.tsx",
+        ]);
+        writeNextjsRoutes({
+          pagesDirectory: "pages",
+          pageExtensions: ["ts", "md", "page.tsx"],
+        });
+        expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+      });
+    });
+
+    it("outDir", () => {
+      findFilesMock.mockReturnValueOnce(["pages/404.ts"]);
+      writeNextjsRoutes({ pagesDirectory: "pages", outDir: "src" });
       expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
     });
 
-    it("configured", () => {
-      findFilesMock.mockReturnValueOnce([
-        "pages/404.ts",
-        "pages/index.md",
-        "pages/foo/index.page.tsx",
-        "pages/foo/index.test.tsx",
-      ]);
+    it("i18n", () => {
+      findFilesMock.mockReturnValueOnce(["pages/index.ts"]);
       writeNextjsRoutes({
         pagesDirectory: "pages",
-        pageExtensions: ["ts", "md", "page.tsx"],
+        i18n: {
+          locales: ["en-US", "fr", "nl-NL"],
+          defaultLocale: "en-US",
+          domains: [
+            {
+              domain: "example.nl",
+              defaultLocale: "nl-NL",
+              locales: ["nl-BE"],
+            },
+            {
+              domain: "example.fr",
+              defaultLocale: "fr",
+              http: true,
+            },
+          ],
+        },
       });
       expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
     });
-  });
-
-  it("outDir", () => {
-    findFilesMock.mockReturnValueOnce(["pages/404.ts"]);
-    writeNextjsRoutes({ pagesDirectory: "pages", outDir: "src" });
-    expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 });

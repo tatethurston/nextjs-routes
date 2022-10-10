@@ -200,6 +200,23 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 ```
 
+### Internationalization (i18n)
+
+`nextjs-routes` refines `Link` and `useRouter` based on your [Nextjs i18n configuration](https://nextjs.org/docs/advanced-features/i18n-routing).
+
+The following `next.config.js`:
+
+```js
+module.exports = withRoutes({
+  i18n: {
+    defaultLocale: "de-DE",
+    locales: ["de-DE", "en-FR", "en-US"],
+  },
+});
+```
+
+Will type `Link` and `useRouter`'s `locale` as `'de-DE' | 'en-FR' | 'en-US'`. All other i18n properties (`defaultLocale`, `domainLocales` and `locales`) are also typed.
+
 ## Configuration
 
 You can pass the following options to `withRoutes` in your `next.config.js`:

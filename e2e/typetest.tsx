@@ -42,7 +42,7 @@ function expectType<T>(_value: T) {}
   shallow
   passHref
   prefetch
-  locale="en"
+  locale={false}
   legacyBehavior={false}
   onClick={console.log}
   onMouseEnter={console.log}
@@ -107,7 +107,7 @@ router.push({ query: { foo: ["foo", "bar"] } });
 // Unaugmented options
 router.push({ query: {} }, undefined, {
   shallow: true,
-  locale: "en",
+  locale: false,
   scroll: true,
 });
 // @ts-expect-error shallow typo
@@ -142,7 +142,7 @@ router.replace({ query: { foo: ["bar", "baz"] } });
 // Unaugmented options
 router.replace({ query: {} }, undefined, {
   shallow: true,
-  locale: "en",
+  locale: false,
   scroll: true,
 });
 // @ts-expect-error shallow typo

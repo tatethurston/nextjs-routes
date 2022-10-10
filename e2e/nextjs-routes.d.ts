@@ -33,8 +33,9 @@ declare module "next/link" {
 
   type RouteOrQuery = Route | { query?: { [key: string]: string | string[] | undefined } };
 
-  export interface LinkProps extends Omit<NextLinkProps, "href"> {
+  export interface LinkProps extends Omit<NextLinkProps, "href" | "locale"> {
     href: RouteOrQuery;
+    locale?: false;
   }
 
   declare function Link(
@@ -59,25 +60,38 @@ declare module "next/router" {
   export * from "next/dist/client/router";
   export { default } from "next/dist/client/router";
 
-  type TransitionOptions = Parameters<Router["push"]>[2];
+  type NextTransitionOptions = NonNullable<Parameters<Router["push"]>[2]>;
 
-  type RouteOrQuery = Route | { query: { [key: string]: string | string[] | undefined } };
+  interface TransitionOptions extends Omit<NextTransitionOptions, 'locale'> {
+    locale?: false;
+  };
+
+  type RouteOrQuery = 
+    | Route
+    | { query: { [key: string]: string | string[] | undefined } };
 
   export interface NextRouter<P extends Route["pathname"] = Route["pathname"]>
-    extends Omit<Router, "push" | "replace"> {
+    extends Omit<
+      Router,
+      "push" | "replace" | "locale" | "locales" | "defaultLocale" | "domainLocales"
+    > {
+    defaultLocale?: undefined;
+    domainLocales?: undefined;
+    locale?: undefined;
+    locales?: undefined;
     pathname: P;
-    route: P;
-    query: RoutedQuery<P>;
     push(
       url: RouteOrQuery,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
+    query: RoutedQuery<P>;
     replace(
       url: RouteOrQuery,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
+    route: P;
   }
 
   export function useRouter<P extends Route["pathname"]>(): NextRouter<P>;

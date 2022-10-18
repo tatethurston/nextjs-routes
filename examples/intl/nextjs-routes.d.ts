@@ -18,8 +18,8 @@ declare module "nextjs-routes" {
 
   export type Locale = 
       | "en-US"
-      | "fr"
-      | "nl-NL";
+    | "fr"
+    | "nl-NL";
   
   /**
    * A typesafe utility function for generating paths in your application.
@@ -40,9 +40,7 @@ declare module "next/link" {
 
   export interface LinkProps extends Omit<NextLinkProps, "href" | "locale"> {
     href: RouteOrQuery;
-    locale?: 
-      | Locale
-      | false;
+    locale?: Locale | false;
   }
 
   declare function Link(
@@ -70,9 +68,7 @@ declare module "next/router" {
   type NextTransitionOptions = NonNullable<Parameters<Router["push"]>[2]>;
 
   interface TransitionOptions extends Omit<NextTransitionOptions, 'locale'> {
-    locale?: 
-      | Locale
-      | false;
+    locale?: Locale | false;
   };
 
   type RouteOrQuery = 

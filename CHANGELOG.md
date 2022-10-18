@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.5
+
+- Export `Locale` from `nextjs-routes`.
+
+  ```ts
+  import { Locale } from "nextjs-routes";
+  ```
+
+  Thanks [@Asamsig](https://github.com/Asamsig) for the contribution!
+
 ## 0.1.4
 
 - `nextjs-routes` now generates route types for [Nextjs i18n configuration](https://nextjs.org/docs/advanced-features/i18n-routing). Eg the following next config:

@@ -16,6 +16,11 @@ declare module "nextjs-routes" {
 
   export type RoutedQuery<P extends Route["pathname"]> = QueryForPathname[P];
 
+  export type Locale = 
+      | "en-US"
+      | "fr"
+      | "nl-NL";
+  
   /**
    * A typesafe utility function for generating paths in your application.
    *
@@ -36,9 +41,7 @@ declare module "next/link" {
   export interface LinkProps extends Omit<NextLinkProps, "href" | "locale"> {
     href: RouteOrQuery;
     locale?: 
-      | "en-US"
-      | "fr"
-      | "nl-NL"
+      | Locale
       | false;
   }
 
@@ -59,7 +62,7 @@ declare module "next/link" {
 
 // prettier-ignore
 declare module "next/router" {
-  import type { Route, RoutedQuery } from "nextjs-routes";
+  import type { Locale, Route, RoutedQuery } from "nextjs-routes";
   import type { NextRouter as Router } from "next/dist/client/router";
   export * from "next/dist/client/router";
   export { default } from "next/dist/client/router";
@@ -68,9 +71,7 @@ declare module "next/router" {
 
   interface TransitionOptions extends Omit<NextTransitionOptions, 'locale'> {
     locale?: 
-      | "en-US"
-      | "fr"
-      | "nl-NL"
+      | Locale
       | false;
   };
 
@@ -85,10 +86,7 @@ declare module "next/router" {
     > {
     defaultLocale: "en-US";
     domainLocales?: undefined;
-    locale: 
-      | "en-US"
-      | "fr"
-      | "nl-NL";
+    locale: Locale;
     locales: [
       "en-US",
       "fr",

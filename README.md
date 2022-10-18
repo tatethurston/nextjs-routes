@@ -217,6 +217,12 @@ module.exports = withRoutes({
 
 Will type `Link` and `useRouter`'s `locale` as `'de-DE' | 'en-FR' | 'en-US'`. All other i18n properties (`defaultLocale`, `domainLocales` and `locales`) are also typed.
 
+If you want to use the generated `Locale` type, you can import it from `nextjs-routes`:
+
+```ts
+import { Locale } from "nextjs-routes";
+```
+
 ## Configuration
 
 You can pass the following options to `withRoutes` in your `next.config.js`:

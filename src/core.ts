@@ -154,7 +154,7 @@ declare module "next/link" {
   type RouteOrQuery = Route | { query?: ${unknownQueryParamsType} };
 
   export interface LinkProps extends Omit<NextLinkProps, "href" | "locale"> {
-    href: RouteOrQuery;
+    href: Route["pathname"] | RouteOrQuery;
     locale?: ${!i18n.locales.length ? "false" : `Locale | false`};
   }
 

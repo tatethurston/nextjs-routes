@@ -87,9 +87,21 @@ function Home() {
         query: { foo: "test" },
       }}
     >
-      <a>About us</a>
+      About us
     </Link>
   );
+}
+
+export default Home;
+```
+
+If the route doesn't have any query parameters, you can also use the more compact version of `Link` where `href` is a string (also constrained to be one of your application's path names):
+
+```tsx
+import Link from "next/link";
+
+function Home() {
+  return <Link href="/foos">Foos</Link>;
 }
 
 export default Home;

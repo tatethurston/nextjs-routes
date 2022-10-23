@@ -8,6 +8,12 @@ function expectType<T>(_value: T) {}
 
 // next/link
 
+// Links with string hrefs
+<Link href="/" />;
+<Link href="/foos/[foo]" />;
+// @ts-expect-error bar isn't a valid path name
+<Link href="/bar" />;
+
 // Path without dynamic segments
 <Link href={{ pathname: "/" }} />;
 <Link href={{ pathname: "/", query: undefined }} />;

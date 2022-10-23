@@ -87,7 +87,7 @@ function Home() {
         query: { foo: "test" },
       }}
     >
-      <a>About us</a>
+      About us
     </Link>
   );
 }

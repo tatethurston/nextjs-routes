@@ -8,7 +8,9 @@ declare module "nextjs-routes" {
     | { pathname: "/"; query?: Query | undefined }
     | { pathname: "/store"; query?: Query | undefined };
 
-  type Query<Params = {}> = Params & { [key: string]: string | string[] | undefined };
+  type Query<Params = {}> = Params & {
+    [key: string]: string | string[] | undefined;
+  };
 
   type QueryForPathname = {
     [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
@@ -20,11 +22,11 @@ declare module "nextjs-routes" {
       | "en-US"
     | "fr"
     | "nl-NL";
-  
+
   /**
    * A typesafe utility function for generating paths in your application.
    *
-   * route({ pathname: '/foos/[foo]', query: { foo: 'bar' }}) will produce '/foos/bar'.
+   * route({ pathname: "/foos/[foo]", query: { foo: "bar" }}) will produce "/foos/bar".
    */
   export declare function route(r: Route): string;
 }
@@ -36,16 +38,15 @@ declare module "next/link" {
   import type { PropsWithChildren, MouseEventHandler } from "react";
   export * from "next/dist/client/link";
 
-  type RouteOrQuery = Route | { query?: { [key: string]: string | string[] | undefined } };
+  type Query = { query?: { [key: string]: string | string[] | undefined } };
 
-  export interface LinkProps extends Omit<NextLinkProps, "href" | "locale"> {
-    href: Route["pathname"] | RouteOrQuery;
+  export interface LinkProps<Href extends Route | Query = Route | Query>
+    extends Omit<NextLinkProps, "href" | "locale"> {
+    href: Href;
     locale?: Locale | false;
   }
 
-  declare function Link(
-    props: PropsWithChildren<LinkProps>
-  ): DetailedReactHTMLElement<
+  type LinkReactElement = DetailedReactHTMLElement<
     {
       onMouseEnter?: MouseEventHandler<Element> | undefined;
       onClick: MouseEventHandler;
@@ -54,6 +55,16 @@ declare module "next/link" {
     },
     HTMLElement
   >;
+
+  declare function Link(
+    props: PropsWithChildren<LinkProps<Route>>
+  ): LinkReactElement;
+  declare function Link(
+    props: PropsWithChildren<LinkProps<Route["pathname"]>>
+  ): LinkReactElement;
+  declare function Link(
+    props: PropsWithChildren<LinkProps<Query>>
+  ): LinkReactElement;
 
   export default Link;
 }
@@ -67,18 +78,19 @@ declare module "next/router" {
 
   type NextTransitionOptions = NonNullable<Parameters<Router["push"]>[2]>;
 
-  interface TransitionOptions extends Omit<NextTransitionOptions, 'locale'> {
+  interface TransitionOptions extends Omit<NextTransitionOptions, "locale"> {
     locale?: Locale | false;
   };
-
-  type RouteOrQuery = 
-    | Route
-    | { query: { [key: string]: string | string[] | undefined } };
 
   export interface NextRouter<P extends Route["pathname"] = Route["pathname"]>
     extends Omit<
       Router,
-      "push" | "replace" | "locale" | "locales" | "defaultLocale" | "domainLocales"
+      | "push"
+      | "replace"
+      | "locale"
+      | "locales"
+      | "defaultLocale"
+      | "domainLocales"
     > {
     defaultLocale: "en-US";
     domainLocales?: undefined;
@@ -90,13 +102,33 @@ declare module "next/router" {
     ];
     pathname: P;
     push(
-      url: RouteOrQuery,
+      url: Route,
+      as?: string,
+      options?: TransitionOptions
+    ): Promise<boolean>;
+    push(
+      url: Route["pathname"],
+      as?: string,
+      options?: TransitionOptions
+    ): Promise<boolean>;
+    push(
+      url: { query: { [key: string]: string | string[] | undefined } },
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
     query: RoutedQuery<P>;
     replace(
-      url: RouteOrQuery,
+      url: Route,
+      as?: string,
+      options?: TransitionOptions
+    ): Promise<boolean>;
+    replace(
+      url: Route["pathname"],
+      as?: string,
+      options?: TransitionOptions
+    ): Promise<boolean>;
+    replace(
+      url: { query: { [key: string]: string | string[] | undefined } },
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;

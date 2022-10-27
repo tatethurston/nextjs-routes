@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.6
+
+- `nextjs-routes` now uses function overloads for `Link` and `router.push` and `router.replace`. This yields better hints for typos in pathnames:
+
+  ```tsx
+  <Link href={{ pathname: "/foosy/[foo]" }}>Foo</Link>
+  ```
+
+  Previously:
+  `[tsserver 2322] [E] Type '"/foos/[foo]"' is not assignable to type '"/"'.`
+
+  Now:
+  `Type '"/foosy/[foo]"' is not assignable to type '"/api/hello" | "/bars/[bar]" | "/foos/[foo]" | "/"'. Did you mean '"/foos/[foo]"'?` (+2 other overload errors).
+
 ## 0.1.5
 
 - Export `Locale` from `nextjs-routes`.

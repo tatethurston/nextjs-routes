@@ -1,15 +1,16 @@
-import { writeFileSync } from "fs";
-import { nextRoutes, writeNextjsRoutes } from "./core.js";
+import { existsSync, writeFileSync } from "fs";
+import { writeNextjsRoutes } from "./core.js";
 import { findFiles } from "./utils.js";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock("fs", () => ({
   ...jest.requireActual("fs"),
   writeFileSync: jest.fn(),
-  existsSync: jest.fn(() => true),
+  existsSync: jest.fn(() => false),
   mkdirSync: jest.fn(),
 }));
 const writeFileSyncMock = writeFileSync as jest.Mock;
+const existsSyncMock = existsSync as jest.Mock;
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock("./utils.js", () => ({
@@ -18,34 +19,36 @@ jest.mock("./utils.js", () => ({
 }));
 const findFilesMock = findFiles as jest.Mock;
 
-describe("nextRoutes", () => {
-  it("transforms windows paths", () => {
-    const pages = ["src\\pages\\[foo]\\bar\\index.ts"];
-    const { pathname } = nextRoutes(pages, "src\\pages")[0];
-    expect(pathname).toEqual("/[foo]/bar");
-  });
-
-  it("colocated test files", () => {
-    const pages = ["pages/index.tsx", "pages/index.test.tsx"];
-    expect(nextRoutes(pages, "pages")).toMatchInlineSnapshot(`
-      [
-        {
-          "pathname": "/",
-          "query": {},
-        },
-      ]
-    `);
-  });
-});
-
 describe("route generation", () => {
   it("no routes", () => {
+    // getPageRoutes
+    existsSyncMock.mockImplementationOnce(() => true);
     findFilesMock.mockReturnValueOnce([]);
-    writeNextjsRoutes({ pagesDirectory: "pages" });
+    writeNextjsRoutes({});
+    expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+  });
+
+  it("transforms windows paths", () => {
+    // getPageRoutes src/pages
+    existsSyncMock
+      .mockImplementationOnce(() => false)
+      .mockImplementationOnce(() => true);
+    findFilesMock.mockReturnValueOnce(["src\\pages\\[foo]\\bar\\index.ts"]);
+    writeNextjsRoutes({});
+    expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+  });
+
+  it("dedupes", () => {
+    // getPageRoutes
+    existsSyncMock.mockImplementationOnce(() => true);
+    findFilesMock.mockReturnValueOnce(["pages/index.tsx", "pages/index.ts"]);
+    writeNextjsRoutes({});
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
   it("typescript", () => {
+    // getPageRoutes
+    existsSyncMock.mockImplementationOnce(() => true);
     findFilesMock.mockReturnValueOnce([
       "pages/404.ts",
       "pages/[foo].ts",
@@ -71,19 +74,23 @@ describe("route generation", () => {
       "pages/settings/foo.ts",
       "pages/settings/index.ts",
     ]);
-    writeNextjsRoutes({ pagesDirectory: "pages" });
+    writeNextjsRoutes({});
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
   describe("configuration", () => {
     describe("pageExtensions", () => {
       it("default", () => {
+        // getPageRoutes
+        existsSyncMock.mockImplementationOnce(() => true);
         findFilesMock.mockReturnValueOnce(["pages/404.ts", "pages/404.md"]);
-        writeNextjsRoutes({ pagesDirectory: "pages" });
+        writeNextjsRoutes({});
         expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
       });
 
       it("configured", () => {
+        // getPageRoutes
+        existsSyncMock.mockImplementationOnce(() => true);
         findFilesMock.mockReturnValueOnce([
           "pages/404.ts",
           "pages/index.md",
@@ -91,7 +98,6 @@ describe("route generation", () => {
           "pages/foo/index.test.tsx",
         ]);
         writeNextjsRoutes({
-          pagesDirectory: "pages",
           pageExtensions: ["ts", "md", "page.tsx"],
         });
         expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
@@ -99,15 +105,18 @@ describe("route generation", () => {
     });
 
     it("outDir", () => {
+      // getPageRoutes
+      existsSyncMock.mockImplementationOnce(() => true);
       findFilesMock.mockReturnValueOnce(["pages/404.ts"]);
-      writeNextjsRoutes({ pagesDirectory: "pages", outDir: "src" });
+      writeNextjsRoutes({ outDir: "src" });
       expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
     });
 
     it("i18n", () => {
+      // getPageRoutes
+      existsSyncMock.mockImplementationOnce(() => true);
       findFilesMock.mockReturnValueOnce(["pages/index.ts"]);
       writeNextjsRoutes({
-        pagesDirectory: "pages",
         i18n: {
           locales: ["en-US", "fr", "nl-NL"],
           defaultLocale: "en-US",

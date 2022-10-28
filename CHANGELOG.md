@@ -1,8 +1,10 @@
 # Changelog
 
-## 0.1.6
+## 0.1.7
 
 - Support [Next 13 app (beta)](https://nextjs.org/docs/advanced-features/custom-app)
+
+## 0.1.6
 
 - Accept path strings for static routes:
 

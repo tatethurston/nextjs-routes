@@ -16,7 +16,6 @@ export function getAppDirectory(cwd = process.cwd()): string | undefined {
     return "app";
   }
 }
-
 // istanbul ignore next: io mocking not worthwhile
 export function findFiles(entry: string): string[] {
   return readdirSync(entry).flatMap((file) => {

@@ -267,40 +267,6 @@ interface NextJSRoutesOptions {
   i18n?: I18NConfig | null;
 }
 
-export function getAppRoutes(files: string[], opts: Opts): string[] {
-  return (
-    commonProcessing(files, opts)
-      // app pages must be named 'page'
-      .filter((file) => parse(file).name === "page")
-      .map((file) =>
-        // transform filepath to url path
-        file
-          .split(sep)
-          // remove named groups
-          .filter((segment) => segment.startsWith("(") && segment.endsWith(")"))
-          // remove page
-          .filter((file) => parse(file).name === "page")
-          .join(sep)
-      )
-  );
-}
-
-export function getPageRoutes(files: string[], opts: Opts): string[] {
-  const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
-
-  return (
-    commonProcessing(files, opts)
-      // remove index if present (/foos/index.ts is the same as /foos.ts)
-      .map((file) => file.replace(/index$/, ""))
-      // remove trailing slash if present
-      .map((file) =>
-        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file
-      )
-      // exclude nextjs special routes
-      .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file))
-  );
-}
-
 interface Opts {
   pageExtensions: string[];
   directory: string;
@@ -321,6 +287,42 @@ function commonProcessing(paths: string[], opts: Opts): string[] {
       .map((file) => file.replace(opts.directory, ""))
       // normalize paths from windows users
       .map(convertWindowsPathToUnix)
+  );
+}
+
+export function getAppRoutes(files: string[], opts: Opts): string[] {
+  return (
+    commonProcessing(files, opts)
+      // app pages must be named 'page'
+      .filter((file) => parse(file).name === "page")
+      .map((file) =>
+        // transform filepath to url path
+        file
+          .split(sep)
+          // remove named groups
+          .filter(
+            (segment) => !(segment.startsWith("(") && segment.endsWith(")"))
+          )
+          // remove page
+          .filter((file) => parse(file).name !== "page")
+          .join(sep)
+      )
+  );
+}
+
+export function getPageRoutes(files: string[], opts: Opts): string[] {
+  const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
+
+  return (
+    commonProcessing(files, opts)
+      // remove index if present (/foos/index.ts is the same as /foos.ts)
+      .map((file) => file.replace(/index$/, ""))
+      // remove trailing slash if present
+      .map((file) =>
+        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file
+      )
+      // exclude nextjs special routes
+      .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file))
   );
 }
 

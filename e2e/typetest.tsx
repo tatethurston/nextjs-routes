@@ -10,6 +10,7 @@ function expectType<T>(_value: T) {}
 
 // Links with string hrefs
 <Link href="/" />;
+// @ts-expect-error dynamic paths are only valid with a UrlObject
 <Link href="/foos/[foo]" />;
 // @ts-expect-error bar isn't a valid path name
 <Link href="/bar" />;

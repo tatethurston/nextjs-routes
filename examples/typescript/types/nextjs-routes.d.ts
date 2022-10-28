@@ -38,6 +38,7 @@ declare module "next/link" {
   export * from "next/dist/client/link";
 
   type Query = { query?: { [key: string]: string | string[] | undefined } };
+  type StaticRoute = Exclude<Route, { query: any }>["pathname"];
 
   export interface LinkProps<Href extends Route | Query = Route | Query>
     extends Omit<NextLinkProps, "href" | "locale"> {
@@ -59,7 +60,7 @@ declare module "next/link" {
     props: PropsWithChildren<LinkProps<Route>>
   ): LinkReactElement;
   declare function Link(
-    props: PropsWithChildren<LinkProps<Route["pathname"]>>
+    props: PropsWithChildren<LinkProps<StaticRoute>>
   ): LinkReactElement;
   declare function Link(
     props: PropsWithChildren<LinkProps<Query>>
@@ -76,6 +77,7 @@ declare module "next/router" {
   export { default } from "next/dist/client/router";
 
   type NextTransitionOptions = NonNullable<Parameters<Router["push"]>[2]>;
+  type StaticRoute = Exclude<Route, { query: any }>["pathname"];
 
   interface TransitionOptions extends Omit<NextTransitionOptions, "locale"> {
     locale?: false;
@@ -102,7 +104,7 @@ declare module "next/router" {
       options?: TransitionOptions
     ): Promise<boolean>;
     push(
-      url: Route["pathname"],
+      url: StaticRoute,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;
@@ -118,7 +120,7 @@ declare module "next/router" {
       options?: TransitionOptions
     ): Promise<boolean>;
     replace(
-      url: Route["pathname"],
+      url: StaticRoute,
       as?: string,
       options?: TransitionOptions
     ): Promise<boolean>;

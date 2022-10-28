@@ -2,6 +2,14 @@
 
 ## 0.1.6
 
+- `nextjs-routes` now accepts path strings for static routes:
+
+  ```tsx
+  <Link href="/foo">Foo</Link>
+  ```
+
+  Thanks [@MariaSolOs](https://github.com/MariaSolOs) for the contribution!
+
 - `nextjs-routes` now uses function overloads for `Link` and `router.push` and `router.replace`. This yields better hints for typos in pathnames:
 
   ```tsx

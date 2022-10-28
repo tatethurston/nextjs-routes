@@ -74,44 +74,32 @@ Whenever your routes change, your `nextjs-routes.d.ts` file will automatically u
 
 ### Link
 
-`Link`'s `href` prop is now typed based on your application routes and expects a URL object:
+`Link`'s `href` prop is now typed based on your application routes:
 
 ```tsx
 import Link from "next/link";
 
-function Home() {
-  return (
-    <Link
-      href={{
-        pathname: "/foos/[foo]",
-        query: { foo: "test" },
-      }}
-    >
-      About us
-    </Link>
-  );
-}
-
-export default Home;
+<Link
+  href={{
+    pathname: "/foos/[foo]",
+    query: { foo: "bar" },
+  }}
+>
+  Bar
+</Link>;
 ```
 
-If the route doesn't have any query parameters, you can also use the more compact version of `Link` where `href` is a string (also constrained to be one of your application's path names):
+If the route doesn't require any parameters, you can also use a path string:
 
 ```tsx
-import Link from "next/link";
-
-function Home() {
-  return <Link href="/foos">Foos</Link>;
-}
-
-export default Home;
+<Link href="/foo">Foo</Link>
 ```
 
 ### useRouter
 
 `useRouter`'s returned router instance types for `push`, `replace` and `query` are now typed based on your application routes.
 
-Identical to `Link`, `push` and `replace` now expect a URL object:
+Identical to `Link`, `push` and `replace` now expect a URL object or path string:
 
 #### push
 

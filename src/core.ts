@@ -1,10 +1,7 @@
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { I18NConfig } from "next/dist/server/config-shared.js";
-import { join } from "path";
-import { findFiles, getPagesDirectory } from "./utils.js";
-
-const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
-const DYNAMIC_SEGMENT_RE = /\[(.*?)\]/g;
+import { join, parse, sep } from "path";
+import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
 
 type QueryType = "dynamic" | "catch-all" | "optional-catch-all";
 
@@ -17,24 +14,8 @@ function convertWindowsPathToUnix(file: string): string {
   return file.replace(/\\/g, "/");
 }
 
-export function nextRoutes(files: string[], pagesDirectory: string): Route[] {
-  const pathnames = files
-    // remove page directory path
-    .map((file) => file.replace(pagesDirectory, ""))
-    // remove file extensions (.tsx, .test.tsx)
-    .map((file) => file.replace(/(\.\w+)+$/, ""))
-    // remove duplicates from file extension removal (eg foo.ts and foo.test.ts)
-    .filter((file, idx, array) => array.indexOf(file) === idx)
-    // normalize paths from windows users
-    .map(convertWindowsPathToUnix)
-    // remove index if present (/foos/index.ts is the same as /foos.ts)
-    .map((file) => file.replace(/index$/, ""))
-    // remove trailing slash if present
-    .map((file) =>
-      file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file
-    )
-    // exclude nextjs special routes
-    .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file));
+export function nextRoutes(pathnames: string[]): Route[] {
+  const DYNAMIC_SEGMENT_RE = /\[(.*?)\]/g;
 
   return pathnames.map((pathname) => {
     const segments = pathname.match(DYNAMIC_SEGMENT_RE) ?? [];
@@ -269,10 +250,6 @@ export const logger: Pick<Console, "error"> = {
 
 interface NextJSRoutesOptions {
   /**
-   * The directory where pages are located;
-   */
-  pagesDirectory: string;
-  /**
    * The file path indicating the output directory where the generated route types
    * should be written to (e.g.: "types").
    */
@@ -290,6 +267,63 @@ interface NextJSRoutesOptions {
   i18n?: I18NConfig | null;
 }
 
+export function getAppRoutes(files: string[], opts: Opts): string[] {
+  return (
+    commonProcessing(files, opts)
+      // app pages must be named 'page'
+      .filter((file) => parse(file).name === "page")
+      .map((file) =>
+        // transform filepath to url path
+        file
+          .split(sep)
+          // remove named groups
+          .filter((segment) => segment.startsWith("(") && segment.endsWith(")"))
+          // remove page
+          .filter((file) => parse(file).name === "page")
+          .join(sep)
+      )
+  );
+}
+
+export function getPageRoutes(files: string[], opts: Opts): string[] {
+  const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
+
+  return (
+    commonProcessing(files, opts)
+      // remove index if present (/foos/index.ts is the same as /foos.ts)
+      .map((file) => file.replace(/index$/, ""))
+      // remove trailing slash if present
+      .map((file) =>
+        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file
+      )
+      // exclude nextjs special routes
+      .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file))
+  );
+}
+
+interface Opts {
+  pageExtensions: string[];
+  directory: string;
+}
+
+function commonProcessing(paths: string[], opts: Opts): string[] {
+  return (
+    paths
+      // filter page extensions
+      .filter((file) => {
+        return opts.pageExtensions.some((ext) => file.endsWith(ext));
+      })
+      // remove file extensions (.tsx, .test.tsx)
+      .map((file) => file.replace(/(\.\w+)+$/, ""))
+      // remove duplicates from file extension removal (eg foo.ts and foo.test.ts)
+      .filter((file, idx, array) => array.indexOf(file) === idx)
+      // remove page directory path
+      .map((file) => file.replace(opts.directory, ""))
+      // normalize paths from windows users
+      .map(convertWindowsPathToUnix)
+  );
+}
+
 export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
   const defaultOptions = {
     outDir: "",
@@ -299,14 +333,28 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
     ...defaultOptions,
     ...options,
   };
+  const files = [];
+  const pagesDirectory = getPagesDirectory();
+  if (pagesDirectory) {
+    const routes = getPageRoutes(findFiles(join(".", pagesDirectory)), {
+      pageExtensions: opts.pageExtensions,
+      directory: pagesDirectory,
+    });
+    files.push(...routes);
+  }
+  const appDirectory = getAppDirectory();
+  if (appDirectory) {
+    const routes = getAppRoutes(findFiles(join(".", appDirectory)), {
+      pageExtensions: opts.pageExtensions,
+      directory: appDirectory,
+    });
+    files.push(...routes);
+  }
+  const outputFilepath = join(opts.outDir, "nextjs-routes.d.ts");
   if (opts.outDir && !existsSync(opts.outDir)) {
     mkdirSync(opts.outDir, { recursive: true });
   }
-  const outputFilepath = join(opts.outDir, "nextjs-routes.d.ts");
-  const files = findFiles(join(".", opts.pagesDirectory)).filter((file) => {
-    return opts.pageExtensions.some((ext) => file.endsWith(ext));
-  });
-  const routes = nextRoutes(files, opts.pagesDirectory);
+  const routes = nextRoutes(files);
   const generated = generate(routes, opts);
   writeFileSync(outputFilepath, generated);
 }
@@ -315,17 +363,18 @@ export function cli(): void {
   console.warn(
     `[nextjs-routes]: Direct invocation of nextjs-routes has been deprecated in favor of automatic regeneration via 'withRoutes': https://github.com/tatethurston/nextjs-routes#installation--usage-. See https://github.com/tatethurston/nextjs-routes/issues/63 for the motivation behind this change or to voice any concerns.`
   );
-  const pagesDirectory = getPagesDirectory();
-  if (!pagesDirectory) {
-    logger.error(`Could not find a Next.js pages directory. Expected to find either pages(1) or src/pages(2).
+  const dirs = [getPagesDirectory(), getAppDirectory()].filter(
+    (x) => x != undefined
+  );
+  if (dirs.length === 0) {
+    logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project root.
 
   1. https://nextjs.org/docs/basic-features/pages
   2. https://nextjs.org/docs/advanced-features/src-directory
+  3. https://nextjs.org/blog/next-13#app-directory-beta
   `);
     process.exit(1);
   } else {
-    writeNextjsRoutes({
-      pagesDirectory,
-    });
+    writeNextjsRoutes({});
   }
 }

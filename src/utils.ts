@@ -11,6 +11,12 @@ export function getPagesDirectory(): string | undefined {
   }
 }
 
+export function getAppDirectory(): string | undefined {
+  if (existsSync("app")) {
+    return "app";
+  }
+}
+
 // istanbul ignore next: io mocking not worthwhile
 export function findFiles(entry: string): string[] {
   return readdirSync(entry).flatMap((file) => {

@@ -6,7 +6,7 @@
 import type { NextConfig } from "next";
 import { join } from "path";
 import type { Configuration, WebpackPluginInstance } from "webpack";
-import { getPagesDirectory } from "./utils.js";
+import { getAppDirectory, getPagesDirectory } from "./utils.js";
 import { watch } from "chokidar";
 import { logger, writeNextjsRoutes } from "./core.js";
 
@@ -32,16 +32,17 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
   ) {}
 
   apply() {
-    const pagesDirectory = getPagesDirectory();
-    if (pagesDirectory) {
+    const watchDirs = [getPagesDirectory(), getAppDirectory()]
+      .filter((x) => x != undefined)
+      .map((dir) => join(process.cwd(), dir as string));
+
+    if (watchDirs.length > 0) {
       const options = {
         ...this.config,
         ...this.options,
-        pagesDirectory,
       };
       if (this.options.watch) {
-        const dir = join(process.cwd(), pagesDirectory);
-        const watcher = watch(dir, {
+        const watcher = watch(watchDirs, {
           persistent: true,
         });
         // batch changes
@@ -51,10 +52,11 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
         writeNextjsRoutes(options);
       }
     } else {
-      logger.error(`Could not find a Next.js pages directory. Expected to find either pages(1) or src/pages(2).
+      logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project root.
 
   1. https://nextjs.org/docs/basic-features/pages
   2. https://nextjs.org/docs/advanced-features/src-directory
+  3. https://nextjs.org/blog/next-13#app-directory-beta
   `);
     }
   }

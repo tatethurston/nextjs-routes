@@ -23,6 +23,12 @@ function debounce<Fn extends (...args: unknown[]) => unknown>(
 
 interface NextJSRoutesPluginOptions extends WithRoutesOptions {
   watch: boolean;
+
+  /**
+   * If you are getting the `Could not find a Next.js pages directory` error,
+   * try passing `cwd: __dirname` from your `next.config.js`.
+   */
+  cwd?: string;
 }
 
 class NextJSRoutesPlugin implements WebpackPluginInstance {
@@ -32,9 +38,11 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
   ) {}
 
   apply() {
-    const watchDirs = [getPagesDirectory(), getAppDirectory()]
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    const cwd = this.options?.cwd ?? process.cwd();
+    const watchDirs = [getPagesDirectory(cwd), getAppDirectory(cwd)]
       .filter((x) => x != undefined)
-      .map((dir) => join(process.cwd(), dir as string));
+      .map((dir) => join(cwd, dir as string));
 
     if (watchDirs.length > 0) {
       const options = {

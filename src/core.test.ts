@@ -78,6 +78,17 @@ describe("route generation", () => {
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
+  it("app directory (experimental)", () => {
+    // getAppRoutes
+    existsSyncMock
+      .mockImplementationOnce(() => false)
+      .mockImplementationOnce(() => false)
+      .mockImplementationOnce(() => true);
+    findFilesMock.mockReturnValueOnce(["app/foo/page.tsx", "app/bar/page.ts"]);
+    writeNextjsRoutes({});
+    expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+  });
+
   describe("configuration", () => {
     describe("pageExtensions", () => {
       it("default", () => {

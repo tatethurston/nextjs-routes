@@ -248,23 +248,34 @@ export const logger: Pick<Console, "error"> = {
   error: (str: string) => console.error("[nextjs-routes] " + str),
 };
 
-interface NextJSRoutesOptions {
+export interface NextJSRoutesOptions {
   /**
    * The file path indicating the output directory where the generated route types
    * should be written to (e.g.: "types").
    */
-  outDir?: string;
+  outDir?: string | undefined;
+  /**
+   * Location of the Next.js project. Defaults to the current working directory.
+   *
+   * This is only necessary when working with a non standard NextJS project setup, such as Nx.
+   *
+   * Example:
+   *
+   * // next.config.js
+   * const withRoutes = require("nextjs-routes/config")({ dir: __dirname });
+   */
+  dir?: string | undefined;
   /**
    * NextJS pageExtensions.
    * https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
    */
-  pageExtensions?: string[];
+  pageExtensions?: string[] | undefined;
   /**
    * Internationalization configuration
    *
    * @see [Internationalization docs](https://nextjs.org/docs/advanced-features/i18n-routing)
    */
-  i18n?: I18NConfig | null;
+  i18n?: I18NConfig | null | undefined;
 }
 
 interface Opts {
@@ -328,6 +339,7 @@ export function getPageRoutes(files: string[], opts: Opts): string[] {
 
 export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
   const defaultOptions = {
+    dir: process.cwd(),
     outDir: "",
     pageExtensions: ["tsx", "ts", "jsx", "js"],
   };
@@ -336,17 +348,17 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
     ...options,
   };
   const files = [];
-  const pagesDirectory = getPagesDirectory();
+  const pagesDirectory = getPagesDirectory(opts.dir);
   if (pagesDirectory) {
-    const routes = getPageRoutes(findFiles(join(".", pagesDirectory)), {
+    const routes = getPageRoutes(findFiles(pagesDirectory), {
       pageExtensions: opts.pageExtensions,
       directory: pagesDirectory,
     });
     files.push(...routes);
   }
-  const appDirectory = getAppDirectory();
+  const appDirectory = getAppDirectory(opts.dir);
   if (appDirectory) {
-    const routes = getAppRoutes(findFiles(join(".", appDirectory)), {
+    const routes = getAppRoutes(findFiles(appDirectory), {
       pageExtensions: opts.pageExtensions,
       directory: appDirectory,
     });
@@ -365,9 +377,10 @@ export function cli(): void {
   console.warn(
     `[nextjs-routes]: Direct invocation of nextjs-routes has been deprecated in favor of automatic regeneration via 'withRoutes': https://github.com/tatethurston/nextjs-routes#installation--usage-. See https://github.com/tatethurston/nextjs-routes/issues/63 for the motivation behind this change or to voice any concerns.`
   );
-  const dirs = [getPagesDirectory(), getAppDirectory()].filter(
-    (x) => x != undefined
-  );
+  const dirs = [
+    getPagesDirectory(process.cwd()),
+    getAppDirectory(process.cwd()),
+  ].filter((x) => x != undefined);
   if (dirs.length === 0) {
     logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project root.
 

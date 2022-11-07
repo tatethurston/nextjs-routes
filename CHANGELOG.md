@@ -2,7 +2,16 @@
 
 ## 0.1.7
 
-- Support [Next 13 app (beta)](https://nextjs.org/docs/advanced-features/custom-app)
+- Support [Next 13 app (beta) directory](https://nextjs.org/docs/advanced-features/custom-app)
+
+- Add `dir` option to support non standard NextJS project structures such as [Nx](https://nx.dev/packages/next):
+
+  ```js
+  // next.config.js
+  const withRoutes = require("nextjs-routes/config")({ dir: __dirname });
+  ```
+
+  Thanks [@alexgorbatchev](https://github.com/alexgorbatchev) for the contribution!
 
 ## 0.1.6
 

@@ -4,11 +4,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { NextConfig } from "next";
-import { join } from "path";
 import type { Configuration, WebpackPluginInstance } from "webpack";
 import { getAppDirectory, getPagesDirectory } from "./utils.js";
 import { watch } from "chokidar";
-import { logger, writeNextjsRoutes } from "./core.js";
+import { logger, NextJSRoutesOptions, writeNextjsRoutes } from "./core.js";
 
 function debounce<Fn extends (...args: unknown[]) => unknown>(
   fn: Fn,
@@ -40,9 +39,9 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
   apply() {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
     const cwd = this.options?.cwd ?? process.cwd();
-    const watchDirs = [getPagesDirectory(cwd), getAppDirectory(cwd)]
-      .filter((x) => x != undefined)
-      .map((dir) => join(cwd, dir as string));
+    const watchDirs = [getPagesDirectory(cwd), getAppDirectory(cwd)].filter(
+      (x) => x != undefined
+    ) as string[];
 
     if (watchDirs.length > 0) {
       const options = {
@@ -70,13 +69,7 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
   }
 }
 
-interface WithRoutesOptions {
-  /**
-   * The file path indicating the output directory where the generated route types
-   * should be written to (e.g.: "types").
-   */
-  outDir?: string;
-}
+type WithRoutesOptions = Pick<NextJSRoutesOptions, "outDir" | "dir">;
 
 export default function withRoutes(
   options?: WithRoutesOptions

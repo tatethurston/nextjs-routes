@@ -2,20 +2,26 @@ import { existsSync, readdirSync, statSync } from "fs";
 import { join } from "path";
 
 // istanbul ignore next: io mocking not worthwhile
-export function getPagesDirectory(cwd = process.cwd()): string | undefined {
-  const dirs = ["pages", join("src", "pages")];
-  for (const dir of dirs) {
-    if (existsSync(join(cwd, dir))) {
-      return dir;
+function findDir(dir: string, cwd: string): string | undefined {
+  const dirs = [dir, join("src", dir)];
+  for (const d of dirs) {
+    const path = join(cwd, d);
+    if (existsSync(path)) {
+      return path;
     }
   }
 }
 
-export function getAppDirectory(cwd = process.cwd()): string | undefined {
-  if (existsSync(join(cwd, "app"))) {
-    return "app";
-  }
+// istanbul ignore next: io mocking not worthwhile
+export function getPagesDirectory(cwd: string): string | undefined {
+  return findDir("pages", cwd);
 }
+
+// istanbul ignore next: io mocking not worthwhile
+export function getAppDirectory(cwd: string): string | undefined {
+  return findDir("app", cwd);
+}
+
 // istanbul ignore next: io mocking not worthwhile
 export function findFiles(entry: string): string[] {
   return readdirSync(entry).flatMap((file) => {

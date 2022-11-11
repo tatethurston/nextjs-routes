@@ -26,7 +26,7 @@
 
 ## What is this? 🧐
 
-A code generation tool to make `next/link` and `next/router` routes type safe with zero runtime overhead. `nextjs-routes` scans your `pages` directory and generates a `nextjs-routes.d.ts` file with type definitions for all your routes.
+A code generation tool to make `next/link` and `next/router` routes type safe with zero runtime overhead. `nextjs-routes` scans your `pages` and/or `app` directory and generates a `nextjs-routes.d.ts` file with type definitions for all your routes.
 
 ## Highlights
 
@@ -169,7 +169,7 @@ export const getStaticProps: GetStaticProps<{}, RoutedQuery<"/foos/[foo]">> = (
 
 ## How does this work? 🤔
 
-`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
+`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` and/or `app` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
 
 ## What if I need a runtime?
 

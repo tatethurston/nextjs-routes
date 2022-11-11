@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0
+
+- This library will now follow [semantic versioning](https://docs.npmjs.com/about-semantic-versioning).
+
+- The previously deprecated direct invocation of nextjs-routes via `npx nextjs-routes` has been removed in favor of automatic regeneration via [withRoutes](https://github.com/tatethurston/nextjs-routes#installation--usage-). See [#63](https://github.com/tatethurston/nextjs-routes/issues/63) for the motivation behind this change or to voice any concerns.
+
 ## 0.1.7
 
 - Support [Next 13 app (beta) directory](https://nextjs.org/docs/advanced-features/custom-app)

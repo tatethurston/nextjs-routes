@@ -372,24 +372,3 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
   const generated = generate(routes, opts);
   writeFileSync(outputFilepath, generated);
 }
-
-export function cli(): void {
-  console.warn(
-    `[nextjs-routes]: Direct invocation of nextjs-routes has been deprecated in favor of automatic regeneration via 'withRoutes': https://github.com/tatethurston/nextjs-routes#installation--usage-. See https://github.com/tatethurston/nextjs-routes/issues/63 for the motivation behind this change or to voice any concerns.`
-  );
-  const dirs = [
-    getPagesDirectory(process.cwd()),
-    getAppDirectory(process.cwd()),
-  ].filter((x) => x != undefined);
-  if (dirs.length === 0) {
-    logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project root.
-
-  1. https://nextjs.org/docs/basic-features/pages
-  2. https://nextjs.org/docs/advanced-features/src-directory
-  3. https://nextjs.org/blog/next-13#app-directory-beta
-  `);
-    process.exit(1);
-  } else {
-    writeNextjsRoutes({});
-  }
-}

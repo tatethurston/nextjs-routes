@@ -105,11 +105,10 @@ declare module "nextjs-routes" {
     [key: string]: string | string[] | undefined;
   };
 
-  type QueryForPathname = {
-    [K in Route as K["pathname"]]: Exclude<K["query"], undefined>;
-  };
-
-  export type RoutedQuery<P extends Route["pathname"]> = QueryForPathname[P];
+  export type RoutedQuery<P extends Route["pathname"]> = Extract<
+    Route,
+    { pathname: P }
+  >["query"];
 
   export type Locale = ${
     !i18n.locales.length
@@ -178,60 +177,59 @@ declare module "next/router" {
     locale?: ${!i18n.locales.length ? "false" : `Locale | false`};
   };
 
-  export interface NextRouter<P extends Route["pathname"] = Route["pathname"]>
-    extends Omit<
-      Router,
-      | "push"
-      | "replace"
-      | "locale"
-      | "locales"
-      | "defaultLocale"
-      | "domainLocales"
-    > {
-    defaultLocale${
-      i18n.defaultLocale ? `: "${i18n.defaultLocale}"` : "?: undefined"
-    };
-    domainLocales${
-      i18n.domains?.length ? `: ${print(i18n.domains, 4)}` : "?: undefined"
-    };
-    locale${!i18n.locales.length ? "?:" : ":"} Locale;
-    locales${
-      i18n.locales.length ? `: ${print(i18n.locales, 4)}` : "?: undefined"
-    };
-    pathname: P;
-    push(
-      url: Route,
-      as?: string,
-      options?: TransitionOptions
-    ): Promise<boolean>;
-    push(
-      url: StaticRoute,
-      as?: string,
-      options?: TransitionOptions
-    ): Promise<boolean>;
-    push(
-      url: { query: { [key: string]: string | string[] | undefined } },
-      as?: string,
-      options?: TransitionOptions
-    ): Promise<boolean>;
-    query: RoutedQuery<P>;
-    replace(
-      url: Route,
-      as?: string,
-      options?: TransitionOptions
-    ): Promise<boolean>;
-    replace(
-      url: StaticRoute,
-      as?: string,
-      options?: TransitionOptions
-    ): Promise<boolean>;
-    replace(
-      url: { query: { [key: string]: string | string[] | undefined } },
-      as?: string,
-      options?: TransitionOptions
-    ): Promise<boolean>;
-    route: P;
-  }
+  export type NextRouter<P extends Route["pathname"] = Route["pathname"]> =
+    Extract<Route, { pathname: P }> &
+      Omit<
+        Router,
+        | "push"
+        | "replace"
+        | "locale"
+        | "locales"
+        | "defaultLocale"
+        | "domainLocales"
+      > & {
+        defaultLocale${
+          i18n.defaultLocale ? `: "${i18n.defaultLocale}"` : "?: undefined"
+        };
+        domainLocales${
+          i18n.domains?.length ? `: ${print(i18n.domains, 4)}` : "?: undefined"
+        };
+        locale${!i18n.locales.length ? "?:" : ":"} Locale;
+        locales${
+          i18n.locales.length ? `: ${print(i18n.locales, 4)}` : "?: undefined"
+        };
+        push(
+          url: Route,
+          as?: string,
+          options?: TransitionOptions
+        ): Promise<boolean>;
+        push(
+          url: StaticRoute,
+          as?: string,
+          options?: TransitionOptions
+        ): Promise<boolean>;
+        push(
+          url: { query?: { [key: string]: string | string[] | undefined } },
+          as?: string,
+          options?: TransitionOptions
+        ): Promise<boolean>;
+        replace(
+          url: Route,
+          as?: string,
+          options?: TransitionOptions
+        ): Promise<boolean>;
+        replace(
+          url: StaticRoute,
+          as?: string,
+          options?: TransitionOptions
+        ): Promise<boolean>;
+        replace(
+          url: { query?: { [key: string]: string | string[] | undefined } },
+          as?: string,
+          options?: TransitionOptions
+        ): Promise<boolean>;
+        route: P;
+      }
 
   export function useRouter<P extends Route["pathname"]>(): NextRouter<P>;
 }

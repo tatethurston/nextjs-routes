@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.1
+
+- Update `NextRouter` type to keep `query` and `pathname` bound in a union. This allows you to use `router` from `useRouter` as an argument to `router.push` or `router.replace`:
+
+  ```ts
+  const router = useRouter();
+  // reload the current page, preserving search parameters
+  router.push(router, undefined, { locale: "fr" });
+  ```
+
 ## 1.0.0
 
 - This library will now follow [semantic versioning](https://docs.npmjs.com/about-semantic-versioning).

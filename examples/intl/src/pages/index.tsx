@@ -1,11 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
-  const { locale } = useRouter();
-  console.log({ locale });
   return (
     <>
       <Head>
@@ -14,7 +11,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <Link href={{ pathname: "/store" }}>Store</Link>
+        <Link href={{ pathname: "/[store]", query: { store: "tate" } }}>
+          Tate's Store
+        </Link>
       </main>
     </>
   );

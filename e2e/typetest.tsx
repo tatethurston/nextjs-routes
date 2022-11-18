@@ -72,11 +72,11 @@ const router = useRouter();
 
 // pathname
 
-expectType<"/" | "/foos/[foo]">(router.pathname);
+expectType<"/" | "/foos/[foo]" | "/[...slug]">(router.pathname);
 
 // route
 
-expectType<"/" | "/foos/[foo]">(router.route);
+expectType<"/" | "/foos/[foo]" | "/[...slug]">(router.route);
 
 // query
 
@@ -111,7 +111,11 @@ router.push({ query: { bar: "baz" } });
 router.push({ query: { foo: "foo" } });
 router.push({ query: { foo: ["foo", "bar"] } });
 
+// Reassignment
+router.push(router);
+
 // Unaugmented options
+router.push({}, undefined, { shallow: true, locale: false, scroll: true });
 router.push({ query: {} }, undefined, {
   shallow: true,
   locale: false,
@@ -147,6 +151,7 @@ router.replace({ query: { foo: "foo" } });
 router.replace({ query: { foo: ["bar", "baz"] } });
 
 // Unaugmented options
+router.replace({}, undefined, { shallow: true, locale: false, scroll: true });
 router.replace({ query: {} }, undefined, {
   shallow: true,
   locale: false,
@@ -154,6 +159,10 @@ router.replace({ query: {} }, undefined, {
 });
 // @ts-expect-error shallow typo
 router.replace({ query: {} }, undefined, { shallowy: true });
+
+// Reassignment
+router.replace(router);
+router.replace({ query: router.query });
 
 // RouterEvent
 

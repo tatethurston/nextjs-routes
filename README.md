@@ -99,7 +99,7 @@ If the route doesn't require any parameters, you can also use a path string:
 
 `useRouter`'s returned router instance types for `push`, `replace` and `query` are now typed based on your application routes.
 
-Identical to `Link`, `push` and `replace` now expect a URL object or path string:
+Identical to `Link`, `push` and `replace` now expect a UrlObject or path string:
 
 #### push
 

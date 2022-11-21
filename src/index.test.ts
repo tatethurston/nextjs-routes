@@ -3,55 +3,60 @@ import { route } from "./index.js";
 describe(route, () => {
   it("generates paths", () => {
     // static
-    expect(route({ pathname: "/404" })).toMatchInlineSnapshot(`"/404"`);
-    expect(route({ pathname: "/settings/about" })).toMatchInlineSnapshot(
-      `"/settings/about"`
-    );
+    expect(route({ pathname: "/404" })).toEqual("/404");
+    expect(route({ pathname: "/settings/about" })).toEqual("/settings/about");
     // dynamic
-    expect(
-      route({ pathname: "/foos/[foo]", query: { foo: "bar" } })
-    ).toMatchInlineSnapshot(`"/foos/bar"`);
+    expect(route({ pathname: "/foos/[foo]", query: { foo: "bar" } })).toEqual(
+      "/foos/bar"
+    );
     expect(
       route({
         pathname: "/foos/[foo]/bars/[bar]",
         query: { foo: "bar", bar: "baz" },
       })
-    ).toMatchInlineSnapshot(`"/foos/bar/bars/baz"`);
+    ).toEqual("/foos/bar/bars/baz");
     expect(
       route({
         pathname: "/[foo]/[bar]/[baz]",
         query: { foo: "foo", bar: "bar", baz: "baz" },
       })
-    ).toMatchInlineSnapshot(`"/foo/bar/baz"`);
+    ).toEqual("/foo/bar/baz");
     // catch all
     expect(
       route({ pathname: "/[...segments]", query: { segments: ["foo"] } })
-    ).toMatchInlineSnapshot(`"/foo"`);
+    ).toEqual("/foo");
     expect(
       route({ pathname: "/[...segments]", query: { segments: ["foo", "bar"] } })
-    ).toMatchInlineSnapshot(`"/foo/bar"`);
+    ).toEqual("/foo/bar");
     // optional catch all
     expect(
       route({ pathname: "/[[...segments]]", query: { segments: [] } })
-    ).toMatchInlineSnapshot(`"/"`);
+    ).toEqual("/");
     expect(
       route({ pathname: "/[[...segments]]", query: { segments: undefined } })
-    ).toMatchInlineSnapshot(`"/"`);
+    ).toEqual("/");
     expect(
       route({
         pathname: "/[[...segments]]/foos",
         query: { segments: undefined },
       })
-    ).toMatchInlineSnapshot(`"/foos"`);
+    ).toEqual("/foos");
     // query params
     expect(
       route({ pathname: "/foos/[foo]", query: { foo: "foo", bar: "bar" } })
-    ).toMatchInlineSnapshot(`"/foos/foo?bar=bar"`);
+    ).toEqual("/foos/foo?bar=bar");
     expect(
       route({
         pathname: "/foos/[foo]",
         query: { foo: "foo", bar: "bar", baz: ["1", "2", "3"] },
       })
-    ).toMatchInlineSnapshot(`"/foos/foo?bar=bar&baz=1&baz=2&baz=3"`);
+    ).toEqual("/foos/foo?bar=bar&baz=1&baz=2&baz=3");
+    expect(
+      route({
+        pathname: "/foos/[foo]",
+        query: { foo: "foo", bar: "bar", baz: ["1", "2", "3"] },
+        hash: "foo",
+      })
+    ).toEqual("/foos/foo?bar=bar&baz=1&baz=2&baz=3#foo");
   });
 });

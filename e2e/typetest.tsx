@@ -22,6 +22,7 @@ function expectType<T>(_value: T) {}
 <Link href={{ pathname: "/", query: { bar: "baz" } }} />;
 <Link href={{ pathname: "/", query: { bar: undefined } }} />;
 <Link href={{ pathname: "/", query: { bar: ["baz", "foo"] } }} />;
+<Link href={{ pathname: "/", query: { bar: ["baz", "foo"] }, hash: "foo" }} />;
 
 // Path with dynamic segments
 <Link href={{ pathname: "/foos/[foo]", query: { foo: "baz" } }} />;
@@ -95,6 +96,7 @@ router.push({ pathname: "/", query: undefined });
 router.push({ pathname: "/", query: {} });
 router.push({ pathname: "/", query: { bar: "baz" } });
 router.push({ pathname: "/", query: { bar: ["foo", "baz"] } });
+router.push({ pathname: "/", query: { bar: ["foo", "baz"] }, hash: "foo" });
 
 // Path with dynamic segments
 router.push({ pathname: "/foos/[foo]", query: { foo: "baz" } });
@@ -134,6 +136,7 @@ router.replace({ pathname: "/", query: undefined });
 router.replace({ pathname: "/", query: {} });
 router.replace({ pathname: "/", query: { bar: "baz" } });
 router.replace({ pathname: "/", query: { bar: ["foo", "baz"] } });
+router.replace({ pathname: "/", query: { bar: ["foo", "baz"] }, hash: "foo" });
 
 // Path with dynamic segments
 router.replace({ pathname: "/foos/[foo]", query: { foo: "baz" } });
@@ -215,6 +218,7 @@ r = { pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } };
 route({ pathname: "/" });
 // Path with dynamic segments
 route({ pathname: "/foos/[foo]", query: { foo: "baz" } });
+route({ pathname: "/foos/[foo]", query: { foo: "baz" }, hash: "foo" });
 // @ts-expect-error missing 'foo' in query
 route({ pathname: "/foos/[foo]", query: { bar: "baz" } });
 // @ts-expect-error 'foo' must be a string, not string[]

@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.0.3
+
+- The `Route` type now includes `hash`. This enables the following:
+
+  ```tsx
+  // this will link to /foo#bar
+  <Link href={{ pathname: "/foo", hash: "bar" }}>Foo</Link>
+  ```
+
 ## 1.0.2
 
 - `Link` now [accepts anchor props](https://beta.nextjs.org/docs/api-reference/components/link):

@@ -5,11 +5,23 @@
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/[...slug]"; query: Query<{ "slug": string[] }> }
-    | { pathname: "/foos/[foo]"; query: Query<{ "foo": string }> }
-    | { pathname: "/"; query?: Query | undefined };
+    | DynamicRoute<"/[...slug]", { "slug": string[] }>
+    | DynamicRoute<"/foos/[foo]", { "foo": string }>
+    | StaticRoute<"/">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 

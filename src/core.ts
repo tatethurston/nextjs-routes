@@ -91,17 +91,27 @@ declare module "nextjs-routes" {
         ? "never"
         : `| ${routes
             .map((route) => {
-              const [query, requiredKeys] = getQueryInterface(route.query);
-              if (requiredKeys > 0) {
-                return `{ pathname: "${route.pathname}"; query: Query<${query}> }`;
-              } else {
-                return `{ pathname: "${route.pathname}"; query?: Query | undefined }`;
-              }
+              const [params, requiredKeys] = getQueryInterface(route.query);
+              return requiredKeys > 0
+                ? `DynamicRoute<"${route.pathname}", ${params}>`
+                : `StaticRoute<"${route.pathname}">`;
             })
             .join("\n    | ")}`
     };
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -113,7 +123,7 @@ declare module "nextjs-routes" {
   export type Locale = ${
     !i18n.locales.length
       ? "undefined"
-      : `\n      | ${i18n.locales.map((x) => `"${x}"`).join("\n    | ")}`
+      : `\n    | ${i18n.locales.map((x) => `"${x}"`).join("\n    | ")}`
   };
 
   /**
@@ -198,11 +208,11 @@ declare module "next/router" {
           i18n.defaultLocale ? `: "${i18n.defaultLocale}"` : "?: undefined"
         };
         domainLocales${
-          i18n.domains?.length ? `: ${print(i18n.domains, 4)}` : "?: undefined"
+          i18n.domains?.length ? `: ${print(i18n.domains, 8)}` : "?: undefined"
         };
         locale${!i18n.locales.length ? "?:" : ":"} Locale;
         locales${
-          i18n.locales.length ? `: ${print(i18n.locales, 4)}` : "?: undefined"
+          i18n.locales.length ? `: ${print(i18n.locales, 8)}` : "?: undefined"
         };
         push(
           url: Route,

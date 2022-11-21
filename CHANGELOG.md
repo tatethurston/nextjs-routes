@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.2
+
+- `Link` now [accepts anchor props](https://beta.nextjs.org/docs/api-reference/components/link):
+
+  ```tsx
+  <Link href="/dashboard" className="border-indigo-500">
+    Dashboard
+  </Link>
+  ```
+
 ## 1.0.1
 
 - Update `NextRouter` type to keep `query` and `pathname` bound in a union. This allows you to use `router` from `useRouter` as an argument to `router.push` or `router.replace`:

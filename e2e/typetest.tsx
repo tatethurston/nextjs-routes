@@ -57,6 +57,8 @@ function expectType<T>(_value: T) {}
 />;
 // @ts-expect-error replace typo
 <Link href={{ query: {} }} replacey />;
+// anchor props https://beta.nextjs.org/docs/api-reference/components/link#props
+<Link href={{ query: {} }} className="foo" />;
 
 // LinkProps
 

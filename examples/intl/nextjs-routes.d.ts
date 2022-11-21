@@ -5,10 +5,22 @@
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/[store]"; query: Query<{ "store": string }> }
-    | { pathname: "/"; query?: Query | undefined };
+    | DynamicRoute<"/[store]", { "store": string }>
+    | StaticRoute<"/">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -18,7 +30,7 @@ declare module "nextjs-routes" {
   >["query"];
 
   export type Locale = 
-      | "en-US"
+    | "en-US"
     | "fr"
     | "nl-NL";
 
@@ -104,10 +116,10 @@ declare module "next/router" {
         domainLocales?: undefined;
         locale: Locale;
         locales: [
-      "en-US",
-      "fr",
-      "nl-NL"
-    ];
+          "en-US",
+          "fr",
+          "nl-NL"
+        ];
         push(
           url: Route,
           as?: string,

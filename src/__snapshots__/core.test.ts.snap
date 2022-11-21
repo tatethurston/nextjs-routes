@@ -11,10 +11,22 @@ exports[`route generation app directory (experimental) 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/foo"; query?: Query | undefined }
-    | { pathname: "/bar"; query?: Query | undefined };
+    | StaticRoute<"/foo">
+    | StaticRoute<"/bar">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -158,9 +170,21 @@ exports[`route generation configuration i18n 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/"; query?: Query | undefined };
+    | StaticRoute<"/">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -170,7 +194,7 @@ declare module "nextjs-routes" {
   >["query"];
 
   export type Locale = 
-      | "en-US"
+    | "en-US"
     | "fr"
     | "nl-NL";
 
@@ -254,25 +278,25 @@ declare module "next/router" {
       > & {
         defaultLocale: "en-US";
         domainLocales: [
-      {
-        "domain": "example.nl",
-        "defaultLocale": "nl-NL",
-        "locales": [
-          "nl-BE"
-        ]
-      },
-      {
-        "domain": "example.fr",
-        "defaultLocale": "fr",
-        "http": true
-      }
-    ];
+          {
+            "domain": "example.nl",
+            "defaultLocale": "nl-NL",
+            "locales": [
+              "nl-BE"
+            ]
+          },
+          {
+            "domain": "example.fr",
+            "defaultLocale": "fr",
+            "http": true
+          }
+        ];
         locale: Locale;
         locales: [
-      "en-US",
-      "fr",
-      "nl-NL"
-    ];
+          "en-US",
+          "fr",
+          "nl-NL"
+        ];
         push(
           url: Route,
           as?: string,
@@ -324,9 +348,21 @@ exports[`route generation configuration outDir 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/404"; query?: Query | undefined };
+    | StaticRoute<"/404">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -470,11 +506,23 @@ exports[`route generation configuration pageExtensions configured 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/404"; query?: Query | undefined }
-    | { pathname: "/"; query?: Query | undefined }
-    | { pathname: "/foo"; query?: Query | undefined };
+    | StaticRoute<"/404">
+    | StaticRoute<"/">
+    | StaticRoute<"/foo">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -618,9 +666,21 @@ exports[`route generation configuration pageExtensions default 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/404"; query?: Query | undefined };
+    | StaticRoute<"/404">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -764,9 +824,21 @@ exports[`route generation dedupes 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/"; query?: Query | undefined };
+    | StaticRoute<"/">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -912,7 +984,19 @@ declare module "nextjs-routes" {
   export type Route =
     never;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -1056,9 +1140,21 @@ exports[`route generation transforms windows paths 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "src/pages/[foo]/bar"; query: Query<{ "foo": string }> };
+    | DynamicRoute<"src/pages/[foo]/bar", { "foo": string }>;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 
@@ -1202,26 +1298,38 @@ exports[`route generation typescript 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
-    | { pathname: "/404"; query?: Query | undefined }
-    | { pathname: "/[foo]"; query: Query<{ "foo": string }> }
-    | { pathname: "/[foo]/[bar]/[baz]"; query: Query<{ "foo": string; "bar": string; "baz": string }> }
-    | { pathname: "/[foo]/bar/[baz]"; query: Query<{ "foo": string; "baz": string }> }
-    | { pathname: "/[foo]/bar/[baz]/foo/[bar]"; query: Query<{ "foo": string; "baz": string; "bar": string }> }
-    | { pathname: "/[foo]/baz"; query: Query<{ "foo": string }> }
-    | { pathname: "/_debug"; query?: Query | undefined }
-    | { pathname: "/_debug/health-check"; query?: Query | undefined }
-    | { pathname: "/api/[[...segments]]"; query?: Query | undefined }
-    | { pathname: "/api/[...segments]"; query: Query<{ "segments": string[] }> }
-    | { pathname: "/api/bar"; query?: Query | undefined }
-    | { pathname: "/foo/[slug]"; query: Query<{ "slug": string }> }
-    | { pathname: "/"; query?: Query | undefined }
-    | { pathname: "/not-found"; query?: Query | undefined }
-    | { pathname: "/settings/bars/[bar]"; query: Query<{ "bar": string }> }
-    | { pathname: "/settings/bars/[bar]/baz"; query: Query<{ "bar": string }> }
-    | { pathname: "/settings/foo"; query?: Query | undefined }
-    | { pathname: "/settings"; query?: Query | undefined };
+    | StaticRoute<"/404">
+    | DynamicRoute<"/[foo]", { "foo": string }>
+    | DynamicRoute<"/[foo]/[bar]/[baz]", { "foo": string; "bar": string; "baz": string }>
+    | DynamicRoute<"/[foo]/bar/[baz]", { "foo": string; "baz": string }>
+    | DynamicRoute<"/[foo]/bar/[baz]/foo/[bar]", { "foo": string; "baz": string; "bar": string }>
+    | DynamicRoute<"/[foo]/baz", { "foo": string }>
+    | StaticRoute<"/_debug">
+    | StaticRoute<"/_debug/health-check">
+    | StaticRoute<"/api/[[...segments]]">
+    | DynamicRoute<"/api/[...segments]", { "segments": string[] }>
+    | StaticRoute<"/api/bar">
+    | DynamicRoute<"/foo/[slug]", { "slug": string }>
+    | StaticRoute<"/">
+    | StaticRoute<"/not-found">
+    | DynamicRoute<"/settings/bars/[bar]", { "bar": string }>
+    | DynamicRoute<"/settings/bars/[bar]/baz", { "bar": string }>
+    | StaticRoute<"/settings/foo">
+    | StaticRoute<"/settings">;
 
-  type Query<Params = {}> = Params & {
+  interface StaticRoute<Pathname> {
+    pathname: Pathname;
+    query?: Query | undefined;
+    hash?: string | null | undefined;
+  }
+
+  interface DynamicRoute<Pathname, Parameters> {
+    pathname: Pathname;
+    query: Parameters & Query;
+    hash?: string | null | undefined;
+  }
+
+  interface Query {
     [key: string]: string | string[] | undefined;
   };
 

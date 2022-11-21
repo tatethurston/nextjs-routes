@@ -1,6 +1,7 @@
 interface Route {
   pathname: string;
   query?: { [key: string]: string | string[] | undefined };
+  hash?: string | null | undefined;
 }
 
 interface OptionalCatchAll extends Route {
@@ -58,6 +59,7 @@ export function route(r: Route): string {
     }
   }
   const qs = search.toString().length > 0 ? "?" + search.toString() : "";
+  const hash = r.hash ? "#" + r.hash : "";
 
-  return path + qs;
+  return path + qs + hash;
 }

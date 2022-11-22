@@ -64,9 +64,9 @@ function expectType<T>(_value: T) {}
 // LinkProps
 
 // ensure LinkProps is our LinkProps, not the untyped one
-
 expectType<LinkProps["href"]>({ pathname: "/" });
-
+// static route
+expectType<LinkProps["href"]>("/");
 // @ts-expect-error invalid pathname
 expectType<LinkProps["href"]>({ pathname: "/invalid" });
 

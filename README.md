@@ -241,6 +241,8 @@ const withRoutes = require("nextjs-routes/config")({
 
 PR's and issues welcomed! For more guidance check out [CONTRIBUTING.md](https://github.com/tatethurston/nextjs-routes/blob/main/CONTRIBUTING.md)
 
+Are you interested in bringing a `nextjs-routes` like experience to another framework? [Open an issue](https://github.com/tatethurston/nextjs-routes/issues/new) and let's collaborate.
+
 ## Licensing 📃
 
 See the project's [MIT License](https://github.com/tatethurston/nextjs-routes/blob/main/LICENSE).

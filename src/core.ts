@@ -141,15 +141,17 @@ declare module "next/link" {
   import type {
     AnchorHTMLAttributes,
     DetailedReactHTMLElement,
-    PropsWithChildren,
     MouseEventHandler,
+    PropsWithChildren,
   } from "react";
   export * from "next/dist/client/link";
 
   type Query = { query?: { [key: string]: string | string[] | undefined } };
   type StaticRoute = Exclude<Route, { query: any }>["pathname"];
 
-  export interface LinkProps<Href extends Route | Query = Route | Query>
+  export interface LinkProps<
+    Href extends Route | StaticRoute | Query = Route | StaticRoute | Query
+  >
     extends Omit<NextLinkProps, "href" | "locale">,
       AnchorHTMLAttributes<HTMLAnchorElement> {
     href: Href;

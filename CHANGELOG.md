@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.0.4
+
+- `LinkProps` now accept path strings for static routes:
+
+  ```tsx
+  import { LinkProps } from "next/link";
+  // previously this would error
+  const props: LinkProps = { href: "/foo" };
+  ```
+
 ## 1.0.3
 
 - The `Route` type now includes `hash`. This enables the following:

@@ -106,7 +106,7 @@ Identical to `Link`, `push` and `replace` now expect a UrlObject or path string:
 #### push
 
 ```tsx
-import { useRouter } from "next/link";
+import { useRouter } from "next/router";
 
 const router = useRouter();
 router.push({ pathname: "/foos/[foo]", query: { foo: "test" } });
@@ -115,7 +115,7 @@ router.push({ pathname: "/foos/[foo]", query: { foo: "test" } });
 #### replace
 
 ```tsx
-import { useRouter } from "next/link";
+import { useRouter } from "next/router";
 
 const router = useRouter();
 router.replace({ pathname: "/" });
@@ -124,7 +124,7 @@ router.replace({ pathname: "/" });
 #### query
 
 ```tsx
-import { useRouter } from "next/link";
+import { useRouter } from "next/router";
 
 // query is typed as a union of all query parameters defined by your application's routes
 const { query } = useRouter();
@@ -133,7 +133,7 @@ const { query } = useRouter();
 By default, `query` will be typed as the union of all possible query parameters defined by your application routes. If you'd like to narrow the type to fewer routes or a single page, you can supply a type argument:
 
 ```tsx
-import { useRouter } from "next/link";
+import { useRouter } from "next/router";
 
 // query is now typed as `{ foo: string }`
 const { query } = useRouter<"/foos/[foo]">();

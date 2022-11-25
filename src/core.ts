@@ -305,6 +305,8 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
           .filter((file) => parse(file).name !== "page")
           .join(sep)
       )
+      // handle index page
+      .map((file) => (file === "" ? "/" : file))
   );
 }
 

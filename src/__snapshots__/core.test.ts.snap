@@ -11,6 +11,7 @@ exports[`route generation app directory (experimental) 1`] = `
 // prettier-ignore
 declare module "nextjs-routes" {
   export type Route =
+    | StaticRoute<"/">
     | StaticRoute<"/foo">
     | StaticRoute<"/bar">;
 

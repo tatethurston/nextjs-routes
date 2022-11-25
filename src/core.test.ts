@@ -85,7 +85,11 @@ describe("route generation", () => {
       .mockImplementationOnce(() => false)
       .mockImplementationOnce(() => false)
       .mockImplementationOnce(() => true);
-    findFilesMock.mockReturnValueOnce(["app/foo/page.tsx", "app/bar/page.ts"]);
+    findFilesMock.mockReturnValueOnce([
+      "app/page.ts",
+      "app/foo/page.tsx",
+      "app/bar/page.ts",
+    ]);
     writeNextjsRoutes({});
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });

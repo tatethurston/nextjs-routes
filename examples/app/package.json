@@ -1,0 +1,24 @@
+{
+  "name": "intl",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^13.0.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.0.1",
+    "@types/react": "18.0.14",
+    "eslint": "8.19.0",
+    "eslint-config-next": "12.2.0",
+    "nextjs-routes": "file:../../dist",
+    "typescript": "4.7.4"
+  }
+}

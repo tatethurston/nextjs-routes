@@ -57,12 +57,10 @@ declare module "next/link" {
   type Query = { query?: { [key: string]: string | string[] | undefined } };
   type StaticRoute = Exclude<Route, { query: any }>["pathname"];
 
-  export interface LinkProps<
-    Href extends Route | StaticRoute | Query = Route | StaticRoute | Query
-  >
+  export interface LinkProps
     extends Omit<NextLinkProps, "href" | "locale">,
       AnchorHTMLAttributes<HTMLAnchorElement> {
-    href: Href;
+    href: Route | StaticRoute | Query;
     locale?: Locale | false;
   }
 
@@ -76,15 +74,7 @@ declare module "next/link" {
     HTMLElement
   >;
 
-  declare function Link(
-    props: PropsWithChildren<LinkProps<Route>>
-  ): LinkReactElement;
-  declare function Link(
-    props: PropsWithChildren<LinkProps<StaticRoute>>
-  ): LinkReactElement;
-  declare function Link(
-    props: PropsWithChildren<LinkProps<Query>>
-  ): LinkReactElement;
+  declare function Link(props: PropsWithChildren<LinkProps>): LinkReactElement;
 
   export default Link;
 }
@@ -98,6 +88,7 @@ declare module "next/router" {
 
   type NextTransitionOptions = NonNullable<Parameters<Router["push"]>[2]>;
   type StaticRoute = Exclude<Route, { query: any }>["pathname"];
+  type Query = { query?: { [key: string]: string | string[] | undefined } };
 
   interface TransitionOptions extends Omit<NextTransitionOptions, "locale"> {
     locale?: Locale | false;
@@ -123,32 +114,12 @@ declare module "next/router" {
           "nl-NL"
         ];
         push(
-          url: Route,
-          as?: string,
-          options?: TransitionOptions
-        ): Promise<boolean>;
-        push(
-          url: StaticRoute,
-          as?: string,
-          options?: TransitionOptions
-        ): Promise<boolean>;
-        push(
-          url: { query?: { [key: string]: string | string[] | undefined } },
+          url: Route | StaticRoute | Query,
           as?: string,
           options?: TransitionOptions
         ): Promise<boolean>;
         replace(
-          url: Route,
-          as?: string,
-          options?: TransitionOptions
-        ): Promise<boolean>;
-        replace(
-          url: StaticRoute,
-          as?: string,
-          options?: TransitionOptions
-        ): Promise<boolean>;
-        replace(
-          url: { query?: { [key: string]: string | string[] | undefined } },
+          url: Route | StaticRoute | Query,
           as?: string,
           options?: TransitionOptions
         ): Promise<boolean>;

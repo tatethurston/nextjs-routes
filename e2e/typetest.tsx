@@ -26,7 +26,6 @@ function expectType<T>(_value: T) {}
 
 // Path with dynamic segments
 <Link href={{ pathname: "/foos/[foo]", query: { foo: "baz" } }} />;
-
 // @ts-expect-error missing 'foo' in query
 <Link href={{ pathname: "/foos/[foo]", query: { bar: "baz" } }} />;
 // @ts-expect-error missing 'foo' in query
@@ -36,6 +35,11 @@ function expectType<T>(_value: T) {}
 <Link href={{ pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } }} />;
 // @ts-expect-error 'foo' must be a string, not string[]
 <Link href={{ pathname: "/foos/[foo]", query: { foo: ["baz", "foo"] } }} />;
+
+// Catch All
+<Link href={{ pathname: "/[...slug]", query: { slug: ["baz", "foo"] } }} />;
+// @ts-expect-error missing 'slug' in query
+<Link href={{ pathname: "/[...slug]", query: { slug: undefined } }} />;
 
 // Only change query for current page
 <Link href={{ query: { bar: "baz" } }} />;
@@ -63,7 +67,7 @@ function expectType<T>(_value: T) {}
 
 // LinkProps
 
-// ensure LinkProps is our LinkProps, not the untyped one
+// ensure LinkProps is typed (Next.js route types are overriden by nextjs-routes.d.ts)
 expectType<LinkProps["href"]>({ pathname: "/" });
 // static route
 expectType<LinkProps["href"]>("/");
@@ -109,6 +113,11 @@ router.push({ pathname: "/foos/[foo]", query: {} });
 router.push({ pathname: "/foos/[foo]", query: { foo: "baz", bar: "baz" } });
 // @ts-expect-error 'foo' must be a string, not string[]
 router.push({ pathname: "/foos/[foo]", query: { foo: ["bar", "baz"] } });
+
+// Catch All
+router.push({ pathname: "/[...slug]", query: { slug: ["baz", "foo"] } });
+// @ts-expect-error missing 'slug' in query
+router.push({ pathname: "/[...slug]", query: { slug: undefined } });
 
 // Only change query for current page
 router.push({ query: { bar: "baz" } });

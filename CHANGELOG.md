@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.5
+
+- The version of `nextjs-routes` is now included in the generated `nextjs-routes.d.ts` file.
+
 ## 1.0.4
 
 - `LinkProps` now accept path strings for static routes:

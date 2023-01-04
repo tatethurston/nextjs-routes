@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "nextjs-routes-development",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
   "repository": {
@@ -13,18 +13,17 @@
     "build:commonjs": "webpack",
     "build:module": "tsc",
     "clean": "rm -rf dist",
-    "e2e:setup": "npm run package:build && (cd e2e && npm install && npx next build)",
+    "e2e:setup": "npm run package:build && (cd e2e && pnpm next build)",
     "examples:each": "for e in ./examples/*; do (cd \"$e\" && $npm_config_command); done",
     "examples:regen": "npm run examples:each --command='npx next build'",
-    "examples:setup": "npm run examples:each --command='npm install'",
-    "lint": "npm run typecheck && prettier --check . && prettier-package-json --list-different '{,public.,example/}package.json' && eslint .",
-    "lint:fix": "prettier --write '**/*.{ts,cts,mts,tsx,md,json}' && prettier-package-json --write '{,public.,example/}package.json' && eslint --fix .",
-    "package:build": "npm install && npm run clean && npm run build:module && npm run build:commonjs && npm run package:prune && npm run package:copy:files",
+    "lint": "npm run typecheck && prettier --check . && prettier-package-json --list-different '{,public.,e2e/,example/}package.json' && eslint .",
+    "lint:fix": "prettier --write '**/*.{ts,cts,mts,tsx,md,json,yaml}' && prettier-package-json --write '{,public.,e2e/,example/}package.json' && eslint --fix .",
+    "package:build": "npm run clean && npm run build:module && npm run build:commonjs && npm run package:prune && npm run package:copy:files",
     "package:copy:files": "cp ./LICENSE ./README.md dist/ && cp ./public.package.json dist/package.json",
     "package:prune": "find dist -name *.test.* | xargs rm -f",
     "prepare": "husky install",
     "test": "npm run e2e:setup && jest",
-    "test:ci": "test --coverage",
+    "test:ci": "npm run test --coverage",
     "typecheck": "tsc --noEmit"
   },
   "sideEffects": false,
@@ -53,5 +52,6 @@
     "typescript": "^4.7.4",
     "webpack": "^5.74.0",
     "webpack-cli": "^4.10.0"
-  }
+  },
+  "packageManager": "pnpm@7.17.0"
 }

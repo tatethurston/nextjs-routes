@@ -19,7 +19,7 @@ export function nextRoutes(pathnames: string[]): Route[] {
   const DYNAMIC_SEGMENT_RE = /\[(.*?)\]/g;
 
   return pathnames.map((pathname) => {
-    const segments = pathname.match(DYNAMIC_SEGMENT_RE) ?? [];
+    const segments: string[] = pathname.match(DYNAMIC_SEGMENT_RE) ?? [];
     const query = segments.reduce<Route["query"]>((acc, cur) => {
       const param = cur
         .replace(/\[/g, "")

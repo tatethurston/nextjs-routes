@@ -1,15 +1,15 @@
 {
   "name": "e2e",
   "version": "1.0.0",
-  "main": "index.js",
   "license": "MIT",
+  "main": "index.js",
   "dependencies": {
     "next": "*",
     "react": "*",
     "react-dom": "*"
   },
   "devDependencies": {
-    "nextjs-routes": "file:../dist",
+    "nextjs-routes": "1.0.5",
     "typescript": "*"
   }
 }

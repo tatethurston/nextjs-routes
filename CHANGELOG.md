@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.6
+
+Fix bad publish of 1.0.5
+
 ## 1.0.5
 
 - The version of `nextjs-routes` is now included in the generated `nextjs-routes.d.ts` file.

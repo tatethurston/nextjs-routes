@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "nextjs-routes-development",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
   "repository": {
@@ -15,7 +15,7 @@
     "clean": "rm -rf dist",
     "e2e:setup": "npm run package:build && (cd e2e && pnpm next build)",
     "examples:each": "for e in ./examples/*; do (cd \"$e\" && $npm_config_command); done",
-    "examples:regen": "npm run examples:each --command='npx next build'",
+    "examples:regen": "npm run examples:each --command='pnpm next build'",
     "lint": "npm run typecheck && prettier --check . && prettier-package-json --list-different '{,public.,e2e/,example/}package.json' && eslint .",
     "lint:fix": "prettier --write '**/*.{ts,cts,mts,tsx,md,json,yaml}' && prettier-package-json --write '{,public.,e2e/,example/}package.json' && eslint --fix .",
     "package:build": "npm run clean && npm run build:module && npm run build:commonjs && npm run package:prune && npm run package:copy:files",

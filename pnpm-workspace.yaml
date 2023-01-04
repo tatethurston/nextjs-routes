@@ -1,0 +1,4 @@
+packages:
+  - "dist"
+  - "examples/*"
+  - "e2e"

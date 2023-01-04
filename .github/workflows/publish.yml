@@ -6,13 +6,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
-          cache: "npm"
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
           registry-url: "https://registry.npmjs.org"
-      - run: npm run package:build
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run package:build
       - run: cd dist && npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

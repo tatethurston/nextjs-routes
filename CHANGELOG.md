@@ -3,6 +3,7 @@
 ## 1.0.5
 
 - The version of `nextjs-routes` is now included in the generated `nextjs-routes.d.ts` file.
+- Switch `Link` to use TypeScript unions instead of function overloading. Function overloading resulted in errors that were difficult for users to understand, and [created issues for some use cases](https://github.com/tatethurston/nextjs-routes/issues/111).
 
 ## 1.0.4
 

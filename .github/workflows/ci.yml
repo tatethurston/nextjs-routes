@@ -9,13 +9,15 @@ jobs:
     name: "Lint and Test"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
         with:
-          node-version: "16.x"
-          cache: "npm"
-      - run: npm install
-      - run: npm run lint
-      - run: npm run test:ci && npx codecov --token=$CODECOV_TOKEN
+          node-version-file: ".nvmrc"
+          cache: "pnpm"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm package:build
+      - run: pnpm lint
+      - run: pnpm test:ci && pnpm codecov --token=$CODECOV_TOKEN
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

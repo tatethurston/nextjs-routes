@@ -10,10 +10,10 @@
   },
   "type": "module",
   "exports": {
-    ".": "./index.js",
+    ".": "./src/index.js",
     "./package.json": "./package.json",
     "./config": {
-      "import": "./config.js",
+      "import": "./src/config.js",
       "require": "./config.cjs"
     }
   },

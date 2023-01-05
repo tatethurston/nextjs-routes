@@ -2,7 +2,13 @@ import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { I18NConfig } from "next/dist/server/config-shared.js";
 import { join, parse, sep } from "path";
 import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
-import * as pkg from "../package.json";
+
+// import assertions are not yet supported by babel out of the box but are required
+// by node 17+
+// import pkg from "../package.json" assert { type: "json" };
+const pkg = {
+  version: "1.0.7",
+};
 
 type QueryType = "dynamic" | "catch-all" | "optional-catch-all";
 

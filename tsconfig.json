@@ -1,6 +1,8 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "module": "esnext",
@@ -12,7 +14,6 @@
     "skipLibCheck": true,
     "sourceMap": false,
     "strict": true,
-    "declaration": true,
     "target": "ES2020"
   },
   "include": ["package.json", "src/**/*"]

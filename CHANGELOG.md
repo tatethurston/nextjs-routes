@@ -1,8 +1,12 @@
 # Changelog
 
+## 1.0.7
+
+- Remove package.json version import. This resolves `TypeError[ERR_IMPORT_ASSERTION_TYPE_MISSING]`. [See #115](https://github.com/tatethurston/nextjs-routes/issues/115) for more context.
+
 ## 1.0.6
 
-Fix bad publish of 1.0.5
+- Fix bad publish of 1.0.5
 
 ## 1.0.5
 

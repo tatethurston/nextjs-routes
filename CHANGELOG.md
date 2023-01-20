@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.8
+
+- Fix type definition import path for `nextjs-routes/config` so it is visible to `tsc`.
+
 ## 1.0.7
 
 - Remove package.json version import. This resolves `TypeError[ERR_IMPORT_ASSERTION_TYPE_MISSING]`. [See #115](https://github.com/tatethurston/nextjs-routes/issues/115) for more context.

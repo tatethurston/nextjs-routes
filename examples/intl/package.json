@@ -19,7 +19,7 @@
     "@types/react": "18.0.14",
     "eslint": "8.19.0",
     "eslint-config-next": "12.2.0",
-    "nextjs-routes": "1.0.6",
+    "nextjs-routes": "*",
     "typescript": "4.7.4"
   }
 }

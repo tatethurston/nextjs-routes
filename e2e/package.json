@@ -9,7 +9,7 @@
     "react-dom": "*"
   },
   "devDependencies": {
-    "nextjs-routes": "1.0.6",
+    "nextjs-routes": "*",
     "typescript": "*"
   }
 }

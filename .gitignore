@@ -3,3 +3,4 @@ coverage
 node_modules
 tsconfig.tsbuildinfo
 .next
+.vscode

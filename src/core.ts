@@ -7,7 +7,7 @@ import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
 // by node 17+
 // import pkg from "../package.json" assert { type: "json" };
 const pkg = {
-  version: "1.0.7",
+  version: "1.0.8",
 };
 
 type QueryType = "dynamic" | "catch-all" | "optional-catch-all";

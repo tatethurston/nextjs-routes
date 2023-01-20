@@ -2,6 +2,13 @@ import Link from "next/link";
 import { LinkProps } from "next/link";
 import { useRouter, RouterEvent, NextRouter } from "next/router";
 import { route, type Route, type RoutedQuery } from "nextjs-routes";
+import withRoutes from "nextjs-routes/config";
+
+withRoutes();
+withRoutes({});
+withRoutes({ outDir: "types" });
+// @ts-expect-error invalid key 'foo'
+withRoutes({ foo: false });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
 function expectType<T>(_value: T) {}

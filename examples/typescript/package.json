@@ -22,7 +22,7 @@
     "eslint-config-next": "12.2.0",
     "jest": "^28.1.2",
     "jest-environment-jsdom": "^28.1.2",
-    "nextjs-routes": "1.0.6",
+    "nextjs-routes": "*",
     "typescript": "4.7.4"
   }
 }

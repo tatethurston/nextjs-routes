@@ -1,6 +1,6 @@
 import { existsSync, writeFileSync } from "fs";
-import { writeNextjsRoutes } from "./core.js";
-import { findFiles } from "./utils.js";
+import { writeNextjsRoutes } from "./core";
+import { findFiles } from "./utils";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 jest.mock("fs", () => ({
@@ -14,8 +14,8 @@ const existsSyncMock = existsSync as jest.Mock;
 jest.spyOn(process, "cwd").mockReturnValue("");
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-jest.mock("./utils.js", () => ({
-  ...jest.requireActual("./utils.js"),
+jest.mock("./utils", () => ({
+  ...jest.requireActual("./utils"),
   findFiles: jest.fn(),
 }));
 const findFilesMock = findFiles as jest.Mock;

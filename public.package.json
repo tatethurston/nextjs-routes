@@ -10,7 +10,10 @@
   },
   "type": "module",
   "exports": {
-    ".": "./index.js",
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
     "./package.json": "./package.json",
     "./config": {
       "import": "./config.js",

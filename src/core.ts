@@ -1,14 +1,8 @@
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { I18NConfig } from "next/dist/server/config-shared.js";
 import { join, parse, sep } from "path";
-import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
-
-// import assertions are not yet supported by babel out of the box but are required
-// by node 17+
-// import pkg from "../package.json" assert { type: "json" };
-const pkg = {
-  version: "1.0.8",
-};
+import { findFiles, getAppDirectory, getPagesDirectory } from "./utils";
+import pkg from "../package.json";
 
 type QueryType = "dynamic" | "catch-all" | "optional-catch-all";
 
@@ -344,7 +338,7 @@ export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
     ...defaultOptions,
     ...options,
   };
-  const files = [];
+  const files: string[] = [];
   const pagesDirectory = getPagesDirectory(opts.dir);
   if (pagesDirectory) {
     const routes = getPageRoutes(findFiles(pagesDirectory), {

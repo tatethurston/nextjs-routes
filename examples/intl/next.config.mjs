@@ -1,4 +1,4 @@
-import withRoutes from "nextjs-routes/config";
+import {withRoutes} from "nextjs-routes/config";
 
 const nextConfig = {
   reactStrictMode: true,

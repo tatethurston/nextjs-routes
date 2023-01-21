@@ -10,15 +10,14 @@
   },
   "type": "module",
   "scripts": {
-    "build:commonjs": "webpack",
-    "build:module": "tsc",
+    "build": "tsup",
     "clean": "rm -rf dist",
     "e2e:setup": "npm run package:build && (cd e2e && pnpm next build)",
     "examples:each": "for e in ./examples/*; do (cd \"$e\" && $npm_config_command); done",
     "examples:regen": "npm run examples:each --command='pnpm next build'",
     "lint": "npm run typecheck && prettier --check . && prettier-package-json --list-different '{,public.,e2e/,example/}package.json' && eslint .",
     "lint:fix": "prettier --write '**/*.{ts,cts,mts,tsx,md,json,yaml}' && prettier-package-json --write '{,public.,e2e/,example/}package.json' && eslint --fix .",
-    "package:build": "npm run clean && npm run build:module && npm run build:commonjs && npm run package:prune && npm run package:copy:files",
+    "package:build": "npm run clean && npm run build && npm run package:prune && npm run package:copy:files",
     "package:copy:files": "cp ./LICENSE ./README.md dist/ && cp ./public.package.json dist/package.json",
     "package:prune": "find dist -name *.test.* | xargs rm -f",
     "prepare": "husky install",
@@ -30,7 +29,6 @@
   "devDependencies": {
     "@babel/preset-env": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
-    "@swc/core": "^1.3.3",
     "@types/jest": "^29.0.3",
     "@types/node": "^18.0.3",
     "@types/react": "^18.0.15",
@@ -48,10 +46,9 @@
     "prettier": "^2.7.1",
     "prettier-package-json": "^2.6.4",
     "react": "^18.2.0",
-    "swc-loader": "^0.2.3",
+    "tsup": "^6.5.0",
     "typescript": "^4.7.4",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
+    "webpack": "^5.74.0"
   },
   "packageManager": "pnpm@7.17.0"
 }

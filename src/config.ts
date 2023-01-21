@@ -5,9 +5,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import type { NextConfig } from "next";
 import type { Configuration, WebpackPluginInstance } from "webpack";
-import { getAppDirectory, getPagesDirectory } from "./utils.js";
+import { getAppDirectory, getPagesDirectory } from "./utils";
 import { watch } from "chokidar";
-import { logger, NextJSRoutesOptions, writeNextjsRoutes } from "./core.js";
+import { logger, NextJSRoutesOptions, writeNextjsRoutes } from "./core";
 
 function debounce<Fn extends (...args: unknown[]) => unknown>(
   fn: Fn,
@@ -71,7 +71,7 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
 
 type WithRoutesOptions = Pick<NextJSRoutesOptions, "outDir" | "dir">;
 
-export default function withRoutes(
+function withRoutes(
   options?: WithRoutesOptions
 ): (nextConfig: NextConfig) => NextConfig {
   return function (nextConfig) {
@@ -99,3 +99,5 @@ export default function withRoutes(
     };
   };
 }
+
+export { withRoutes };

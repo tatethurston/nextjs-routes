@@ -1,4 +1,4 @@
-const withRoutes = require("nextjs-routes/config")();
+const {withRoutes} = require("nextjs-routes/config");
 
 const nextConfig = {
   reactStrictMode: true,
@@ -8,4 +8,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withRoutes(nextConfig);
+module.exports = withRoutes()(nextConfig);

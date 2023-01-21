@@ -7,7 +7,7 @@ import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
 // by node 17+
 // import pkg from "../package.json" assert { type: "json" };
 const pkg = {
-  version: "1.0.8",
+  version: "2.0.0",
 };
 
 type QueryType = "dynamic" | "catch-all" | "optional-catch-all";
@@ -228,16 +228,32 @@ declare module "next/router" {
     locale?: ${!i18n.locales.length ? "false" : `Locale | false`};
   }
 
+  type PathnameAndQuery<Pathname> = Required<
+    Pick<Extract<Route, { pathname: Pathname }>, "pathname" | "query">
+  >;
+
+  type AutomaticStaticOptimizedQuery<PaQ> = Omit<PaQ, "query"> & {
+    query: Partial<PaQ["query"]>;
+  };
+
+  type BaseRouter<PaQ> =
+    | ({ isReady: false } & AutomaticStaticOptimizedQuery<PaQ>)
+    | ({ isReady: true } & PaQ);
+
   export type NextRouter<P extends Route["pathname"] = Route["pathname"]> =
-    Extract<Route, { pathname: P }> &
+    BaseRouter<PathnameAndQuery<P>> &
       Omit<
         Router,
-        | "push"
-        | "replace"
-        | "locale"
-        | "locales"
         | "defaultLocale"
         | "domainLocales"
+        | "isReady"
+        | "locale"
+        | "locales"
+        | "pathname"
+        | "push"
+        | "query"
+        | "replace"
+        | "route"
       > & {
         defaultLocale${
           i18n.defaultLocale ? `: "${i18n.defaultLocale}"` : "?: undefined"
@@ -295,7 +311,7 @@ export interface NextJSRoutesOptions {
    */
   dir?: string | undefined;
   /**
-   * NextJS pageExtensions.
+   * NextJS config option.
    * https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
    */
   pageExtensions?: string[] | undefined;

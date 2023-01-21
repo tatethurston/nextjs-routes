@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.0.1
+
+- `router.query` types must now be narrowed using `router.isReady`. This ensures typing are correct for pages that use [Automatic Static Optimization](https://nextjs.org/docs/advanced-features/automatic-static-optimization).
+
+[Next's documentation](https://nextjs.org/docs/advanced-features/automatic-static-optimization) notes the following:
+
+> During prerendering, the router's query object will be empty since we do not have query information to provide during this phase. After hydration, Next.js will trigger an update to your application to provide the route parameters in the query object.
+
+See [#117](https://github.com/tatethurston/nextjs-routes/issues/117) for more context and discussion.
+
 ## 1.0.9
 
 - Enable `Link` and `router` methods to only update the route `hash`. Thanks @sitch!

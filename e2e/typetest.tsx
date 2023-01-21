@@ -109,7 +109,11 @@ expectType<"/" | "/foos/[foo]" | "/[...slug]">(router.route);
 expectType<string | string[] | undefined>(router.query.foo);
 expectType<string | string[] | undefined>(router.query.bar);
 // type narrowing
-expectType<string>(useRouter<"/foos/[foo]">().query.foo);
+const router1 = useRouter<"/foos/[foo]">();
+expectType<string | undefined>(router1.query.foo);
+if (router1.isReady) {
+  expectType<string>(router1.query.foo);
+}
 
 // push
 

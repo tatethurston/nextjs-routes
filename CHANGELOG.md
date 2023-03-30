@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.9
+
+- Enable `Link` and `router` methods to only update the route `hash`. Thanks @sitch!
+
 ## 1.0.8
 
 - Fix type definition import path for `nextjs-routes/config` so it is visible to `tsc`.

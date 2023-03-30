@@ -48,10 +48,16 @@ function expectType<T>(_value: T) {}
 // @ts-expect-error missing 'slug' in query
 <Link href={{ pathname: "/[...slug]", query: { slug: undefined } }} />;
 
-// Only change query for current page
+// Change query for current page
 <Link href={{ query: { bar: "baz" } }} />;
 <Link href={{ query: { foo: "foo" } }} />;
 <Link href={{ query: { foo: ["foo", "bar"] } }} />;
+
+// Change hash for current page
+<Link href={{ hash: "#foo" }} />;
+
+// Change hash and query for current page
+<Link href={{ query: { bar: "baz", hash: "#foo" } }} />;
 
 // Unaugmented props
 <Link
@@ -126,10 +132,16 @@ router.push({ pathname: "/[...slug]", query: { slug: ["baz", "foo"] } });
 // @ts-expect-error missing 'slug' in query
 router.push({ pathname: "/[...slug]", query: { slug: undefined } });
 
-// Only change query for current page
+// Change query for current page
 router.push({ query: { bar: "baz" } });
 router.push({ query: { foo: "foo" } });
 router.push({ query: { foo: ["foo", "bar"] } });
+
+// Change hash for current page
+router.push({ hash: "#foo" });
+
+// Change hash and query for current page
+router.push({ query: { bar: "baz" }, hash: "#foo" });
 
 // Reassignment
 router.push(router);

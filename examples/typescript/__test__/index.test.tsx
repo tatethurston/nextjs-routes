@@ -1,12 +1,13 @@
 import { render, screen } from "@testing-library/react";
-import Home from ".";
-import fetchMock from "jest-fetch-mock";
+import Home from "../pages";
+
+(global.fetch as any) = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(JSON.stringify({ name: "Tate" })),
+  })
+);
 
 describe("Home", () => {
-  beforeEach(() => {
-    fetchMock.mockResponseOnce(JSON.stringify({ name: "Tate" }));
-  });
-
   it("renders a Link", () => {
     render(<Home />);
     const link = screen.getByText("Foo");

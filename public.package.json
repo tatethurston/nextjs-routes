@@ -1,6 +1,6 @@
 {
   "name": "nextjs-routes",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Type safe routing for Next.js",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
@@ -10,7 +10,10 @@
   },
   "type": "module",
   "exports": {
-    ".": "./index.js",
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
     "./package.json": "./package.json",
     "./config": {
       "import": "./config.js",

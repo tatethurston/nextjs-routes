@@ -1,21 +1,15 @@
 const { join } = require("path");
 
-const file = "config";
-
-module.exports = {
-  entry: `./src/${file}.ts`,
+/**
+ * @type {import('webpack').Configuration}
+ */
+const common = {
   target: "node",
   mode: "production",
   output: {
-    filename: file + ".cjs",
-    library: {
-      type: "commonjs2",
-      export: "default",
-    },
+    filename: "[name].cjs",
     path: join(__dirname, "dist"),
-  },
-  externals: {
-    chokidar: "commonjs chokidar",
+    libraryTarget: "commonjs2",
   },
   resolve: {
     extensionAlias: {
@@ -42,3 +36,29 @@ module.exports = {
     ],
   },
 };
+
+module.exports = [
+  {
+    ...common,
+    entry: {
+      config: "./src/config.ts",
+    },
+    externals: {
+      chokidar: "commonjs chokidar",
+    },
+    output: {
+      ...common.output,
+      // set default export to module.exports
+      library: {
+        type: "commonjs2",
+        export: "default",
+      },
+    },
+  },
+  {
+    ...common,
+    entry: {
+      index: "./src/index.ts",
+    },
+  },
+];

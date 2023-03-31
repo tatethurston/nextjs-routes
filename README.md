@@ -147,6 +147,15 @@ If you want to use the generated `Route` type in your code, you can import it fr
 import type { Route } from "nextjs-routes";
 ```
 
+### Pathname
+
+If you want a type for all possible `pathname`s you can achieve this via `Route`:
+
+```ts
+import type { Route } from "nextjs-routes";
+type Pathname = Route["pathname"];
+```
+
 ### RoutedQuery
 
 If you want to use the generated `Query` for a given `Route`, you can import it from `nextjs-routes`:
@@ -155,18 +164,32 @@ If you want to use the generated `Query` for a given `Route`, you can import it 
 import type { RoutedQuery } from "nextjs-routes";
 ```
 
-This is useful as the context type parameter inside `getStaticProps` and `getServerSideProps`:
+### GetServerSidePropsContext
+
+If you're using `getServerSideProps` consider using `GetServerSidePropsContext` from nextjs-routes. This is nearly identical to `GetServerSidePropsContext` from next, but further narrows types based on nextjs-route's route data.
 
 ```ts
-import type { GetStaticProps } from "next";
-import type { RoutedQuery } from "nextjs-routes";
+import type { GetServerSidePropsContext } from "nextjs-routes";
 
-export const getStaticProps: GetStaticProps<{}, RoutedQuery<"/foos/[foo]">> = (
-  context
-) => {
-  // context.params will include `foo` as a string
+export function getServerSideProps(
+  context: GetServerSidePropsContext<"/foos/[foo]">
+) {
+  // context.params will include `foo` as a string;
   const { foo } = context.params;
-};
+}
+```
+
+### GetServerSideProps
+
+If you're using `getServerSideProps` and TypeScript 4.9 or later, you can combine the [satisfies](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-9.html#the-satisfies-operator) operator with `GetServerSideProps` from nextjs-routes. This is nearly identical to `GetServerSideProps` from next, but further narrows types based on nextjs-route's route data.
+
+```ts
+import type { GetServerSideProps } from "nextjs-routes";
+
+export const getServerSideProps = (async (context) => {
+  // context.params will include `foo` as a string;
+  const { foo } = context.params;
+}) satisfies GetServerSideProps<{}, "/foos/[foo]">;
 ```
 
 ## How does this work? 🤔
@@ -190,16 +213,16 @@ fetch(route({ pathname: "/api/foos/[foo]", query: { foo: "foobar" } }));
 ### getServerSideProps
 
 ```ts
-import { route } from "nextjs-routes";
+import { route, type GetServerSidePropsContext } from "nextjs-routes";
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     redirect: {
       destination: route({ pathname: "/foos/[foo]", query: { foo: "foobar" } }),
       permanent: false,
     },
   };
-};
+}
 ```
 
 ### Internationalization (i18n)

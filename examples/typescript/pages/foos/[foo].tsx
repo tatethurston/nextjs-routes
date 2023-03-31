@@ -1,6 +1,10 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { route } from "nextjs-routes";
+import {
+  route,
+  type GetServerSidePropsContext,
+  type GetServerSideProps,
+} from "nextjs-routes";
 
 const Foo: NextPage = () => {
   const router = useRouter<"/foos/[foo]">();
@@ -8,13 +12,18 @@ const Foo: NextPage = () => {
   return <div>Foo: {foo}</div>;
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getServerSideProps = (async (
+  ctx: GetServerSidePropsContext<"/foos/[foo]">
+) => {
   return {
     redirect: {
-      destination: route({ pathname: "/bars/[bar]", query: { bar: "foo" } }),
+      destination: route({
+        pathname: "/bars/[bar]",
+        query: { bar: ctx.params.foo },
+      }),
       permanent: false,
     },
   };
-};
+}) satisfies GetServerSideProps<{}, "/foos/[foo]">;
 
 export default Foo;

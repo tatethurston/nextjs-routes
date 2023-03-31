@@ -3,7 +3,8 @@
 ## 1.0.9
 
 - Enable `Link` and `router` methods to only update the route `hash`. Thanks @sitch!
-- Publish commonjs for `route` runtime so jest tests don't require transpilation for users. Thanks @panudetjt.
+- Publish commonjs for `route` runtime so jest tests don't require transpilation for users. Thanks @panudetjt!
+- Add `GetServerSidePropsContext` type. Thanks @slhck!
 
 ## 1.0.8
 

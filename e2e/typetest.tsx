@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { LinkProps } from "next/link";
 import { useRouter, RouterEvent, NextRouter } from "next/router";
-import { route, type Route, type RoutedQuery } from "nextjs-routes";
+import {
+  route,
+  type Route,
+  type RoutedQuery,
+  type GetServerSideProps,
+  type GetServerSidePropsContext,
+} from "nextjs-routes";
 import withRoutes from "nextjs-routes/config";
 
 withRoutes();
@@ -270,3 +276,37 @@ rq2 = { foo: "bar" };
 rq2 = { bar: "baz" };
 // @ts-expect-error 'foo' must be a string, not string[]
 rq2 = { foo: ["bar", "baz"] };
+
+let getServerSideProps = (async (
+  ctx: GetServerSidePropsContext<"/foos/[foo]">
+) => {
+  expectType<string>(ctx.params.foo);
+  return {
+    redirect: {
+      destination: route({
+        pathname: "/foos/[foo]",
+        query: { foo: ctx.params.foo },
+      }),
+      permanent: false,
+    },
+  };
+}) satisfies GetServerSideProps<{}, "/foos/[foo]">;
+
+expectType<
+  (
+    ctx: GetServerSidePropsContext<"/foos/[foo]">
+  ) => Promise<{ redirect: { destination: string; permanent: boolean } }>
+>(getServerSideProps);
+
+getServerSideProps = (async (ctx) => {
+  expectType<string>(ctx.params.foo);
+  return {
+    redirect: {
+      destination: route({
+        pathname: "/foos/[foo]",
+        query: { foo: ctx.params.foo },
+      }),
+      permanent: false,
+    },
+  };
+}) satisfies GetServerSideProps<{}, "/foos/[foo]">;

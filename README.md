@@ -62,15 +62,15 @@
    + module.exports = withRoutes(nextConfig);
    ```
 
-   File watching will only run in Next.js' development server (eg `npx next dev`).
+3. Start or build your next project:
 
-3. Start your next server:
-
-   `npx next dev` or `yarn next dev`
+   `npx next dev` or `npx next build`
 
 That's it! A `nextjs-routes.d.ts` file will be generated the first time you start your server. Check this file into version control. `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 
-Whenever your routes change, your `nextjs-routes.d.ts` file will automatically update.
+In development, whenever your routes change, your `nextjs-routes.d.ts` file will automatically update.
+
+If you would prefer to generate the route types file outside of `next dev` or `next build` you can also invoke the cli directly: `npx nextjs-routes`.
 
 ## Examples 🛠
 

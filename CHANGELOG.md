@@ -2,7 +2,9 @@
 
 ## 2.0.1
 
-- `router.query` types must now be narrowed using `router.isReady`. This ensures typing are correct for pages that use [Automatic Static Optimization](https://nextjs.org/docs/advanced-features/automatic-static-optimization).
+- Route type generation can now also be generated outside of `next build` / `next dev` by using `npx nextjs-routes`.
+
+- `router.query` types must now be narrowed using `router.isReady`. This ensures types are correct for pages that use [Automatic Static Optimization](https://nextjs.org/docs/advanced-features/automatic-static-optimization).
 
 [Next's documentation](https://nextjs.org/docs/advanced-features/automatic-static-optimization) notes the following:
 

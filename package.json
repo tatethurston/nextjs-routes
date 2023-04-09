@@ -11,7 +11,7 @@
   "type": "module",
   "scripts": {
     "build:commonjs": "webpack",
-    "build:module": "tsc",
+    "build:module": "tsc && chmod +x dist/cli.js",
     "clean": "rm -rf dist",
     "e2e:setup": "npm run package:build && (cd e2e && pnpm next build)",
     "examples:each": "for e in ./examples/*; do (cd \"$e\" && $npm_config_command); done",

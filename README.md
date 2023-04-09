@@ -136,19 +136,17 @@ By default, `query` will be typed as the union of all possible query parameters 
 import { useRouter } from "next/router";
 
 const router = useRouter<"/foos/[foo]">();
-// query is now typed as `{ foo: string } | undefined`
+// query is now typed as `{ foo?: string | undefined }`
 router.query;
 ```
 
-When using [Automatic Static Optimization](https://nextjs.org/docs/advanced-features/automatic-static-optimization), the router's query object will be empty. After hydration, Next.js will trigger an update to your application to provide the route parameters in the query object. See [Next's documentation](https://nextjs.org/docs/advanced-features/automatic-static-optimization) for more information.
-
-You can further narrow the query type by checking the `isReady` state.
+You can further narrow the query type by checking the router's `isReady` property.
 
 ```tsx
 import { useRouter } from "next/router";
 
 const router = useRouter<"/foos/[foo]">();
-// query is typed as `{ foo: string } | undefined`
+// query is typed as `{ foo?: string | undefined }`
 router.query;
 
 if (router.isReady) {
@@ -156,6 +154,8 @@ if (router.isReady) {
   router.query;
 }
 ```
+
+Checking `isReady` is necessary because of Next's [Automatic Static Optimization](https://nextjs.org/docs/advanced-features/automatic-static-optimization). The router's query object will be empty for pages that are Automatic Static Optimized. After hydration, Next.js will trigger an update to your application to provide the route parameters in the query object. See [Next's documentation](https://nextjs.org/docs/advanced-features/automatic-static-optimization) for more information. `isReady` will always return true for server rendered pages.
 
 ### Route
 

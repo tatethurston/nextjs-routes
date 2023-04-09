@@ -135,8 +135,26 @@ By default, `query` will be typed as the union of all possible query parameters 
 ```tsx
 import { useRouter } from "next/router";
 
-// query is now typed as `{ foo: string }`
-const { query } = useRouter<"/foos/[foo]">();
+const router = useRouter<"/foos/[foo]">();
+// query is now typed as `{ foo: string } | undefined`
+router.query;
+```
+
+When using [Automatic Static Optimization](https://nextjs.org/docs/advanced-features/automatic-static-optimization), the router's query object will be empty. After hydration, Next.js will trigger an update to your application to provide the route parameters in the query object. See [Next's documentation](https://nextjs.org/docs/advanced-features/automatic-static-optimization) for more information.
+
+You can further narrow the query type by checking the `isReady` state.
+
+```tsx
+import { useRouter } from "next/router";
+
+const router = useRouter<"/foos/[foo]">();
+// query is typed as `{ foo: string } | undefined`
+router.query;
+
+if (router.isReady) {
+  // query is typed as `{ foo: string }`
+  router.query;
+}
 ```
 
 ### Route

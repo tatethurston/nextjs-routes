@@ -3,13 +3,19 @@
   "version": "1.0.0",
   "license": "MIT",
   "main": "index.js",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "lint": "next lint",
+    "start": "next start"
+  },
   "dependencies": {
     "next": "*",
     "react": "*",
     "react-dom": "*"
   },
   "devDependencies": {
-    "nextjs-routes": "*",
+    "nextjs-routes": "workspace:*",
     "typescript": "*"
   }
 }

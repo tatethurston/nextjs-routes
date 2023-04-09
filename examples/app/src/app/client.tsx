@@ -9,17 +9,7 @@ export default function Client() {
   const router = useRouter();
 
   return (
-    <button
-      type="button"
-      onClick={() =>
-        router.push({
-          pathname: "/[store]",
-          query: {
-            store: "tate",
-          },
-        })
-      }
-    >
+    <button type="button" onClick={() => router.push("/tate")}>
       Dashboard
     </button>
   );

@@ -1,0 +1,43 @@
+{
+  "name": "nextjs-routes",
+  "version": "2.0.0",
+  "description": "Type safe routing for Next.js",
+  "license": "MIT",
+  "author": "Tate <tatethurston@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tatethurston/nextjs-routes"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "require": "./index.cjs"
+    },
+    "./package.json": "./package.json",
+    "./config": {
+      "import": "./config.js",
+      "require": "./config.cjs"
+    }
+  },
+  "bin": {
+    "nextjs-routes": "./cli.js"
+  },
+  "sideEffects": false,
+  "types": "index.d.ts",
+  "dependencies": {
+    "chokidar": "^3.5.3"
+  },
+  "peerDependencies": {
+    "next": "*"
+  },
+  "keywords": [
+    "link",
+    "next",
+    "nextjs",
+    "route",
+    "routing",
+    "type safe",
+    "typescript"
+  ]
+}

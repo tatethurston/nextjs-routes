@@ -1,8 +1,6 @@
 # Changelog
 
-## 2.0.1
-
-- Route type generation can now also be generated outside of `next build` / `next dev` by using `npx nextjs-routes`.
+## 2.0.0
 
 - `router.query` types must now be narrowed using `router.isReady`. This ensures types are correct for pages that use [Automatic Static Optimization](https://nextjs.org/docs/advanced-features/automatic-static-optimization).
 
@@ -11,6 +9,8 @@
 > During prerendering, the router's query object will be empty since we do not have query information to provide during this phase. After hydration, Next.js will trigger an update to your application to provide the route parameters in the query object.
 
 See [#117](https://github.com/tatethurston/nextjs-routes/issues/117) for more context and discussion.
+
+- Route type generation can now also be generated outside of `next build` / `next dev` by using `npx nextjs-routes`.
 
 ## 1.0.9
 

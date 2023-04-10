@@ -278,6 +278,8 @@ const withRoutes = require("nextjs-routes/config")({
 
 - `outDir`: The file path indicating the output directory where the generated route types should be written to (e.g.: "types"). The default is to create the file in the same folder as your `next.config.js` file.
 
+- `cwd`: The path to your `next.config.js` file. This is only necessary for non standard project structures, such as `nx`. If you are an `nx` user getting the `Could not find a Next.js pages directory` error, use `cwd: __dirname`.
+
 ## Contributing 👫
 
 PR's and issues welcomed! For more guidance check out [CONTRIBUTING.md](https://github.com/tatethurston/nextjs-routes/blob/main/CONTRIBUTING.md)

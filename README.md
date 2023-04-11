@@ -46,7 +46,14 @@
 
 1. Add this package to your project:
 
-   `npm install nextjs-routes` or `yarn add nextjs-routes`
+   ```bash
+    npm install nextjs-routes
+    # or
+    yarn add nextjs-routes
+    # or
+    pnpm add nextjs-routes
+    ```
+
 
 2. Update your `next.config.js`:
 
@@ -58,13 +65,19 @@
      reactStrictMode: true,
    };
 
+   
+
    - module.exports = nextConfig;
    + module.exports = withRoutes(nextConfig);
    ```
 
 3. Start or build your next project:
 
-   `npx next dev` or `npx next build`
+   ```bash
+   npx next dev
+   # or
+   npx next build
+   ```
 
 That's it! A `nextjs-routes.d.ts` file will be generated the first time you start your server. Check this file into version control. `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 

@@ -96,7 +96,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     ${

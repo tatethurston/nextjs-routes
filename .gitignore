@@ -1,4 +1,5 @@
-dist
+dist/*
+!dist/package.json
 coverage
 node_modules
 tsconfig.tsbuildinfo

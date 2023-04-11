@@ -14,7 +14,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     | StaticRoute<"/">
@@ -194,7 +194,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     | StaticRoute<"/">;
@@ -396,7 +396,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     | StaticRoute<"/404">;
@@ -574,7 +574,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     | StaticRoute<"/404">
@@ -754,7 +754,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     | StaticRoute<"/404">;
@@ -932,7 +932,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     | StaticRoute<"/">;
@@ -1110,7 +1110,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     never;
@@ -1288,7 +1288,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     | DynamicRoute<"src/pages/[foo]/bar", { "foo": string }>;
@@ -1466,7 +1466,7 @@ declare module "nextjs-routes" {
   import type {
     GetServerSidePropsContext as NextGetServerSidePropsContext,
     GetServerSidePropsResult as NextGetServerSidePropsResult
-  } from "nextjs";
+  } from "next";
 
   export type Route =
     | StaticRoute<"/404">

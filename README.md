@@ -47,12 +47,12 @@
 1. Add this package to your project:
 
    ```bash
-    npm install nextjs-routes
-    # or
-    yarn add nextjs-routes
-    # or
-    pnpm add nextjs-routes
-    ```
+   npm install nextjs-routes
+   # or
+   yarn add nextjs-routes
+   # or
+   pnpm add nextjs-routes
+   ```
 
 2. Update your `next.config.js`:
 

@@ -384,7 +384,7 @@ export function getPageRoutes(files: string[], opts: Opts): string[] {
   );
 }
 
-export function writeNextjsRoutes(options: NextJSRoutesOptions): void {
+export function writeNextJSRoutes(options: NextJSRoutesOptions): void {
   const defaultOptions = {
     dir: process.cwd(),
     outDir: "",

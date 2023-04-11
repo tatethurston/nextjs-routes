@@ -3,11 +3,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
+import { watch } from "chokidar";
 import type { NextConfig } from "next";
 import type { Configuration, WebpackPluginInstance } from "webpack";
+import { NextJSRoutesOptions, logger, writeNextJSRoutes } from "./core.js";
 import { getAppDirectory, getPagesDirectory } from "./utils.js";
-import { watch } from "chokidar";
-import { logger, NextJSRoutesOptions, writeNextjsRoutes } from "./core.js";
 
 type WebpackConfigContext = Parameters<NonNullable<NextConfig["webpack"]>>[1];
 
@@ -66,10 +66,10 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
         persistent: true,
       });
       // batch changes
-      const generate = debounce(() => writeNextjsRoutes(options), 50);
+      const generate = debounce(() => writeNextJSRoutes(options), 50);
       watcher.on("add", generate).on("unlink", generate);
     } else {
-      writeNextjsRoutes(options);
+      writeNextJSRoutes(options);
     }
   }
 }

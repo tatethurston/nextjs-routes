@@ -1,5 +1,5 @@
 import { existsSync, writeFileSync } from "fs";
-import { writeNextjsRoutes } from "./core.js";
+import { writeNextJSRoutes } from "./core.js";
 import { findFiles } from "./utils.js";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -25,7 +25,7 @@ describe("route generation", () => {
     // getPageRoutes
     existsSyncMock.mockImplementationOnce(() => true);
     findFilesMock.mockReturnValueOnce([]);
-    writeNextjsRoutes({});
+    writeNextJSRoutes({});
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
@@ -35,7 +35,7 @@ describe("route generation", () => {
       .mockImplementationOnce(() => false)
       .mockImplementationOnce(() => true);
     findFilesMock.mockReturnValueOnce(["src\\pages\\[foo]\\bar\\index.ts"]);
-    writeNextjsRoutes({});
+    writeNextJSRoutes({});
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
@@ -43,7 +43,7 @@ describe("route generation", () => {
     // getPageRoutes
     existsSyncMock.mockImplementationOnce(() => true);
     findFilesMock.mockReturnValueOnce(["pages/index.tsx", "pages/index.ts"]);
-    writeNextjsRoutes({});
+    writeNextJSRoutes({});
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
@@ -75,7 +75,7 @@ describe("route generation", () => {
       "pages/settings/foo.ts",
       "pages/settings/index.ts",
     ]);
-    writeNextjsRoutes({});
+    writeNextJSRoutes({});
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
@@ -90,7 +90,7 @@ describe("route generation", () => {
       "app/foo/page.tsx",
       "app/bar/page.ts",
     ]);
-    writeNextjsRoutes({});
+    writeNextJSRoutes({});
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
@@ -100,7 +100,7 @@ describe("route generation", () => {
         // getPageRoutes
         existsSyncMock.mockImplementationOnce(() => true);
         findFilesMock.mockReturnValueOnce(["pages/404.ts", "pages/404.md"]);
-        writeNextjsRoutes({});
+        writeNextJSRoutes({});
         expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
       });
 
@@ -113,7 +113,7 @@ describe("route generation", () => {
           "pages/foo/index.page.tsx",
           "pages/foo/index.test.tsx",
         ]);
-        writeNextjsRoutes({
+        writeNextJSRoutes({
           pageExtensions: ["ts", "md", "page.tsx"],
         });
         expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
@@ -124,7 +124,7 @@ describe("route generation", () => {
       // getPageRoutes
       existsSyncMock.mockImplementationOnce(() => true);
       findFilesMock.mockReturnValueOnce(["pages/404.ts"]);
-      writeNextjsRoutes({ outDir: "src" });
+      writeNextJSRoutes({ outDir: "src" });
       expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
     });
 
@@ -132,7 +132,7 @@ describe("route generation", () => {
       // getPageRoutes
       existsSyncMock.mockImplementationOnce(() => true);
       findFilesMock.mockReturnValueOnce(["pages/index.ts"]);
-      writeNextjsRoutes({
+      writeNextJSRoutes({
         i18n: {
           locales: ["en-US", "fr", "nl-NL"],
           defaultLocale: "en-US",

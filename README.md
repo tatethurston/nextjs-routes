@@ -54,7 +54,6 @@
     pnpm add nextjs-routes
     ```
 
-
 2. Update your `next.config.js`:
 
    ```diff
@@ -64,8 +63,6 @@
    const nextConfig = {
      reactStrictMode: true,
    };
-
-   
 
    - module.exports = nextConfig;
    + module.exports = withRoutes(nextConfig);

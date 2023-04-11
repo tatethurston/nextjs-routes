@@ -46,7 +46,7 @@
 
 1. Add this package to your project:
 
-   ```bash
+   ```sh
    npm install nextjs-routes
    # or
    yarn add nextjs-routes
@@ -70,7 +70,7 @@
 
 3. Start or build your next project:
 
-   ```bash
+   ```sh
    npx next dev
    # or
    npx next build

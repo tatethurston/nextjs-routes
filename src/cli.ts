@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
+import { writeNextJSRoutes } from "./core.js";
 import { getAppDirectory, getPagesDirectory } from "./utils.js";
-import { writeNextjsRoutes } from "./core.js";
 
 const logger: Pick<Console, "error" | "info"> = {
   error: (str: string) => console.error("[nextjs-routes] " + str),
@@ -22,7 +22,7 @@ function cli(): void {
   `);
     process.exit(1);
   } else {
-    writeNextjsRoutes({});
+    writeNextJSRoutes({});
     logger.info("Generated route types.");
   }
 }

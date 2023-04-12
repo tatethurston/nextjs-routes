@@ -76,9 +76,9 @@
    npx next build
    ```
 
-That's it! A `nextjs-routes.d.ts` file will be generated the first time you start your server. Check this file into version control. `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
+That's it! A `@types/nextjs-routes.d.ts` file will be generated the first time you start your server. Check this file into version control. `next/link` and `next/router` type definitions have been augmented to verify your application's routes. No more broken links, and you get route autocompletion 🙌.
 
-In development, whenever your routes change, your `nextjs-routes.d.ts` file will automatically update.
+In development, whenever your routes change, your `@types/nextjs-routes.d.ts` file will automatically update.
 
 If you would prefer to generate the route types file outside of `next dev` or `next build` you can also invoke the cli directly: `npx nextjs-routes`.
 
@@ -222,7 +222,7 @@ export const getServerSideProps = (async (context) => {
 
 ## How does this work? 🤔
 
-`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` and/or `app` directory. The generated types are written to `nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
+`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` and/or `app` directory. The generated types are written to `@types/nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `@types/nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
 
 ## What if I need a runtime?
 

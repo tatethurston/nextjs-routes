@@ -124,7 +124,7 @@ describe("route generation", () => {
       // getPageRoutes
       existsSyncMock.mockImplementationOnce(() => true);
       findFilesMock.mockReturnValueOnce(["pages/404.ts"]);
-      writeNextJSRoutes({ outDir: "src/@types" });
+      writeNextJSRoutes({ outDir: "src" });
       expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
     });
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
 const { join } = require("path");
 
 /**
@@ -8,6 +9,7 @@ const common = {
   mode: "production",
   output: {
     filename: "[name].cjs",
+    // eslint-disable-next-line no-undef
     path: join(__dirname, "dist"),
     libraryTarget: "commonjs2",
   },
@@ -37,6 +39,7 @@ const common = {
   },
 };
 
+// eslint-disable-next-line no-undef
 module.exports = [
   {
     ...common,

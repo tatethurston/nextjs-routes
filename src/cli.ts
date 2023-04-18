@@ -12,7 +12,7 @@ function cli(): void {
   const dirs = [
     getPagesDirectory(process.cwd()),
     getAppDirectory(process.cwd()),
-  ].filter((x) => x != undefined);
+  ].filter((x): x is string => x != undefined);
   if (dirs.length === 0) {
     logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project root.
 

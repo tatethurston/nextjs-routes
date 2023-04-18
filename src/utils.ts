@@ -35,3 +35,7 @@ export function findFiles(entry: string): string[] {
     return filepath;
   });
 }
+
+export function isNotUndefined<T>(value: T | undefined): value is T {
+  return value !== undefined;
+}

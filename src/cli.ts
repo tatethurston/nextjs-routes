@@ -18,7 +18,7 @@ function cli(): void {
 
   1. https://nextjs.org/docs/basic-features/pages
   2. https://nextjs.org/docs/advanced-features/src-directory
-  3. https://nextjs.org/blog/next-13#app-directory-beta
+  3. https://beta.nextjs.org/docs/routing/fundamentals#the-app-directory
   `);
     process.exit(1);
   } else {

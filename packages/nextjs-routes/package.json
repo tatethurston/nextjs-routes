@@ -11,20 +11,25 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./index.js",
-      "require": "./index.cjs"
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
     },
-    "./package.json": "./package.json",
     "./config": {
-      "import": "./config.js",
-      "require": "./config.cjs"
-    }
+      "require": "./dist/config.cjs",
+      "default": "./dist/config.js"
+    },
+    "./package.json": "./package.json"
   },
   "bin": {
-    "nextjs-routes": "./cli.js"
+    "nextjs-routes": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc && webpack && chmod +x dist/cli.js",
+    "clean": "rm -rf dist",
+    "package:build": "pnpm run clean && pnpm run build",
+    "package:prune": "find dist -name *.test.* | xargs rm -f"
   },
   "sideEffects": false,
-  "types": "index.d.ts",
   "dependencies": {
     "chokidar": "^3.5.3"
   },
@@ -39,5 +44,12 @@
     "routing",
     "type safe",
     "typescript"
-  ]
+  ],
+  "typesVersions": {
+    "*": {
+      "*": [
+        "dist/*"
+      ]
+    }
+  }
 }

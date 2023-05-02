@@ -1,4 +1,6 @@
-const withRoutes = require("nextjs-routes/config")();
+const nextRoutes = require("nextjs-routes/config");
+
+const withRoutes = nextRoutes();
 
 const nextConfig = {
   reactStrictMode: true,

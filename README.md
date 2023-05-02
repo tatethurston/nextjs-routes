@@ -223,7 +223,7 @@ export const getServerSideProps = (async (context) => {
 
 ## How does this work? 🤔
 
-`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` and/or `app` directory. The generated types are written to `@types/nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `@types/nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
+`nextjs-routes` generates types for the `pathname` and `query` for every page in your `pages` directory. The generated types are written to `@types/nextjs-routes.d.ts` which is automatically referenced by your Next project's `tsconfig.json`. `@types/nextjs-routes.d.ts` redefines the types for `next/link` and `next/router` and applies the generated route types.
 
 ## What if I need a runtime?
 

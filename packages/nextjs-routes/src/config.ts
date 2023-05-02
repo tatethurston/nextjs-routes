@@ -76,7 +76,7 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
 
 type WithRoutesOptions = Pick<NextJSRoutesOptions, "outDir" | "dir">;
 
-export default function withRoutes(
+export default function nextRoutes(
   options?: WithRoutesOptions
 ): (nextConfig: NextConfig) => NextConfig {
   return function (nextConfig) {

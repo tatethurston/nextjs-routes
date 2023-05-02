@@ -307,7 +307,8 @@ export interface NextJSRoutesOptions {
    * Example:
    *
    * // next.config.js
-   * const withRoutes = require("nextjs-routes/config")({ dir: __dirname });
+   * const nextRoutes = require("nextjs-routes/config")
+   * const withRoutes = nextRoutes({ dir: __dirname });
    */
   dir?: string | undefined;
   /**

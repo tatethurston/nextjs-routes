@@ -5,14 +5,7 @@ const { join } = require("path");
  * @type {import('webpack').Configuration}
  */
 const common = {
-  target: "node",
   mode: "production",
-  output: {
-    filename: "[name].cjs",
-    // eslint-disable-next-line no-undef
-    path: join(__dirname, "dist"),
-    libraryTarget: "commonjs2",
-  },
   resolve: {
     extensionAlias: {
       ".js": [".ts", ".js"],
@@ -43,25 +36,37 @@ const common = {
 module.exports = [
   {
     ...common,
+    target: "node",
     entry: {
-      config: "./src/config.ts",
-    },
-    externals: {
-      chokidar: "commonjs chokidar",
+      index: "./src/config.ts",
     },
     output: {
-      ...common.output,
-      // set default export to module.exports
+      filename: "config.cjs",
+      // eslint-disable-next-line no-undef
+      path: join(__dirname, "dist"),
       library: {
         type: "commonjs2",
         export: "default",
       },
     },
+    externals: {
+      chokidar: "chokidar",
+    },
+    externalsPresets: {
+      node: true,
+    },
   },
   {
     ...common,
+    target: "node",
     entry: {
       index: "./src/index.ts",
+    },
+    output: {
+      filename: "index.cjs",
+      // eslint-disable-next-line no-undef
+      path: join(__dirname, "dist"),
+      libraryTarget: "commonjs2",
     },
   },
 ];

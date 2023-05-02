@@ -15,7 +15,11 @@ module.exports = {
       parserOptions: {
         // eslint-disable-next-line no-undef
         tsconfigRootDir: __dirname,
-        project: ["./tsconfig.json"],
+        project: [
+          "./tsconfig.json",
+          "./packages/*/tsconfig.json",
+          "./examples/*/tsconfig.json",
+        ],
       },
       extends: [
         "plugin:@typescript-eslint/recommended-requiring-type-checking",

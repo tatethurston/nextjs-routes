@@ -307,7 +307,8 @@ export interface NextJSRoutesOptions {
    * Example:
    *
    * // next.config.js
-   * const withRoutes = require("nextjs-routes/config")({ dir: __dirname });
+   * const nextRoutes = require("nextjs-routes/config")
+   * const withRoutes = nextRoutes({ dir: __dirname });
    */
   dir?: string | undefined;
   /**
@@ -387,7 +388,7 @@ export function getPageRoutes(files: string[], opts: Opts): string[] {
 export function writeNextJSRoutes(options: NextJSRoutesOptions): void {
   const defaultOptions = {
     dir: process.cwd(),
-    outDir: "@types",
+    outDir: join(options.dir ?? process.cwd(), "@types"),
     pageExtensions: ["tsx", "ts", "jsx", "js"],
   };
   const opts = {

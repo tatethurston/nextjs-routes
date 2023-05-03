@@ -1,4 +1,6 @@
-import withRoutes from "nextjs-routes/config";
+import nextRoutes from "nextjs-routes/config";
+
+const withRoutes = nextRoutes();
 
 const nextConfig = {
   reactStrictMode: true,
@@ -8,4 +10,4 @@ const nextConfig = {
   },
 };
 
-export default withRoutes()(nextConfig);
+export default withRoutes(nextConfig);

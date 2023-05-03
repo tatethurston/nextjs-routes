@@ -8,13 +8,13 @@ import {
   type GetServerSideProps,
   type GetServerSidePropsContext,
 } from "nextjs-routes";
-import withRoutes from "nextjs-routes/config";
+import nextRoutes from "nextjs-routes/config";
 
-withRoutes();
-withRoutes({});
-withRoutes({ outDir: "types" });
+nextRoutes();
+nextRoutes({});
+nextRoutes({ outDir: "types" });
 // @ts-expect-error invalid key 'foo'
-withRoutes({ foo: false });
+nextRoutes({ foo: false });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
 function expectType<T>(_value: T) {}

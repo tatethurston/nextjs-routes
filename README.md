@@ -285,12 +285,30 @@ You can pass the following options to `nextRoutes` in your `next.config.js`:
 const nextRoutes = require("nextjs-routes/config");
 const withRoutes = nextRoutes({
   outDir: "types",
+  dir: 'path/to/folder/holding/your/next.config'
 });
 ```
 
 - `outDir`: The file path indicating the output directory where the generated route types should be written to (e.g.: "types"). The default is to create the file in the same folder as your `next.config.js` file.
 
-- `cwd`: The path to your `next.config.js` file. This is only necessary for non standard project structures, such as `nx`. If you are an `nx` user getting the `Could not find a Next.js pages directory` error, use `cwd: __dirname`.
+- `dir`: The path to your `next.config.js` file. This is only necessary when nextjs is not in the directory where you executed the nextjs cli. 
+
+## Troubleshooting
+
+### `Could not find a Next.js pages directory`
+
+`nextjs-routes` assumes that your `pages` or `app` directories are in the same directory where you ran the nextjs cli.
+
+If you are using a monorepo like `nx`, where a subshell is not created when switching to an app package, the user will see this error.
+
+> ✅ Solution 
+> 
+>  specify the `dir` option.
+>
+>  const withRoutes = require("nextjs-routes/config")({
+>    outDir: "apps/website-one",
+>    dir: 'apps/website-one'
+>  });
 
 ## Contributing 👫
 

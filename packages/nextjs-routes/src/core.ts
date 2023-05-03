@@ -388,7 +388,7 @@ export function getPageRoutes(files: string[], opts: Opts): string[] {
 export function writeNextJSRoutes(options: NextJSRoutesOptions): void {
   const defaultOptions = {
     dir: process.cwd(),
-    outDir: "@types",
+    outDir: join(options.dir ?? process.cwd(), "@types"),
     pageExtensions: ["tsx", "ts", "jsx", "js"],
   };
   const opts = {

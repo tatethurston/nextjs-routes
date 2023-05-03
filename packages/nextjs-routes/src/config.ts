@@ -42,11 +42,14 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
     if (this.context.isServer) {
       return;
     }
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    const cwd = this.options?.cwd ?? process.cwd();
-    const watchDirs = [getPagesDirectory(cwd), getAppDirectory(cwd)].filter(
-      isNotUndefined
-    );
+    const opts = {
+      cwd: process.cwd(),
+      ...this.options,
+    };
+    const watchDirs = [
+      getPagesDirectory(opts.cwd),
+      getAppDirectory(opts.cwd),
+    ].filter(isNotUndefined);
 
     if (watchDirs.length <= 0) {
       logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project root.
@@ -59,7 +62,7 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
     }
     const options = {
       ...this.config,
-      ...this.options,
+      ...opts,
     };
     if (this.context.dev) {
       const watcher = watch(watchDirs, {

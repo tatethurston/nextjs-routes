@@ -2,10 +2,9 @@ import { existsSync, readdirSync, statSync } from "fs";
 import { join } from "path";
 
 // istanbul ignore next: io mocking not worthwhile
-function findDir(dir: string, cwd: string): string | undefined {
-  const dirs = [dir, join("src", dir)];
-  for (const d of dirs) {
-    const path = join(cwd, d);
+function findDir(cwd: string, dir: string): string | undefined {
+  const paths = [join(cwd, dir), join(cwd, "src", dir)];
+  for (const path of paths) {
     if (existsSync(path)) {
       return path;
     }
@@ -14,12 +13,12 @@ function findDir(dir: string, cwd: string): string | undefined {
 
 // istanbul ignore next: io mocking not worthwhile
 export function getPagesDirectory(cwd: string): string | undefined {
-  return findDir("pages", cwd);
+  return findDir(cwd, "pages");
 }
 
 // istanbul ignore next: io mocking not worthwhile
 export function getAppDirectory(cwd: string): string | undefined {
-  return findDir("app", cwd);
+  return findDir(cwd, "app");
 }
 
 // istanbul ignore next: io mocking not worthwhile

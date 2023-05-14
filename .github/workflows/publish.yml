@@ -15,6 +15,6 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: pnpm install --frozen-lockfile
       - run: pnpm package:build
-      - run: cd dist && npm publish
+      - run: (cd packages/nextjs-routes/dist/ && npm publish)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

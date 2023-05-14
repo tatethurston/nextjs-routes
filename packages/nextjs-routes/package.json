@@ -1,6 +1,6 @@
 {
   "name": "nextjs-routes",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Type safe routing for Next.js",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
@@ -26,7 +26,7 @@
   "scripts": {
     "build": "tsc && webpack && chmod +x dist/cli.js",
     "clean": "rm -rf dist",
-    "package:build": "pnpm run clean && pnpm run build",
+    "package:build": "pnpm run clean && pnpm run build && pnpm run package:prune",
     "package:prune": "find dist -name *.test.* | xargs rm -f"
   },
   "sideEffects": false,

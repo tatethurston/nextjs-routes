@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.0.1
+
+- Fix `GetServerSidePropsContext` and `GetServerSidePropsResult` types. Thanks @po4tion!
+- Change generated file location from `nextjs-routes.d.ts` to `@types/nextjs-routes.d.ts`. Thanks @po4tion!
+
+  To preserve the old location, make the following change to your `next.config.js`:
+
+  ```diff
+  const nextRoutes = require("nextjs-routes/config");
+  const withRoutes = nextRoutes({
+  +  outDir: "",
+  });
+  ```
+
+  Otherwise, delete your old `nextjs-routes.d.ts` once `@types/nextjs-routes.d.ts` is generated.
+
 ## 2.0.0
 
 - `router.query` types must now be narrowed using `router.isReady`. This ensures types are correct for pages that use [Automatic Static Optimization](https://nextjs.org/docs/advanced-features/automatic-static-optimization).

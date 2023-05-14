@@ -285,7 +285,7 @@ You can pass the following options to `nextRoutes` in your `next.config.js`:
 const nextRoutes = require("nextjs-routes/config");
 const withRoutes = nextRoutes({
   outDir: "types",
-  cwd: __dirname
+  cwd: __dirname,
 });
 ```
 
@@ -299,7 +299,7 @@ const withRoutes = nextRoutes({
 
 Non standard project structures, such as those using `nx`, require that users supply a path to their `next.config.js`. For `nx`, this is because `nx` introduces wrapping layers that invoke commands differently than using the `next` cli directly.
 
-Solution: 
+Solution:
 
 ```diff
 const nextRoutes = require("nextjs-routes/config");

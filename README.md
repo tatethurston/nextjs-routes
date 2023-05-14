@@ -295,7 +295,7 @@ const withRoutes = nextRoutes({
 
 ## Troubleshooting
 
-### `Could not find a Next.js pages directory`
+### Could not find a Next.js pages directory
 
 Non standard project structures, such as those using `nx`, require that users supply a path to their `next.config.js`. For `nx`, this is because `nx` introduces wrapping layers that invoke commands differently than using the `next` cli directly.
 
@@ -304,7 +304,7 @@ Solution:
 ```diff
 const nextRoutes = require("nextjs-routes/config");
 const withRoutes = nextRoutes({
-  + cwd: __dirname
++  cwd: __dirname
 });
 ```
 

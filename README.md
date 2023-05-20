@@ -26,7 +26,7 @@
 
 ## What is this? 🧐
 
-`nextjs-routes` makes Next.js's `next/link` and `next/router` routes type safe with zero runtime overhead. `nextjs-routes` scans your `pages` and/or `app` directory and generates route types based on your application's routes.
+`nextjs-routes` makes Next.js's `next/link` and `next/router` routes type safe with zero runtime overhead. `nextjs-routes` scans your `pages` directory and generates route types based on your application's routes.
 
 `nextjs-routes` drops into your existing Next.js application with minimal configuration. You won't have to change any code, unless it finds some broken links!
 

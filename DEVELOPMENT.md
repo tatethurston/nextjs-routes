@@ -8,11 +8,11 @@ From the project directory root:
 1. `pnpm install`
 1. `pnpm package:build`
 
-The source code for the package is in packages/nextjs-routes/.
+The source code for the package is in `packages/nextjs-routes/`.
 
-There are examples that use the locally built package in examples/.
+There are examples that use the locally built package in `examples/`.
 
-There is an e2e test that runs against a minimal nextjs application in packages/e2e/.
+There is an e2e test that runs against a minimal nextjs application in `packages/e2e/`.
 
 ### Testing
 

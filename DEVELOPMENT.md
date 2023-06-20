@@ -28,4 +28,4 @@ As part of installation, husky pre-commit hooks are installed to run linters aga
 
 ### Publishing
 
-There are CI and publishing GitHub workflows in ./github/workflows. These are named ci.yml and publish.yml.
+There are CI and publishing GitHub workflows in `./github/workflows`. These are named ci.yml and publish.yml.

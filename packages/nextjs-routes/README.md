@@ -201,7 +201,7 @@ If you're using `getServerSideProps` consider using `GetServerSidePropsContext` 
 import type { GetServerSidePropsContext } from "nextjs-routes";
 
 export function getServerSideProps(
-  context: GetServerSidePropsContext<"/foos/[foo]">
+  context: GetServerSidePropsContext<"/foos/[foo]">,
 ) {
   // context.params will include `foo` as a string;
   const { foo } = context.params;

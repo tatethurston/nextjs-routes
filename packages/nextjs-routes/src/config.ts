@@ -13,7 +13,7 @@ type WebpackConfigContext = Parameters<NonNullable<NextConfig["webpack"]>>[1];
 
 function debounce<Fn extends (...args: unknown[]) => unknown>(
   fn: Fn,
-  ms: number
+  ms: number,
 ): (...args: Parameters<Fn>) => void {
   let id: NodeJS.Timeout;
   return function (...args) {
@@ -35,7 +35,7 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
   constructor(
     private readonly config: NextConfig,
     private readonly context: WebpackConfigContext,
-    private readonly options: NextJSRoutesPluginOptions = {}
+    private readonly options: NextJSRoutesPluginOptions = {},
   ) {}
 
   apply() {
@@ -80,7 +80,7 @@ class NextJSRoutesPlugin implements WebpackPluginInstance {
 type WithRoutesOptions = Pick<NextJSRoutesOptions, "outDir" | "dir">;
 
 export default function nextRoutes(
-  options?: WithRoutesOptions
+  options?: WithRoutesOptions,
 ): (nextConfig: NextConfig) => NextConfig {
   return function (nextConfig) {
     return {
@@ -88,7 +88,7 @@ export default function nextRoutes(
       webpack: (config: Configuration, context) => {
         config.plugins ??= [];
         config.plugins.push(
-          new NextJSRoutesPlugin(nextConfig, context, options)
+          new NextJSRoutesPlugin(nextConfig, context, options),
         );
 
         // invoke any existing webpack extensions

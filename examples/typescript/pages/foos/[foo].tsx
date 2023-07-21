@@ -13,7 +13,7 @@ const Foo: NextPage = () => {
 };
 
 export const getServerSideProps = (async (
-  ctx: GetServerSidePropsContext<"/foos/[foo]">
+  ctx: GetServerSidePropsContext<"/foos/[foo]">,
 ) => {
   return {
     redirect: {

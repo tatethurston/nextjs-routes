@@ -282,7 +282,7 @@ rq2 = { bar: "baz" };
 rq2 = { foo: ["bar", "baz"] };
 
 let getServerSideProps = (async (
-  ctx: GetServerSidePropsContext<"/foos/[foo]">
+  ctx: GetServerSidePropsContext<"/foos/[foo]">,
 ) => {
   expectType<string>(ctx.params.foo);
   return {
@@ -298,7 +298,7 @@ let getServerSideProps = (async (
 
 expectType<
   (
-    ctx: GetServerSidePropsContext<"/foos/[foo]">
+    ctx: GetServerSidePropsContext<"/foos/[foo]">,
   ) => Promise<{ redirect: { destination: string; permanent: boolean } }>
 >(getServerSideProps);
 

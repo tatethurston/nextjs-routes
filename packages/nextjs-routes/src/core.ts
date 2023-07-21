@@ -49,7 +49,7 @@ export function nextRoutes(pathnames: string[]): Route[] {
 }
 
 function getQueryInterface(
-  query: Route["query"]
+  query: Route["query"],
 ): [query: string, requiredKeys: number] {
   let requiredKeys = 0;
   const keys = Object.entries(query)
@@ -358,11 +358,11 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
           .split(sep)
           // remove named groups
           .filter(
-            (segment) => !(segment.startsWith("(") && segment.endsWith(")"))
+            (segment) => !(segment.startsWith("(") && segment.endsWith(")")),
           )
           // remove page
           .filter((file) => parse(file).name !== "page")
-          .join(sep)
+          .join(sep),
       )
       // handle index page
       .map((file) => (file === "" ? "/" : file))
@@ -378,7 +378,7 @@ export function getPageRoutes(files: string[], opts: Opts): string[] {
       .map((file) => file.replace(/index$/, ""))
       // remove trailing slash if present
       .map((file) =>
-        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file
+        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file,
       )
       // exclude nextjs special routes
       .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file))

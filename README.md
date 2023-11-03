@@ -32,7 +32,7 @@
 
 ## Notice
 
-If you are using Next.js's App Router, Next provides an [experimental option to generate typed links](https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links). Note that at this time, Next's option only works for the `app` directory, and not `pages`.
+If you are using Next.js's App Router you may not need this library. Next provides an [experimental option to generate typed links](https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links). Note that at this time, Next's option only works for the `app` directory, and not `pages`. If you want type safety for `pages`, use this library.
 
 ## Highlights
 

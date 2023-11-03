@@ -24,17 +24,15 @@
 
 ![nextjs-routes preview gif](./images/nextjs-routes.gif)
 
-## Notice
-
-If you are using Next.js 13 or higher with the App Router, you may want to consider using static typed links. At the time of writing this is experimental:
-
-https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links
-
 ## What is this? 🧐
 
 `nextjs-routes` makes Next.js's `next/link` and `next/router` routes type safe with zero runtime overhead. `nextjs-routes` scans your `pages` directory and generates route types based on your application's routes.
 
 `nextjs-routes` drops into your existing Next.js application with minimal configuration. You won't have to change any code, unless it finds some broken links!
+
+## Notice
+
+If you are using Next.js's App Router, Next provides an [experimental option to generate typed links](https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links). Note that at this time, Next's option only works for the `app` directory, and not `pages`.
 
 ## Highlights
 

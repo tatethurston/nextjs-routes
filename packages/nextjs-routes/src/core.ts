@@ -347,11 +347,13 @@ function commonProcessing(paths: string[], opts: Opts): string[] {
   );
 }
 
+const APP_DIRECTORY_ROUTABLE = ["page", "route"];
+
 export function getAppRoutes(files: string[], opts: Opts): string[] {
   return (
     commonProcessing(files, opts)
       // app pages must be named 'page'
-      .filter((file) => parse(file).name === "page")
+      .filter((file) => APP_DIRECTORY_ROUTABLE.includes(parse(file).name))
       .map((file) =>
         // transform filepath to url path
         file
@@ -361,7 +363,7 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
             (segment) => !(segment.startsWith("(") && segment.endsWith(")")),
           )
           // remove page
-          .filter((file) => parse(file).name !== "page")
+          .filter((file) => !APP_DIRECTORY_ROUTABLE.includes(parse(file).name))
           .join(sep),
       )
       // handle index page
@@ -369,9 +371,9 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
   );
 }
 
-export function getPageRoutes(files: string[], opts: Opts): string[] {
-  const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
+const NEXTJS_NON_ROUTABLE = ["/_app", "/_document", "/_error", "/middleware"];
 
+export function getPageRoutes(files: string[], opts: Opts): string[] {
   return (
     commonProcessing(files, opts)
       // remove index if present (/foos/index.ts is the same as /foos.ts)

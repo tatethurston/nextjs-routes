@@ -18,8 +18,12 @@ declare module "nextjs-routes" {
 
   export type Route =
     | StaticRoute<"/">
+    | StaticRoute<"/bar">
     | StaticRoute<"/foo">
-    | StaticRoute<"/bar">;
+    | StaticRoute<"/foobar">
+    | StaticRoute<"/barbaz">
+    | StaticRoute<"/baz">
+    | StaticRoute<"/foobaz">;
 
   interface StaticRoute<Pathname> {
     pathname: Pathname;

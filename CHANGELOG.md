@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.0
+
+- Add experimental support for app directory [route handler](https://nextjs.org/docs/app/building-your-application/routing/route-handlers). See [#178](https://github.com/tatethurston/nextjs-routes/issues/178).
+
 ## 2.0.1
 
 - Fix `GetServerSidePropsContext` and `GetServerSidePropsResult` types. Thanks @po4tion!

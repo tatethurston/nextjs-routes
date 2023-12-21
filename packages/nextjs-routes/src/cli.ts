@@ -9,10 +9,9 @@ const logger: Pick<Console, "error" | "info"> = {
 };
 
 function cli(dir = process.cwd()): void {
-  const dirs = [
-    getPagesDirectory(dir),
-    getAppDirectory(dir),
-  ].filter(isNotUndefined);
+  const dirs = [getPagesDirectory(dir), getAppDirectory(dir)].filter(
+    isNotUndefined,
+  );
   if (dirs.length === 0) {
     logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project path ${dir}.
 

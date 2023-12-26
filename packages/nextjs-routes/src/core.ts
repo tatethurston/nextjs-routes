@@ -422,3 +422,38 @@ export function writeNextJSRoutes(options: NextJSRoutesOptions): void {
   const generated = generate(routes, opts);
   writeFileSync(outputFilepath, generated);
 }
+
+export function returnArrayOfNextJSRoutes(options: NextJSRoutesOptions): Route[] {
+  const defaultOptions = {
+    dir: process.cwd(),
+    outDir: join(options.dir ?? process.cwd(), "@types"),
+    pageExtensions: ["tsx", "ts", "jsx", "js"],
+  };
+  const opts = {
+    ...defaultOptions,
+    ...options,
+  };
+  const files = [];
+  const pagesDirectory = getPagesDirectory(opts.dir);
+  if (pagesDirectory) {
+    const routes = getPageRoutes(findFiles(pagesDirectory), {
+      pageExtensions: opts.pageExtensions,
+      directory: pagesDirectory,
+    });
+    files.push(...routes);
+  }
+  const appDirectory = getAppDirectory(opts.dir);
+  if (appDirectory) {
+    const routes = getAppRoutes(findFiles(appDirectory), {
+      pageExtensions: opts.pageExtensions,
+      directory: appDirectory,
+    });
+    files.push(...routes);
+  }
+  const outputFilepath = join(opts.outDir, "nextjs-routes.d.ts");
+  if (opts.outDir && !existsSync(opts.outDir)) {
+    mkdirSync(opts.outDir, { recursive: true });
+  }
+  const routes = nextRoutes(files);
+  return routes;
+}

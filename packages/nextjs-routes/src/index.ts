@@ -1,3 +1,5 @@
+import { returnArrayOfNextJSRoutes } from "./core";
+
 interface Route {
   pathname: string;
   query?: { [key: string]: string | string[] | undefined };
@@ -62,4 +64,10 @@ export function route(r: Route): string {
   const hash = r.hash ? "#" + r.hash : "";
 
   return path + qs + hash;
+}
+
+
+// return an array of all routes in nextjs app
+export function routes(): Route[] {
+  return returnArrayOfNextJSRoutes({})
 }

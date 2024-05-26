@@ -103,6 +103,7 @@ declare module "nextjs-routes" {
       !routes.length
         ? "never"
         : `| ${routes
+            .sort((a, b) => a.pathname.localeCompare(b.pathname))
             .map((route) => {
               const [params, requiredKeys] = getQueryInterface(route.query);
               return requiredKeys > 0

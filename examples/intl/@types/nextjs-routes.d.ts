@@ -11,8 +11,8 @@ declare module "nextjs-routes" {
   } from "next";
 
   export type Route =
-    | DynamicRoute<"/[store]", { "store": string }>
-    | StaticRoute<"/">;
+    | StaticRoute<"/">
+    | DynamicRoute<"/[store]", { "store": string }>;
 
   interface StaticRoute<Pathname> {
     pathname: Pathname;

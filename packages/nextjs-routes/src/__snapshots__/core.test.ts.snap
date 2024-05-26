@@ -19,10 +19,10 @@ declare module "nextjs-routes" {
   export type Route =
     | StaticRoute<"/">
     | StaticRoute<"/bar">
-    | StaticRoute<"/foo">
-    | StaticRoute<"/foobar">
     | StaticRoute<"/barbaz">
     | StaticRoute<"/baz">
+    | StaticRoute<"/foo">
+    | StaticRoute<"/foobar">
     | StaticRoute<"/foobaz">;
 
   interface StaticRoute<Pathname> {
@@ -581,8 +581,8 @@ declare module "nextjs-routes" {
   } from "next";
 
   export type Route =
-    | StaticRoute<"/404">
     | StaticRoute<"/">
+    | StaticRoute<"/404">
     | StaticRoute<"/foo">;
 
   interface StaticRoute<Pathname> {
@@ -1473,24 +1473,24 @@ declare module "nextjs-routes" {
   } from "next";
 
   export type Route =
-    | StaticRoute<"/404">
+    | StaticRoute<"/">
+    | StaticRoute<"/_debug">
+    | StaticRoute<"/_debug/health-check">
     | DynamicRoute<"/[foo]", { "foo": string }>
     | DynamicRoute<"/[foo]/[bar]/[baz]", { "foo": string; "bar": string; "baz": string }>
     | DynamicRoute<"/[foo]/bar/[baz]", { "foo": string; "baz": string }>
     | DynamicRoute<"/[foo]/bar/[baz]/foo/[bar]", { "foo": string; "baz": string; "bar": string }>
     | DynamicRoute<"/[foo]/baz", { "foo": string }>
-    | StaticRoute<"/_debug">
-    | StaticRoute<"/_debug/health-check">
-    | StaticRoute<"/api/[[...segments]]">
+    | StaticRoute<"/404">
     | DynamicRoute<"/api/[...segments]", { "segments": string[] }>
+    | StaticRoute<"/api/[[...segments]]">
     | StaticRoute<"/api/bar">
     | DynamicRoute<"/foo/[slug]", { "slug": string }>
-    | StaticRoute<"/">
     | StaticRoute<"/not-found">
+    | StaticRoute<"/settings">
     | DynamicRoute<"/settings/bars/[bar]", { "bar": string }>
     | DynamicRoute<"/settings/bars/[bar]/baz", { "bar": string }>
-    | StaticRoute<"/settings/foo">
-    | StaticRoute<"/settings">;
+    | StaticRoute<"/settings/foo">;
 
   interface StaticRoute<Pathname> {
     pathname: Pathname;

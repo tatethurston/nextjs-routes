@@ -1483,7 +1483,7 @@ declare module "nextjs-routes" {
     | DynamicRoute<"/[foo]/baz", { "foo": string }>
     | StaticRoute<"/404">
     | DynamicRoute<"/api/[...segments]", { "segments": string[] }>
-    | StaticRoute<"/api/[[...segments]]">
+    | DynamicRoute<"/api/[[...segments]]", { "segments"?: string[] | undefined }>
     | StaticRoute<"/api/bar">
     | DynamicRoute<"/foo/[slug]", { "slug": string }>
     | StaticRoute<"/not-found">

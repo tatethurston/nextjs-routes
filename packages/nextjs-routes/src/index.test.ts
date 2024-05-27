@@ -62,4 +62,31 @@ describe(route, () => {
       }),
     ).toEqual("/foos/foo?bar=bar&baz=1&baz=2&baz=3#foo");
   });
+
+  describe("options", () => {
+    describe("trailingSlash", () => {
+      it("when true", () => {
+        expect(
+          route({ pathname: "/settings/about" }, { trailingSlash: true }),
+        ).toEqual("/settings/about/");
+        expect(
+          route(
+            { pathname: "/foos/[foo]", query: { foo: "bar" } },
+            { trailingSlash: true },
+          ),
+        ).toEqual("/foos/bar/");
+      });
+      it("when false", () => {
+        expect(
+          route({ pathname: "/settings/about" }, { trailingSlash: false }),
+        ).toEqual("/settings/about");
+        expect(
+          route(
+            { pathname: "/foos/[foo]", query: { foo: "bar" } },
+            { trailingSlash: false },
+          ),
+        ).toEqual("/foos/bar");
+      });
+    });
+  });
 });

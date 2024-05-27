@@ -11,6 +11,7 @@ describe("Home", () => {
   it("renders a Link", () => {
     render(<Home />);
     const link = screen.getByText("Foo");
+    // @ts-expect-error: https://github.com/testing-library/jest-dom/issues/546
     expect(link).toBeInTheDocument();
   });
 });

@@ -7,7 +7,7 @@ import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
 // by node 17+
 // import pkg from "../package.json" assert { type: "json" };
 const pkg = {
-  version: "2.0.1",
+  version: "2.2.0",
 };
 
 type QueryType = "dynamic" | "catch-all" | "optional-catch-all";
@@ -31,11 +31,13 @@ export function nextRoutes(pathnames: string[]): Route[] {
         .replace(/\[/g, "")
         .replace(/\]/g, "")
         .replace("...", "");
-      let queryType: QueryType = "dynamic";
-      if (cur.startsWith("[[")) {
+      let queryType: QueryType;
+      if (cur.startsWith("[[...")) {
         queryType = "optional-catch-all";
       } else if (cur.startsWith("[...")) {
         queryType = "catch-all";
+      } else {
+        queryType = "dynamic";
       }
       acc[param] = queryType;
       return acc;
@@ -50,8 +52,9 @@ export function nextRoutes(pathnames: string[]): Route[] {
 
 function getQueryInterface(
   query: Route["query"],
-): [query: string, requiredKeys: number] {
+): [query: string, requiredKeys: number, optionalCatchAll: boolean] {
   let requiredKeys = 0;
+  let optionalCatchAll = false;
   const keys = Object.entries(query)
     .map(([key, value]) => {
       switch (value) {
@@ -64,6 +67,7 @@ function getQueryInterface(
           return `"${key}": string[]`;
         }
         case "optional-catch-all": {
+          optionalCatchAll = true;
           return `"${key}"?: string[] | undefined`;
         }
         // istanbul ignore next
@@ -75,7 +79,7 @@ function getQueryInterface(
     })
     .join("; ");
 
-  return [`{ ${keys} }`, requiredKeys];
+  return [`{ ${keys} }`, requiredKeys, optionalCatchAll];
 }
 
 function generate(routes: Route[], config: NextJSRoutesOptions): string {
@@ -103,9 +107,11 @@ declare module "nextjs-routes" {
       !routes.length
         ? "never"
         : `| ${routes
+            .sort((a, b) => a.pathname.localeCompare(b.pathname))
             .map((route) => {
-              const [params, requiredKeys] = getQueryInterface(route.query);
-              return requiredKeys > 0
+              const [params, requiredKeys, optionalCatchAll] =
+                getQueryInterface(route.query);
+              return requiredKeys > 0 || optionalCatchAll
                 ? `DynamicRoute<"${route.pathname}", ${params}>`
                 : `StaticRoute<"${route.pathname}">`;
             })

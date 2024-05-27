@@ -4,3 +4,6 @@ node_modules
 tsconfig.tsbuildinfo
 .next
 .vscode
+# copied over durring build
+packages/nextjs-routes/LICENSE
+packages/nextjs-routes/README.md

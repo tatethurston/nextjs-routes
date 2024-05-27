@@ -258,6 +258,18 @@ export function getServerSideProps(context: GetServerSidePropsContext) {
 }
 ```
 
+`route` optionally accepts a `trailingSlash`:
+
+```ts
+// api/foos/foobar/
+fetch(
+  route(
+    { pathname: "/api/foos/[foo]", query: { foo: "foobar" } },
+    { trailingSlash: true },
+  ),
+);
+```
+
 ### Internationalization (i18n)
 
 `nextjs-routes` refines `Link` and `useRouter` based on your [Nextjs i18n configuration](https://nextjs.org/docs/advanced-features/i18n-routing).

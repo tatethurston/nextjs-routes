@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+- Add `trailingSlash` option to `route`. See [#168](https://github.com/tatethurston/nextjs-routes/issues/168)
+- Fix the generated optional catch all route type. See [#183](https://github.com/tatethurston/nextjs-routes/issues/183)
+- Sort the generated route types lexicographically.
+
 ## 2.1.0
 
 - Add experimental support for app directory [route handler](https://nextjs.org/docs/app/building-your-application/routing/route-handlers). See [#178](https://github.com/tatethurston/nextjs-routes/issues/178).

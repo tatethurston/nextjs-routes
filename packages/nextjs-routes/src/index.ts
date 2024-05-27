@@ -16,9 +16,16 @@ interface Dynamic extends Route {
   query: { [key: string]: string };
 }
 
-export function route(r: Route): string {
+interface RouteOptions {
+  trailingSlash?: boolean;
+}
+
+export function route(
+  r: Route,
+  options: RouteOptions = { trailingSlash: false },
+): string {
   const params = new Set<string>();
-  const path =
+  let path =
     "/" +
     r.pathname
       .split("/")
@@ -46,6 +53,10 @@ export function route(r: Route): string {
       // removes optional catch all if no query is supplied
       .filter(Boolean)
       .join("/");
+
+  if (options.trailingSlash) {
+    path += "/";
+  }
 
   const search = new URLSearchParams();
   for (const key in r.query) {

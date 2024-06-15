@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import { I18NConfig } from "next/dist/server/config-shared.js";
-import { join, parse, sep } from "path";
+import { join, parse } from "path";
 import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
 
 // import assertions are not yet supported by babel out of the box but are required
@@ -363,14 +363,14 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
       .map((file) =>
         // transform filepath to url path
         file
-          .split(sep)
+          .split('/')
           // remove named groups
           .filter(
             (segment) => !(segment.startsWith("(") && segment.endsWith(")")),
           )
           // remove page
           .filter((file) => !APP_DIRECTORY_ROUTABLE.includes(parse(file).name))
-          .join(sep),
+          .join('/'),
       )
       // handle index page
       .map((file) => (file === "" ? "/" : file))

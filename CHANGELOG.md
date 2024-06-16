@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.1
+
+- Fix route generation on Windows. See [#187](https://github.com/tatethurston/nextjs-routes/issues/187). Thanks @AkanoCA!
+
 ## 2.2.0
 
 - Add `trailingSlash` option to `route`. See [#168](https://github.com/tatethurston/nextjs-routes/issues/168)

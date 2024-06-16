@@ -79,23 +79,36 @@ describe("route generation", () => {
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
-  it("app directory (experimental)", () => {
-    // getAppRoutes
-    existsSyncMock
-      .mockImplementationOnce(() => false)
-      .mockImplementationOnce(() => false)
-      .mockImplementationOnce(() => true);
-    findFilesMock.mockReturnValueOnce([
-      "app/page.ts",
-      "app/bar/page.ts",
-      "app/foo/page.tsx",
-      "app/foobar/page.js",
-      "app/barbaz/page.jsx",
-      "app/baz/route.js",
-      "app/foobaz/route.ts",
-    ]);
-    writeNextJSRoutes({});
-    expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+  describe("app directory (experimental)", () => {
+    it("generates routes", () => {
+      // getAppRoutes
+      existsSyncMock
+        .mockImplementationOnce(() => false)
+        .mockImplementationOnce(() => false)
+        .mockImplementationOnce(() => true);
+      findFilesMock.mockReturnValueOnce([
+        "app/page.ts",
+        "app/bar/page.ts",
+        "app/foo/page.tsx",
+        "app/foobar/page.js",
+        "app/barbaz/page.jsx",
+        "app/baz/route.js",
+        "app/foobaz/route.ts",
+      ]);
+      writeNextJSRoutes({});
+      expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+    });
+
+    it("handles windows paths", () => {
+      // get AppRoutes
+      existsSyncMock
+        .mockImplementationOnce(() => false)
+        .mockImplementationOnce(() => false)
+        .mockImplementationOnce(() => true);
+      findFilesMock.mockReturnValueOnce(["app\\[foo]\\bar\\page.ts"]);
+      writeNextJSRoutes({});
+      expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+    });
   });
 
   describe("configuration", () => {

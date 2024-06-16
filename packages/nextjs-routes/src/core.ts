@@ -7,7 +7,7 @@ import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
 // by node 17+
 // import pkg from "../package.json" assert { type: "json" };
 const pkg = {
-  version: "2.2.0",
+  version: "2.2.1",
 };
 
 type QueryType = "dynamic" | "catch-all" | "optional-catch-all";
@@ -363,14 +363,14 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
       .map((file) =>
         // transform filepath to url path
         file
-          .split('/')
+          .split("/")
           // remove named groups
           .filter(
             (segment) => !(segment.startsWith("(") && segment.endsWith(")")),
           )
           // remove page
           .filter((file) => !APP_DIRECTORY_ROUTABLE.includes(parse(file).name))
-          .join('/'),
+          .join("/"),
       )
       // handle index page
       .map((file) => (file === "" ? "/" : file))

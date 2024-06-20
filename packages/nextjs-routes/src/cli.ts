@@ -8,13 +8,12 @@ const logger: Pick<Console, "error" | "info"> = {
   info: (str: string) => console.info("[nextjs-routes] " + str),
 };
 
-function cli(): void {
-  const dirs = [
-    getPagesDirectory(process.cwd()),
-    getAppDirectory(process.cwd()),
-  ].filter(isNotUndefined);
+function cli(dir = process.cwd()): void {
+  const dirs = [getPagesDirectory(dir), getAppDirectory(dir)].filter(
+    isNotUndefined,
+  );
   if (dirs.length === 0) {
-    logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project root.
+    logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project path ${dir}.
 
   1. https://nextjs.org/docs/basic-features/pages
   2. https://nextjs.org/docs/advanced-features/src-directory
@@ -22,9 +21,11 @@ function cli(): void {
   `);
     process.exit(1);
   } else {
-    writeNextJSRoutes({});
+    writeNextJSRoutes({
+      dir: dir,
+    });
     logger.info("Generated route types.");
   }
 }
 
-cli();
+cli(process.argv[2]);

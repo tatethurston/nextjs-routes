@@ -26,19 +26,17 @@
 
 ## What is this? 🧐
 
-`nextjs-routes` makes Next.js's `next/link` and `next/router` routes type safe with zero runtime overhead. `nextjs-routes` scans your `pages` directory and generates route types based on your application's routes.
-
-`nextjs-routes` drops into your existing Next.js application with minimal configuration. You won't have to change any code, unless it finds some broken links!
+`nextjs-routes` generates type safe routing utilities from your `pages` and/or `app` directory.
 
 ## Notice
 
-If you are using Next.js's App Router you may not need this library. Next provides an [experimental option to generate typed links](https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links). Note that at this time, Next's option only works for the `app` directory, and not `pages`. If you want type safety for `pages`, use this library.
+If you are using Next.js's App Router you may not need this library. Next provides an [experimental option to generate typed links](https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links). Next.js's option only works for the `app` directory, and not `pages`.If you're using the `pages` directory, or you're using the `app` directory and want to use typed objects instead of string interpolation to provide URL parameters, use this library.
 
 ## Highlights
 
 🦄 Zero config
 
-💨 Types only -- zero runtime
+💨 Types only -- zero runtime (pages directory only).
 
 🛠 No more broken links
 

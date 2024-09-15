@@ -79,7 +79,7 @@ describe("route generation", () => {
     expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
   });
 
-  describe("app directory (experimental)", () => {
+  describe("app directory", () => {
     it("generates routes", () => {
       // getAppRoutes
       existsSyncMock
@@ -106,6 +106,23 @@ describe("route generation", () => {
         .mockImplementationOnce(() => false)
         .mockImplementationOnce(() => true);
       findFilesMock.mockReturnValueOnce(["app\\[foo]\\bar\\page.ts"]);
+      writeNextJSRoutes({});
+      expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+    });
+  });
+
+  describe("pages and app directory", () => {
+    it("generates routes", () => {
+      existsSyncMock
+        // getPageRoutes
+        .mockImplementationOnce(() => true)
+        // getAppRoutes
+        .mockImplementationOnce(() => true);
+      findFilesMock
+        // page routes
+        .mockReturnValueOnce(["pages/[foo].ts"])
+        // app routes
+        .mockReturnValueOnce(["app/bar/page.ts", "app/page.ts"]);
       writeNextJSRoutes({});
       expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
     });

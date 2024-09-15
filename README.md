@@ -30,13 +30,13 @@
 
 ## Notice
 
-If you are using Next.js's App Router you may not need this library. Next provides an [experimental option to generate typed links](https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links). Next.js's option only works for the `app` directory, and not `pages`.If you're using the `pages` directory, or you're using the `app` directory and want to use typed objects instead of string interpolation to provide URL parameters, use this library.
+If you are using Next.js's App Router you may not need this library. Next.js provides an [experimental option to generate typed links](https://nextjs.org/docs/app/building-your-application/configuring/typescript#statically-typed-links). Next.js's option only works for the `app` directory, and not `pages`. If you're using the `pages` directory, or if you're using the `app` directory and want to use typed objects instead of string interpolation to provide URL parameters and queries, use this library.
 
 ## Highlights
 
 🦄 Zero config
 
-💨 Types only -- zero runtime (pages directory only).
+💨 Types only -- zero runtime (pages directory only)
 
 🛠 No more broken links
 

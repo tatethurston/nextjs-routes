@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const { join } = require("path");
 
 /**
@@ -32,7 +32,6 @@ const common = {
   },
 };
 
-// eslint-disable-next-line no-undef
 module.exports = [
   {
     ...common,

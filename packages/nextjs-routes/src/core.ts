@@ -7,7 +7,7 @@ import { findFiles, getAppDirectory, getPagesDirectory } from "./utils.js";
 // by node 17+
 // import pkg from "../package.json" assert { type: "json" };
 const pkg = {
-  version: "2.2.1",
+  version: "2.2.2",
 };
 
 type QueryType = "dynamic" | "catch-all" | "optional-catch-all";
@@ -82,7 +82,12 @@ function getQueryInterface(
   return [`{ ${keys} }`, requiredKeys, optionalCatchAll];
 }
 
-function generate(routes: Route[], config: NextJSRoutesOptions): string {
+interface GenerateConfig extends NextJSRoutesOptions {
+  usingAppDirectory: boolean;
+  usingPagesDirectory: boolean;
+}
+
+function generate(routes: Route[], config: GenerateConfig): string {
   const i18n = config.i18n ?? {
     defaultLocale: "",
     domains: [],
@@ -145,12 +150,19 @@ declare module "nextjs-routes" {
       : `\n    | ${i18n.locales.map((x) => `"${x}"`).join("\n    | ")}`
   };
 
+  type Brand<K, T> = K & { __brand: T };
+
+  /**
+   * A string that is a valid application route.
+   */
+  export type RouteLiteral = Brand<string, "RouteLiteral">
+
   /**
    * A typesafe utility function for generating paths in your application.
    *
    * route({ pathname: "/foos/[foo]", query: { foo: "bar" }}) will produce "/foos/bar".
    */
-  export declare function route(r: Route): string;
+  export declare function route(r: Route): RouteLiteral;
 
   /**
    * Nearly identical to GetServerSidePropsContext from next, but further narrows
@@ -186,7 +198,13 @@ declare module "nextjs-routes" {
 
 // prettier-ignore
 declare module "next/link" {
-  import type { Route } from "nextjs-routes";
+  ${(() => {
+    if (config.usingAppDirectory) {
+      return 'import type { Route, RouteLiteral } from "nextjs-routes";';
+    } else {
+      return 'import type { Route } from "nextjs-routes";';
+    }
+  })()};
   import type { LinkProps as NextLinkProps } from "next/dist/client/link";
   import type {
     AnchorHTMLAttributes,
@@ -201,7 +219,15 @@ declare module "next/link" {
   export interface LinkProps
     extends Omit<NextLinkProps, "href" | "locale">,
       AnchorHTMLAttributes<HTMLAnchorElement> {
-    href: Route | StaticRoute | Omit<Route, "pathname">
+    href: ${(() => {
+      if (config.usingPagesDirectory && config.usingAppDirectory) {
+        return 'Route | StaticRoute | Omit<Route, "pathname"> | RouteLiteral';
+      } else if (config.usingPagesDirectory) {
+        return 'Route | StaticRoute | Omit<Route, "pathname">';
+      } else {
+        return "StaticRoute | RouteLiteral";
+      }
+    })()};
     locale?: ${!i18n.locales.length ? "false" : `Locale | false`};
   }
 
@@ -301,11 +327,6 @@ export const logger: Pick<Console, "error"> = {
 
 export interface NextJSRoutesOptions {
   /**
-   * The file path indicating the output directory where the generated route types
-   * should be written to (e.g.: "types").
-   */
-  outDir?: string | undefined;
-  /**
    * Location of the Next.js project. Defaults to the current working directory.
    *
    * This is only necessary when working with a non standard NextJS project setup, such as Nx.
@@ -317,6 +338,11 @@ export interface NextJSRoutesOptions {
    * const withRoutes = nextRoutes({ dir: __dirname });
    */
   dir?: string | undefined;
+  /**
+   * The file path indicating the output directory where the generated route types
+   * should be written to (e.g.: "types").
+   */
+  outDir?: string | undefined;
   /**
    * NextJS config option.
    * https://nextjs.org/docs/api-reference/next.config.js/custom-page-extensions
@@ -395,6 +421,8 @@ export function getPageRoutes(files: string[], opts: Opts): string[] {
 
 export function writeNextJSRoutes(options: NextJSRoutesOptions): void {
   const defaultOptions = {
+    usingPagesDirectory: false,
+    usingAppDirectory: false,
     dir: process.cwd(),
     outDir: join(options.dir ?? process.cwd(), "@types"),
     pageExtensions: ["tsx", "ts", "jsx", "js"],
@@ -411,6 +439,7 @@ export function writeNextJSRoutes(options: NextJSRoutesOptions): void {
       directory: pagesDirectory,
     });
     files.push(...routes);
+    opts.usingPagesDirectory = true;
   }
   const appDirectory = getAppDirectory(opts.dir);
   if (appDirectory) {
@@ -419,6 +448,7 @@ export function writeNextJSRoutes(options: NextJSRoutesOptions): void {
       directory: appDirectory,
     });
     files.push(...routes);
+    opts.usingAppDirectory = true;
   }
   const outputFilepath = join(opts.outDir, "nextjs-routes.d.ts");
   if (opts.outDir && !existsSync(opts.outDir)) {

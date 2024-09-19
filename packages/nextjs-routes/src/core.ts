@@ -394,39 +394,45 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
           .filter(
             (segment) => !(segment.startsWith("(") && segment.endsWith(")")),
           )
-          .reduce<string[] & {isParallel:boolean}>((acc, next) => {
-            let isParallel = !!acc.isParallel;
-            // ignore '@' prefixed segments as they are parallel routes
-            if (next.startsWith('@')) return Object.assign(acc, {isParallel: true});
+          .reduce<string[] & { isParallel: boolean }>(
+            (acc, next) => {
+              let isParallel = !!acc.isParallel;
+              // ignore '@' prefixed segments as they are parallel routes
+              if (next.startsWith("@"))
+                return Object.assign(acc, { isParallel: true });
 
-            // pass down normal routes
-            if (!isParallel) return Object.assign([...acc, next], {isParallel});
+              // pass down normal routes
+              if (!isParallel)
+                return Object.assign([...acc, next], { isParallel });
 
-            // a normal segment under a parallel route
-            if (!next.startsWith('(.')) return Object.assign([...acc, next], {isParallel})
+              // a normal segment under a parallel route
+              if (!next.startsWith("(."))
+                return Object.assign([...acc, next], { isParallel });
 
-            let temp = next;
+              let temp = next;
 
-            while (temp.startsWith('(.')){
-              if (temp.startsWith('(.)')) {
-                // all ok to remove  as refers to same segment level with the @ segment
-                temp = temp.slice(3)
+              while (temp.startsWith("(.")) {
+                if (temp.startsWith("(.)")) {
+                  // all ok to remove  as refers to same segment level with the @ segment
+                  temp = temp.slice(3);
+                }
+                if (temp.startsWith("(..)")) {
+                  // remove a segment as this goes up a level
+                  temp = temp.slice(4);
+                  acc.pop();
+                }
+                if (temp.startsWith("(...)")) {
+                  // this refers to base route
+                  // temp = temp.slice(5);
+                  return Object.assign([next], { isParallel });
+                }
+                if (!temp) return acc;
               }
-              if (temp.startsWith('(..)')){
-                // remove a segment as this goes up a level
-                temp = temp.slice(4);
-                acc.pop()
-              }
-              if (temp.startsWith('(...)')){
-                // this refers to base route
-                // temp = temp.slice(5);
-                return Object.assign( [next],{isParallel});
-              }
-              if (!temp) return acc;
-            }
 
-            return Object.assign( [...acc, temp],{isParallel});
-          }, Object.assign( [], {isParallel:false}))
+              return Object.assign([...acc, temp], { isParallel });
+            },
+            Object.assign([], { isParallel: false }),
+          )
           // remove page
           .filter((file) => !APP_DIRECTORY_ROUTABLE.includes(parse(file).name))
           .join("/"),

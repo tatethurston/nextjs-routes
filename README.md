@@ -200,7 +200,7 @@ import type { RoutedQuery } from "nextjs-routes";
 
 By default, `query` will be typed as the union of all possible query parameters defined by your application routes. If you'd like to narrow the type to fewer routes or a single page, you can supply the path as a type argument:
 
-```
+```ts
 // { foo: string }
 type FooRouteQuery = RoutedQuery<"/foos/[foo]">
 ```

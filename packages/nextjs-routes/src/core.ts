@@ -429,13 +429,24 @@ function commonProcessing(paths: string[], opts: Opts): string[] {
   );
 }
 
-const APP_DIRECTORY_ROUTABLE = ["page", "route"];
+const APP_DIRECTORY_ROUTABLE_DIRECTORIES = ["page", "route"];
+
+const APP_INTERCEPTING_ROUTE = ["(.)", "(..)", "(..)(..)", "(...)"];
+
+function appDirectoryRoutable(file: string): boolean {
+  const name = parse(file).name;
+  return (
+    // only consider page and route
+    APP_DIRECTORY_ROUTABLE_DIRECTORIES.includes(name) &&
+    // remove any filepaths that contain intercepts
+    !APP_INTERCEPTING_ROUTE.some((intercept) => file.includes(intercept))
+  );
+}
 
 export function getAppRoutes(files: string[], opts: Opts): string[] {
   return (
     commonProcessing(files, opts)
-      // app pages must be named 'page'
-      .filter((file) => APP_DIRECTORY_ROUTABLE.includes(parse(file).name))
+      .filter(appDirectoryRoutable)
       .map((file) =>
         // transform filepath to url path
         file
@@ -444,8 +455,13 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
           .filter(
             (segment) => !(segment.startsWith("(") && segment.endsWith(")")),
           )
-          // remove page
-          .filter((file) => !APP_DIRECTORY_ROUTABLE.includes(parse(file).name))
+          // remove page + route from path
+          .filter(
+            (segment) =>
+              !APP_DIRECTORY_ROUTABLE_DIRECTORIES.includes(parse(segment).name),
+          )
+          // remove slots
+          .filter((segment) => !segment.startsWith("@"))
           .join("/"),
       )
       // handle index page

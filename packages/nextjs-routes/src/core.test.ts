@@ -99,6 +99,37 @@ describe("route generation", () => {
       expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
     });
 
+    it("handles intercept routes", () => {
+      // getAppRoutes
+      existsSyncMock
+        .mockImplementationOnce(() => false)
+        .mockImplementationOnce(() => false)
+        .mockImplementationOnce(() => true);
+      findFilesMock.mockReturnValueOnce([
+        "app/(..)photo/[id]/page.ts",
+        "app/photo/[id]/page.ts",
+        "app/foo/(...)bar/page.ts",
+        "app/foobar/(.)baz/page.ts",
+        "app/foobar/(..)baz/page.ts",
+      ]);
+      writeNextJSRoutes({});
+      expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+    });
+
+    it("handles parallel routes", () => {
+      // getAppRoutes
+      existsSyncMock
+        .mockImplementationOnce(() => false)
+        .mockImplementationOnce(() => false)
+        .mockImplementationOnce(() => true);
+      findFilesMock.mockReturnValueOnce([
+        "app/@team/settings/page.ts",
+        "app/@analytics/page.ts",
+      ]);
+      writeNextJSRoutes({});
+      expect(writeFileSyncMock.mock.calls).toMatchSnapshot();
+    });
+
     it("handles windows paths", () => {
       // get AppRoutes
       existsSyncMock

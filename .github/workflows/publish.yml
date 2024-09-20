@@ -1,7 +1,7 @@
 name: Publish NPM Package
 on:
   release:
-    types: [created]
+    types: [published]
   workflow_dispatch:
 jobs:
   build:
@@ -16,6 +16,12 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - run: pnpm install --frozen-lockfile
       - run: pnpm package:build
-      - run: (cd packages/nextjs-routes/ && npm publish)
+      - run: |
+          cd packages/nextjs-routes
+          if [ "${{ github.event.release.prerelease }}" = "true" ]; then
+            npm publish --tag next 
+          else
+            npm publish
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

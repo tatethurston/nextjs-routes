@@ -194,7 +194,7 @@ type Pathname = Route["pathname"];
 If you want to use the generated `Query` for a given `Route`, you can import it from `nextjs-routes`:
 
 ```ts
-// {} | { foo: string } | ...
+// Query | Query & { foo: string } | ...
 import type { RoutedQuery } from "nextjs-routes";
 ```
 

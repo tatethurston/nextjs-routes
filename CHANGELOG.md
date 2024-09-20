@@ -23,6 +23,10 @@
   import { RouteLiteral } from "nextjs-routes";
   ```
 
+- Refine types for `usePathname` and `useParams` from `"next/navigation"` to use `nextjs-routes` generated types.
+
+- Fix generated routes when using [parallel-routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes) and [intercepting-routes](https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes).
+
 ## 2.2.1
 
 - Fix route generation on Windows. See [#187](https://github.com/tatethurston/nextjs-routes/issues/187). Thanks @AkanoCA!

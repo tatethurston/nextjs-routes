@@ -184,6 +184,8 @@ If you want a type for all possible `pathname`s you can achieve this via `Route`
 
 ```ts
 import type { Route } from "nextjs-routes";
+
+// '/' | '/foos/[foo]' | 'other-route' | ...
 type Pathname = Route["pathname"];
 ```
 
@@ -192,7 +194,15 @@ type Pathname = Route["pathname"];
 If you want to use the generated `Query` for a given `Route`, you can import it from `nextjs-routes`:
 
 ```ts
+// {} | { foo: string } | ...
 import type { RoutedQuery } from "nextjs-routes";
+```
+
+By default, `query` will be typed as the union of all possible query parameters defined by your application routes. If you'd like to narrow the type to fewer routes or a single page, you can supply the path as a type argument:
+
+```
+// { foo: string }
+type FooRouteQuery = RoutedQuery<"/foos/[foo]">
 ```
 
 ### GetServerSidePropsContext

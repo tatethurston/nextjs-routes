@@ -51,7 +51,7 @@ export function nextRoutes(pathnames: string[]): Route[] {
 }
 
 function getQueryInterface(
-  query: Route["query"]
+  query: Route["query"],
 ): [query: string, requiredKeys: number, optionalCatchAll: boolean] {
   let requiredKeys = 0;
   let optionalCatchAll = false;
@@ -231,7 +231,7 @@ declare module "next/link" {
    *
    * Read more: [Next.js docs: \`<Link>\`](https://nextjs.org/docs/app/api-reference/components/link)
    */
-  declare const Link: React.ForwardRefExoticComponent<Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof InternalLinkProps> & InternalLinkProps & {
+  declare const Link: React.ForwardRefExoticComponent<Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & LinkProps & {
       children?: React.ReactNode;
   } & React.RefAttributes<HTMLAnchorElement>>;
   export default Link;
@@ -313,42 +313,42 @@ declare module "next/navigation" {
   export * from "next/dist/client/components/navigation";
   import type { RoutedQuery, RouteLiteral } from "nextjs-routes";
 
-/**
- * A [Client Component](https://nextjs.org/docs/app/building-your-application/rendering/client-components) hook
- * that lets you read the current URL's pathname.
- *
- * @example
- * \`\`\`ts
- * "use client"
- * import { usePathname } from 'next/navigation'
- *
- * export default function Page() {
- *  const pathname = usePathname() // returns "/dashboard" on /dashboard?foo=bar
- *  // ...
- * }
- * \`\`\`
- *
- * Read more: [Next.js Docs: \`usePathname\`](https://nextjs.org/docs/app/api-reference/functions/use-pathname)
- */
+  /**
+   * A [Client Component](https://nextjs.org/docs/app/building-your-application/rendering/client-components) hook
+   * that lets you read the current URL's pathname.
+   *
+   * @example
+   * \`\`\`ts
+   * "use client"
+   * import { usePathname } from 'next/navigation'
+   *
+   * export default function Page() {
+   *  const pathname = usePathname() // returns "/dashboard" on /dashboard?foo=bar
+   *  // ...
+   * }
+   * \`\`\`
+   *
+   * Read more: [Next.js Docs: \`usePathname\`](https://nextjs.org/docs/app/api-reference/functions/use-pathname)
+   */
   export function usePathname(): RouteLiteral;
 
-/**
- * A [Client Component](https://nextjs.org/docs/app/building-your-application/rendering/client-components) hook
- * that lets you read a route's dynamic params filled in by the current URL.
- *
- * @example
- * \`\`\`ts
- * "use client"
- * import { useParams } from 'next/navigation'
- *
- * export default function Page() {
- *   // on /dashboard/[team] where pathname is /dashboard/nextjs
- *   const { team } = useParams() // team === "nextjs"
- * }
- * \`\`\`
- *
- * Read more: [Next.js Docs: \`useParams\`](https://nextjs.org/docs/app/api-reference/functions/use-params)
- */
+  /**
+   * A [Client Component](https://nextjs.org/docs/app/building-your-application/rendering/client-components) hook
+   * that lets you read a route's dynamic params filled in by the current URL.
+   *
+   * @example
+   * \`\`\`ts
+   * "use client"
+   * import { useParams } from 'next/navigation'
+   *
+   * export default function Page() {
+   *   // on /dashboard/[team] where pathname is /dashboard/nextjs
+   *   const { team } = useParams() // team === "nextjs"
+   * }
+   * \`\`\`
+   *
+   * Read more: [Next.js Docs: \`useParams\`](https://nextjs.org/docs/app/api-reference/functions/use-params)
+   */
   export function useParams<Pathname extends Route["pathname"] = Route["pathname"]>(): RoutedQuery<Pathname>;
 }
 `;
@@ -444,16 +444,16 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
           .split("/")
           // remove named groups
           .filter(
-            (segment) => !(segment.startsWith("(") && segment.endsWith(")"))
+            (segment) => !(segment.startsWith("(") && segment.endsWith(")")),
           )
           // remove page + route from path
           .filter(
             (segment) =>
-              !APP_DIRECTORY_ROUTABLE_DIRECTORIES.includes(parse(segment).name)
+              !APP_DIRECTORY_ROUTABLE_DIRECTORIES.includes(parse(segment).name),
           )
           // remove slots
           .filter((segment) => !segment.startsWith("@"))
-          .join("/")
+          .join("/"),
       )
       // handle index page
       .map((file) => (file === "" ? "/" : file))
@@ -469,7 +469,7 @@ export function getPageRoutes(files: string[], opts: Opts): string[] {
       .map((file) => file.replace(/index$/, ""))
       // remove trailing slash if present
       .map((file) =>
-        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file
+        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file,
       )
       // exclude nextjs special routes
       .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file))

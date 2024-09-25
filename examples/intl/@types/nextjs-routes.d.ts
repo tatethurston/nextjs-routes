@@ -90,35 +90,26 @@ declare module "nextjs-routes" {
 declare module "next/link" {
   import type { Route } from "nextjs-routes";;
   import type { LinkProps as NextLinkProps } from "next/dist/client/link";
-  import type {
-    AnchorHTMLAttributes,
-    DetailedReactHTMLElement,
-    MouseEventHandler,
-    PropsWithChildren,
-  } from "react";
-  export * from "next/dist/client/link";
+  import type React from "react";
 
   type StaticRoute = Exclude<Route, { query: any }>["pathname"];
 
-  export interface LinkProps
-    extends Omit<NextLinkProps, "href" | "locale">,
-      AnchorHTMLAttributes<HTMLAnchorElement> {
+  export type LinkProps = Omit<NextLinkProps, "href" | "locale"> & {
     href: Route | StaticRoute | Omit<Route, "pathname">;
     locale?: Locale | false;
   }
 
-  type LinkReactElement = DetailedReactHTMLElement<
-    {
-      onMouseEnter?: MouseEventHandler<Element> | undefined;
-      onClick: MouseEventHandler;
-      href?: string | undefined;
-      ref?: any;
-    },
-    HTMLElement
-  >;
-
-  declare function Link(props: PropsWithChildren<LinkProps>): LinkReactElement;
-
+  /**
+   * A React component that extends the HTML `<a>` element to provide [prefetching](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching)
+   * and client-side navigation between routes.
+   *
+   * It is the primary way to navigate between routes in Next.js.
+   *
+   * Read more: [Next.js docs: `<Link>`](https://nextjs.org/docs/app/api-reference/components/link)
+   */
+  declare const Link: React.ForwardRefExoticComponent<Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> & LinkProps & {
+      children?: React.ReactNode;
+  } & React.RefAttributes<HTMLAnchorElement>>;
   export default Link;
 }
 

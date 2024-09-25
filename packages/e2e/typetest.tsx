@@ -83,6 +83,8 @@ function expectType<T>(_value: T) {}
 <Link href={{ query: {} }} replacey />;
 // anchor props https://beta.nextjs.org/docs/api-reference/components/link#props
 <Link href={{ query: {} }} className="foo" />;
+<Link href="/" ref="legacy-ref" />;
+<Link href="/" ref={(_ref: HTMLAnchorElement | null) => {}} />;
 
 // LinkProps
 

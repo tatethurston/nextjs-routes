@@ -84,35 +84,22 @@ declare module "nextjs-routes" {
 // prettier-ignore
 declare module "next/link" {
   import type { Route } from "nextjs-routes";;
-  import type { LinkProps as NextLinkProps } from "next/dist/client/link";
+  import type { default as NextLink, LinkProps as NextLinkProps } from "next/dist/client/link";
   import type {
     AnchorHTMLAttributes,
     DetailedReactHTMLElement,
     MouseEventHandler,
     PropsWithChildren,
   } from "react";
-  export * from "next/dist/client/link";
 
   type StaticRoute = Exclude<Route, { query: any }>["pathname"];
 
-  export interface LinkProps
-    extends Omit<NextLinkProps, "href" | "locale">,
-      AnchorHTMLAttributes<HTMLAnchorElement> {
+  export type LinkProps = Omit<NextLinkProps, "href" | "locale"> & {
     href: Route | StaticRoute | Omit<Route, "pathname">;
     locale?: false;
   }
 
-  type LinkReactElement = DetailedReactHTMLElement<
-    {
-      onMouseEnter?: MouseEventHandler<Element> | undefined;
-      onClick: MouseEventHandler;
-      href?: string | undefined;
-      ref?: any;
-    },
-    HTMLElement
-  >;
-
-  declare function Link(props: PropsWithChildren<LinkProps>): LinkReactElement;
+  type Foo = typeof NextLink;
 
   export default Link;
 }

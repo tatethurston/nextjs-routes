@@ -51,7 +51,7 @@ export function nextRoutes(pathnames: string[]): Route[] {
 }
 
 function getQueryInterface(
-  query: Route["query"],
+  query: Route["query"]
 ): [query: string, requiredKeys: number, optionalCatchAll: boolean] {
   let requiredKeys = 0;
   let optionalCatchAll = false;
@@ -206,19 +206,11 @@ declare module "next/link" {
     }
   })()};
   import type { LinkProps as NextLinkProps } from "next/dist/client/link";
-  import type {
-    AnchorHTMLAttributes,
-    DetailedReactHTMLElement,
-    MouseEventHandler,
-    PropsWithChildren,
-  } from "react";
-  export * from "next/dist/client/link";
+  import type React from "react";
 
   type StaticRoute = Exclude<Route, { query: any }>["pathname"];
 
-  export interface LinkProps
-    extends Omit<NextLinkProps, "href" | "locale">,
-      AnchorHTMLAttributes<HTMLAnchorElement> {
+  export type LinkProps = Omit<NextLinkProps, "href" | "locale"> & {
     href: ${(() => {
       if (config.usingPagesDirectory && config.usingAppDirectory) {
         return 'Route | StaticRoute | Omit<Route, "pathname"> | RouteLiteral';
@@ -231,18 +223,17 @@ declare module "next/link" {
     locale?: ${!i18n.locales.length ? "false" : `Locale | false`};
   }
 
-  type LinkReactElement = DetailedReactHTMLElement<
-    {
-      onMouseEnter?: MouseEventHandler<Element> | undefined;
-      onClick: MouseEventHandler;
-      href?: string | undefined;
-      ref?: any;
-    },
-    HTMLElement
-  >;
-
-  declare function Link(props: PropsWithChildren<LinkProps>): LinkReactElement;
-
+  /**
+   * A React component that extends the HTML \`<a>\` element to provide [prefetching](https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching)
+   * and client-side navigation between routes.
+   *
+   * It is the primary way to navigate between routes in Next.js.
+   *
+   * Read more: [Next.js docs: \`<Link>\`](https://nextjs.org/docs/app/api-reference/components/link)
+   */
+  declare const Link: React.ForwardRefExoticComponent<Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof InternalLinkProps> & InternalLinkProps & {
+      children?: React.ReactNode;
+  } & React.RefAttributes<HTMLAnchorElement>>;
   export default Link;
 }
 
@@ -453,16 +444,16 @@ export function getAppRoutes(files: string[], opts: Opts): string[] {
           .split("/")
           // remove named groups
           .filter(
-            (segment) => !(segment.startsWith("(") && segment.endsWith(")")),
+            (segment) => !(segment.startsWith("(") && segment.endsWith(")"))
           )
           // remove page + route from path
           .filter(
             (segment) =>
-              !APP_DIRECTORY_ROUTABLE_DIRECTORIES.includes(parse(segment).name),
+              !APP_DIRECTORY_ROUTABLE_DIRECTORIES.includes(parse(segment).name)
           )
           // remove slots
           .filter((segment) => !segment.startsWith("@"))
-          .join("/"),
+          .join("/")
       )
       // handle index page
       .map((file) => (file === "" ? "/" : file))
@@ -478,7 +469,7 @@ export function getPageRoutes(files: string[], opts: Opts): string[] {
       .map((file) => file.replace(/index$/, ""))
       // remove trailing slash if present
       .map((file) =>
-        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file,
+        file.endsWith("/") && file.length > 2 ? file.slice(0, -1) : file
       )
       // exclude nextjs special routes
       .filter((file) => !NEXTJS_NON_ROUTABLE.includes(file))

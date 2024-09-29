@@ -17,13 +17,21 @@
   </Link>;
   ```
 
-- Add `RouteLiteral` type. This type represents a string that confirmed to be a validated application route and can be passed to `Link` or `useRouter`. This is a TypeScript branded type.
+- Add `RouteLiteral` type. This type represents a string that has been confirmed to be a validated application route and can be passed to `Link` or `useRouter`. This is a TypeScript branded type.
 
   ```ts
   import { RouteLiteral } from "nextjs-routes";
   ```
 
-- Refine types for `usePathname` and `useParams` from `"next/navigation"` to use `nextjs-routes` generated types.
+  `route` returns a `RouteLiteral`. If you construct a route string you can cast it to a `RouteLiteral` so that `Link` and `useRouter` will accept it:
+
+  ```
+  const myRoute = `/foos/${foo}` as RouteLiteral
+  ```
+
+  In general, prefer using the `route` helper to generate routes.
+
+- Refine types for `usePathname`, `useRouter` and `useParams` from `"next/navigation"` to use `nextjs-routes` generated types.
 
 - Fix generated routes when using [parallel-routes](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes) and [intercepting-routes](https://nextjs.org/docs/app/building-your-application/routing/intercepting-routes).
 

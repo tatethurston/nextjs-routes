@@ -30,7 +30,7 @@ declare module "nextjs-routes" {
     [key: string]: string | string[] | undefined;
   };
 
-  export type RoutedQuery<P extends Route["pathname"]> = Extract<
+  export type RoutedQuery<P extends Route["pathname"] = Route["pathname"]> = Extract<
     Route,
     { pathname: P }
   >["query"];

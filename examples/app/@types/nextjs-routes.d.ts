@@ -30,7 +30,7 @@ declare module "nextjs-routes" {
     [key: string]: string | string[] | undefined;
   };
 
-  export type RoutedQuery<P extends Route["pathname"]> = Extract<
+  export type RoutedQuery<P extends Route["pathname"] = Route["pathname"]> = Extract<
     Route,
     { pathname: P }
   >["query"];
@@ -170,7 +170,10 @@ declare module "next/router" {
 // prettier-ignore
 declare module "next/navigation" {
   export * from "next/dist/client/components/navigation";
-  import type { RoutedQuery, RouteLiteral } from "nextjs-routes";
+  import type { Route, RouteLiteral, RoutedQuery } from "nextjs-routes";
+  import type { AppRouterInstance as NextAppRouterInstance, NavigateOptions, PrefetchOptions } from "next/dist/shared/lib/app-router-context.shared-runtime";
+
+  type StaticRoute = Exclude<Route, { query: any }>["pathname"];
 
   /**
    * A [Client Component](https://nextjs.org/docs/app/building-your-application/rendering/client-components) hook
@@ -189,7 +192,33 @@ declare module "next/navigation" {
    *
    * Read more: [Next.js Docs: `usePathname`](https://nextjs.org/docs/app/api-reference/functions/use-pathname)
    */
-  export function usePathname(): RouteLiteral;
+  export const usePathname = () => RouteLiteral;
+
+  type AppRouterInstance = Omit<NextAppRouterInstance, 'push' | 'replace' | 'href'> & {
+    push(href: StaticRoute | RouteLiteral, options?: NavigateOptions): void;
+    replace(href: StaticRoute | RouteLiteral, options?: NavigateOptions): void;
+    prefetch(href: StaticRoute | RouteLiteral, options?: PrefetchOptions): void;
+  }
+
+  /**
+   *
+   * This hook allows you to programmatically change routes inside [Client Component](https://nextjs.org/docs/app/building-your-application/rendering/client-components).
+   *
+   * @example
+   * ```ts
+   * "use client"
+   * import { useRouter } from 'next/navigation'
+   *
+   * export default function Page() {
+   *  const router = useRouter()
+   *  // ...
+   *  router.push('/dashboard') // Navigate to /dashboard
+   * }
+   * ```
+   *
+   * Read more: [Next.js Docs: `useRouter`](https://nextjs.org/docs/app/api-reference/functions/use-router)
+   */
+  export function useRouter(): AppRouterInstance;
 
   /**
    * A [Client Component](https://nextjs.org/docs/app/building-your-application/rendering/client-components) hook
@@ -208,5 +237,5 @@ declare module "next/navigation" {
    *
    * Read more: [Next.js Docs: `useParams`](https://nextjs.org/docs/app/api-reference/functions/use-params)
    */
-  export function useParams<Pathname extends Route["pathname"] = Route["pathname"]>(): RoutedQuery<Pathname>;
+  export const useParams = <Pathname extends Route["pathname"] = Route["pathname"]>() => RoutedQuery<Pathname>;
 }

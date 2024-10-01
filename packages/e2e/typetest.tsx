@@ -2,11 +2,17 @@ import Link from "next/link";
 import { LinkProps } from "next/link";
 import { useRouter, RouterEvent, NextRouter } from "next/router";
 import {
+  usePathname,
+  useRouter as useAppRouter,
+  useParams,
+} from "next/navigation";
+import {
   route,
   type Route,
   type RoutedQuery,
   type GetServerSideProps,
   type GetServerSidePropsContext,
+  RouteLiteral,
 } from "nextjs-routes";
 import nextRoutes from "nextjs-routes/config";
 
@@ -100,11 +106,11 @@ const router = useRouter();
 
 // pathname
 
-expectType<"/" | "/foos/[foo]" | "/[...slug]">(router.pathname);
+expectType<"/" | "/foos/[foo]" | "/bars/[bar]" | "/[...slug]">(router.pathname);
 
 // route
 
-expectType<"/" | "/foos/[foo]" | "/[...slug]">(router.route);
+expectType<"/" | "/foos/[foo]" | "/bars/[bar]" | "/[...slug]">(router.route);
 
 // query
 
@@ -316,3 +322,35 @@ getServerSideProps = (async (ctx) => {
     },
   };
 }) satisfies GetServerSideProps<{}, "/foos/[foo]">;
+
+// next/navigation
+interface NavigateOptions {
+  scroll?: boolean;
+}
+
+enum PrefetchKind {
+  AUTO = "auto",
+  FULL = "full",
+  TEMPORARY = "temporary",
+}
+
+interface PrefetchOptions {
+  kind: PrefetchKind;
+}
+expectType<() => void>(useAppRouter().back);
+expectType<() => void>(useAppRouter().forward);
+expectType<() => void>(useAppRouter().refresh);
+expectType<(href: RouteLiteral, options: NavigateOptions) => void>(
+  useAppRouter().push,
+);
+expectType<(href: RouteLiteral, options: NavigateOptions) => void>(
+  useAppRouter().replace,
+);
+expectType<(href: string, options: PrefetchOptions) => void>(
+  useAppRouter().prefetch,
+);
+
+expectType<RouteLiteral>(usePathname());
+
+expectType<RoutedQuery>(useParams());
+expectType<RoutedQuery<"/bars/[bar]">>(useParams<"/bars/[bar]">());

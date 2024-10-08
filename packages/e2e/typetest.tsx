@@ -25,6 +25,11 @@ nextRoutes({ foo: false });
 // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
 function expectType<T>(_value: T) {}
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+function expectNotAny<T>(_value: NotAny<T>) {}
+
+type NotAny<T> = unknown extends T ? never : T;
+
 // next/link
 
 // Links with string hrefs
@@ -350,7 +355,9 @@ expectType<(href: string, options: PrefetchOptions) => void>(
   useAppRouter().prefetch,
 );
 
+expectNotAny(usePathname());
 expectType<RouteLiteral>(usePathname());
 
+expectNotAny(useParams());
 expectType<RoutedQuery>(useParams());
 expectType<RoutedQuery<"/bars/[bar]">>(useParams<"/bars/[bar]">());

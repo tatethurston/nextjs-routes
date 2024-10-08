@@ -194,7 +194,7 @@ declare module "next/navigation" {
    *
    * Read more: [Next.js Docs: `usePathname`](https://nextjs.org/docs/app/api-reference/functions/use-pathname)
    */
-  export const usePathname = () => RouteLiteral;
+  export const usePathname: () => RouteLiteral;
 
   type AppRouterInstance = Omit<NextAppRouterInstance, 'push' | 'replace' | 'href'> & {
     push(href: StaticRoute | RouteLiteral, options?: NavigateOptions): void;
@@ -239,5 +239,5 @@ declare module "next/navigation" {
    *
    * Read more: [Next.js Docs: `useParams`](https://nextjs.org/docs/app/api-reference/functions/use-params)
    */
-  export const useParams = <Pathname extends Route["pathname"] = Route["pathname"]>() => RoutedQuery<Pathname>;
+  export const useParams: <Pathname extends Route["pathname"] = Route["pathname"]>() => RoutedQuery<Pathname>;
 }

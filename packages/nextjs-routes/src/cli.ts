@@ -1,30 +1,64 @@
 #!/usr/bin/env node
 
+import type { NextConfig } from "next";
 import { writeNextJSRoutes } from "./core.js";
 import { getAppDirectory, getPagesDirectory, isNotUndefined } from "./utils.js";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+import { cwd } from "node:process";
 
 const logger: Pick<Console, "error" | "info"> = {
   error: (str: string) => console.error("[nextjs-routes] " + str),
   info: (str: string) => console.info("[nextjs-routes] " + str),
 };
 
-function cli(): void {
+async function loadNextConfig(dir: string): Promise<NextConfig | undefined> {
+  const jsPath = join(dir, "next.config.js");
+  const mjsPath = join(dir, "next.config.mjs");
+
+  let path = "";
+  if (existsSync(jsPath)) {
+    path = jsPath;
+  } else if (existsSync(mjsPath)) {
+    path = mjsPath;
+  }
+
+  if (!path) {
+    return;
+  }
+
+  logger.info(`Found ${jsPath}`);
+  const mod = (await import(path)).default;
+  if (typeof mod == "function") {
+    return await mod("phase-production-server", {});
+  }
+  return mod;
+}
+
+async function cli(): Promise<void> {
+  const dir = cwd();
+  const config = await loadNextConfig(dir);
+  if (!config) {
+    logger.error(
+      `Could not find a next.config.js or next.config.mjs. Expected to find either in ${dir}.`,
+    );
+    process.exit(1);
+  }
+
   const dirs = [
     getPagesDirectory(process.cwd()),
     getAppDirectory(process.cwd()),
   ].filter(isNotUndefined);
   if (dirs.length === 0) {
-    logger.error(`Could not find a Next.js pages directory. Expected to find either 'pages' (1), 'src/pages' (2), or 'app' (3) in your project root.
+    logger.error(
+      `Could not find a pages or app directory. Expected to find eitherin ${dir}.`,
+    );
 
-  1. https://nextjs.org/docs/basic-features/pages
-  2. https://nextjs.org/docs/advanced-features/src-directory
-  3. https://beta.nextjs.org/docs/routing/fundamentals#the-app-directory
-  `);
     process.exit(1);
-  } else {
-    writeNextJSRoutes({});
-    logger.info("Generated route types.");
   }
+
+  writeNextJSRoutes(config);
+  logger.info("Generated route types.");
 }
 
-cli();
+await cli();

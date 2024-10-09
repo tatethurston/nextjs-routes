@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.4
+
+- CLI invocation now reads next.config.js or next.config.mjs.
+
 ## 2.2.3
 
 - Bug fix: `usePathname` and `useParams` were incorrectly resolving to `any` return types.

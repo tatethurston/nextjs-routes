@@ -1,92 +1,49 @@
 import { route } from "./index.js";
 
 describe(route, () => {
-  it("generates paths", () => {
-    // static
-    expect(route({ pathname: "/404" })).toEqual("/404");
-    expect(route({ pathname: "/settings/about" })).toEqual("/settings/about");
-    // dynamic
-    expect(route({ pathname: "/foos/[foo]", query: { foo: "bar" } })).toEqual(
-      "/foos/bar",
-    );
-    expect(
-      route({
-        pathname: "/foos/[foo]/bars/[bar]",
-        query: { foo: "bar", bar: "baz" },
-      }),
-    ).toEqual("/foos/bar/bars/baz");
-    expect(
-      route({
-        pathname: "/[foo]/[bar]/[baz]",
-        query: { foo: "foo", bar: "bar", baz: "baz" },
-      }),
-    ).toEqual("/foo/bar/baz");
-    // catch all
-    expect(
-      route({ pathname: "/[...segments]", query: { segments: ["foo"] } }),
-    ).toEqual("/foo");
-    expect(
-      route({
-        pathname: "/[...segments]",
-        query: { segments: ["foo", "bar"] },
-      }),
-    ).toEqual("/foo/bar");
-    // optional catch all
-    expect(
-      route({ pathname: "/[[...segments]]", query: { segments: [] } }),
-    ).toEqual("/");
-    expect(
-      route({ pathname: "/[[...segments]]", query: { segments: undefined } }),
-    ).toEqual("/");
-    expect(
-      route({
-        pathname: "/[[...segments]]/foos",
-        query: { segments: undefined },
-      }),
-    ).toEqual("/foos");
-    // query params
-    expect(
-      route({ pathname: "/foos/[foo]", query: { foo: "foo", bar: "bar" } }),
-    ).toEqual("/foos/foo?bar=bar");
-    expect(
-      route({
-        pathname: "/foos/[foo]",
-        query: { foo: "foo", bar: "bar", baz: ["1", "2", "3"] },
-      }),
-    ).toEqual("/foos/foo?bar=bar&baz=1&baz=2&baz=3");
-    expect(
-      route({
-        pathname: "/foos/[foo]",
-        query: { foo: "foo", bar: "bar", baz: ["1", "2", "3"] },
-        hash: "foo",
-      }),
-    ).toEqual("/foos/foo?bar=bar&baz=1&baz=2&baz=3#foo");
+  describe("generates paths", () => {
+    // prettier-ignore
+    test.each([
+      [{ pathname: "/404" },                                                                                         "/404"],
+      [{ pathname: "/settings/about" },                                                                              "/settings/about"],
+      // dynamic
+      [{ pathname: "/foos/[foo]",            query: { foo: "bar" } },                                                "/foos/bar"],
+      [{ pathname: "/foos/[foo]/bars/[bar]", query: { foo: "bar", bar: "baz" } },                                    "/foos/bar/bars/baz"],
+      [{ pathname: "/[foo]/[bar]/[baz]",     query: { foo: "foo", bar: "bar", baz: "baz" } },                        "/foo/bar/baz"],
+      // catch all
+      [{ pathname: "/[...segments]",         query: { segments: ["foo"] } },                                         "/foo"],
+      [{ pathname: "/[...segments]",         query: { segments: ["foo", "bar"] } },                                  "/foo/bar"],
+      // optional catch all
+      [{ pathname: "/[[...segments]]",       query: { segments: [] } },                                              "/"],
+      [{ pathname: "/[[...segments]]",       query: { segments: undefined } },                                       "/"],
+      [{ pathname: "/[[...segments]]/foos",  query: { segments: undefined } },                                       "/foos"],
+      // query params
+      [{ pathname: "/foos/[foo]",            query: { foo: "foo", bar: "bar" } },                                    "/foos/foo?bar=bar"],
+      [{ pathname: "/foos/[foo]",            query: { foo: "foo", bar: "bar", baz: ["1", "2", "3"] } },              "/foos/foo?bar=bar&baz=1&baz=2&baz=3"],
+      [{ pathname: "/foos/[foo]",            query: { foo: "foo", bar: "bar", baz: ["1", "2", "3"] }, hash: "foo" }, "/foos/foo?bar=bar&baz=1&baz=2&baz=3#foo"],
+      [{ pathname: "/foos/[foo]",            query: { foo: "foo", bar: undefined, baz: '', foobar: '' } },           "/foos/foo?baz=&foobar="],
+    ])("generates paths for %o", (input, expected) => {
+      expect(route(input)).toEqual(expected);
+    });
   });
 
   describe("options", () => {
     describe("trailingSlash", () => {
-      it("when true", () => {
-        expect(
-          route({ pathname: "/settings/about" }, { trailingSlash: true }),
-        ).toEqual("/settings/about/");
-        expect(
-          route(
-            { pathname: "/foos/[foo]", query: { foo: "bar" } },
-            { trailingSlash: true },
-          ),
-        ).toEqual("/foos/bar/");
-      });
-      it("when false", () => {
-        expect(
-          route({ pathname: "/settings/about" }, { trailingSlash: false }),
-        ).toEqual("/settings/about");
-        expect(
-          route(
-            { pathname: "/foos/[foo]", query: { foo: "bar" } },
-            { trailingSlash: false },
-          ),
-        ).toEqual("/foos/bar");
-      });
+      describe.each([
+        ["/settings/about", undefined, true, "/settings/about/"],
+        ["/settings/about", undefined, false, "/settings/about"],
+        ["/foos/[foo]", { foo: "bar" }, true, "/foos/bar/"],
+        ["/foos/[foo]", { foo: "bar" }, false, "/foos/bar"],
+      ])(
+        "route(%p, { trailingSlash: %p })",
+        (pathname, query, trailingSlash, expectedResult) => {
+          it(`returns ${expectedResult}`, () => {
+            expect(route({ pathname, query }, { trailingSlash })).toEqual(
+              expectedResult,
+            );
+          });
+        },
+      );
     });
   });
 });

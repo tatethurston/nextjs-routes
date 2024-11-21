@@ -3,6 +3,7 @@
 ## 2.2.4
 
 - CLI invocation now reads next.config.js or next.config.mjs.
+- Fix `route`'s handling of query keys whose value is `undefined`. Fixes #206. Thanks @sleepdotexe!
 
 ## 2.2.3
 

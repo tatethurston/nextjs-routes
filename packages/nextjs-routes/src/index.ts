@@ -64,8 +64,8 @@ export function route(
       const value = r.query[key];
       if (Array.isArray(value)) {
         value.forEach((val) => search.append(key, val));
-      } else {
-        search.append(key, value as string);
+      } else if (value !== undefined) {
+        search.append(key, value);
       }
     }
   }

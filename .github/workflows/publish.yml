@@ -4,24 +4,11 @@ on:
     types: [published]
   workflow_dispatch:
 jobs:
-  build:
+  publish:
+    name: Publish to NPM
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - uses: tatethurston/github-actions/publish@main
         with:
-          node-version-file: ".nvmrc"
-          cache: "pnpm"
-          registry-url: "https://registry.npmjs.org"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm package:build
-      - run: |
-          cd packages/nextjs-routes
-          if [ "${{ github.event.release.prerelease }}" = "true" ]; then
-            npm publish --tag next 
-          else
-            npm publish
-          fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          package_directory: packages/nextjs-routes
+          npm_token: ${{ secrets.NPM_TOKEN }}

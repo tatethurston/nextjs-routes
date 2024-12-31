@@ -3,9 +3,10 @@
 import type { NextConfig } from "next";
 import { writeNextJSRoutes } from "./core.js";
 import { getAppDirectory, getPagesDirectory, isNotUndefined } from "./utils.js";
+import { cwd } from "node:process";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { cwd } from "node:process";
+import { pathToFileURL } from "url";
 
 const logger: Pick<Console, "error" | "info"> = {
   error: (str: string) => console.error("[nextjs-routes] " + str),
@@ -28,7 +29,7 @@ async function loadNextConfig(dir: string): Promise<NextConfig | undefined> {
   }
 
   logger.info(`Found ${jsPath}`);
-  const mod = (await import(path)).default;
+  const mod = (await import(pathToFileURL(path).href)).default;
   if (typeof mod == "function") {
     return await mod("phase-production-server", {});
   }

@@ -11,23 +11,23 @@
   "type": "module",
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "default": "./dist/index.js"
+      "require": "./index.cjs",
+      "default": "./index.js"
     },
     "./config": {
-      "require": "./dist/config.cjs",
-      "default": "./dist/config.js"
+      "require": "./config.cjs",
+      "default": "./config.js"
     },
     "./package.json": "./package.json"
   },
   "bin": {
-    "nextjs-routes": "dist/cli.js"
+    "nextjs-routes": "cli.js"
   },
   "scripts": {
     "build": "tsc && webpack && chmod +x dist/cli.js",
     "clean": "rm -rf dist",
     "package:build": "pnpm run clean && pnpm run build && pnpm run package:copy:files && pnpm run package:prune",
-    "package:copy:files": "cp ../../LICENSE ../../README.md .",
+    "package:copy:files": "cp ../../LICENSE ../../README.md ./package.json dist",
     "package:prune": "find dist -name *.test.* | xargs rm -f"
   },
   "sideEffects": false,

@@ -1,3 +1,4 @@
 packages:
-  - "packages/*"
+  - "packages/nextjs-routes/dist"
+  - "packages/e2e"
   - "examples/*"

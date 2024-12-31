@@ -14,7 +14,7 @@ jobs:
       - uses: tatethurston/github-actions/publish-local-package@main
         id: publish-local-package
         with:
-          path: packages/nextjs-routes
+          path: packages/nextjs-routes/dist
   ci:
     name: Lint and Test
     runs-on: ubuntu-latest

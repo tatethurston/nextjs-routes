@@ -10,5 +10,5 @@ jobs:
     steps:
       - uses: tatethurston/github-actions/publish@main
         with:
-          package_directory: packages/nextjs-routes
+          package_directory: packages/nextjs-routes/dist
           npm_token: ${{ secrets.NPM_TOKEN }}

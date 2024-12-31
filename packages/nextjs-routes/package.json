@@ -26,7 +26,8 @@
   "scripts": {
     "build": "tsc && webpack && chmod +x dist/cli.js",
     "clean": "rm -rf dist",
-    "package:build": "pnpm run clean && pnpm run build && pnpm run package:prune",
+    "package:build": "pnpm run clean && pnpm run build && pnpm run package:copy:files && pnpm run package:prune",
+    "package:copy:files": "cp ../../LICENSE ../../README.md .",
     "package:prune": "find dist -name *.test.* | xargs rm -f"
   },
   "sideEffects": false,

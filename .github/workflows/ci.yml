@@ -5,19 +5,36 @@ on:
       - main
   pull_request:
 jobs:
+  build-package:
+    name: Build Package
+    runs-on: ubuntu-latest
+    outputs:
+      package: ${{ steps.publish-local-package.outputs.package }}
+    steps:
+      - uses: tatethurston/github-actions/publish-local-package@main
+        id: publish-local-package
+        with:
+          path: packages/nextjs-routes
   ci:
-    name: "Lint and Test"
+    name: Lint and Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - uses: tatethurston/github-actions/test@main
         with:
-          node-version-file: ".nvmrc"
-          cache: "pnpm"
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm package:build
-      - run: pnpm lint
-      - run: pnpm test:ci && pnpm codecov --token=$CODECOV_TOKEN
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          codecov_token: ${{ secrets.CODECOV_TOKEN }}
+      - uses: tatethurston/github-actions/check-generated-files@main
+        with:
+          cmd: pnpm examples:regen
+  ci-windows:
+    name: Windows CI
+    runs-on: windows-latest
+    needs: build-package
+    steps:
+      - uses: tatethurston/github-actions/install-local-package@main
+        with:
+          name: ${{ needs.build-package.outputs.package }}
+      - name: Bin Check
+        run: |
+          echo 'module.exports = {}' > next.config.js
+          mkdir pages
+          npx --no nextjs-routes

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.5
+
+- Fix CLI invocation on Windows.
+
 ## 2.2.4
 
 - CLI invocation now reads next.config.js or next.config.mjs.

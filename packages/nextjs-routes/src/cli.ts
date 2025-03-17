@@ -3,15 +3,11 @@
 import type { NextConfig } from "next";
 import { writeNextJSRoutes } from "./core.js";
 import { getAppDirectory, getPagesDirectory, isNotUndefined } from "./utils.js";
+import { logger } from "./logger.js";
 import { cwd } from "node:process";
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "url";
-
-const logger: Pick<Console, "error" | "info"> = {
-  error: (str: string) => console.error("[nextjs-routes] " + str),
-  info: (str: string) => console.info("[nextjs-routes] " + str),
-};
 
 async function loadNextConfig(dir: string): Promise<NextConfig | undefined> {
   const jsPath = join(dir, "next.config.js");

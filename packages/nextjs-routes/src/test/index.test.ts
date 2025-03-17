@@ -1,4 +1,4 @@
-import { route } from "./index.js";
+import { route } from "../index.js";
 
 describe(route, () => {
   describe("generates paths", () => {

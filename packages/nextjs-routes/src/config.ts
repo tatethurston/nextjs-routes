@@ -6,8 +6,9 @@
 import { watch } from "chokidar";
 import type { NextConfig } from "next";
 import type { Configuration, WebpackPluginInstance } from "webpack";
-import { NextJSRoutesOptions, logger, writeNextJSRoutes } from "./core.js";
+import { NextJSRoutesOptions, writeNextJSRoutes } from "./core.js";
 import { getAppDirectory, getPagesDirectory, isNotUndefined } from "./utils.js";
+import { logger } from "./logger.js";
 
 type WebpackConfigContext = Parameters<NonNullable<NextConfig["webpack"]>>[1];
 
